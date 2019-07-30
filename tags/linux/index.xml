@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linux on imorta Blog</title>
+    <link>https://cexll.github.io/tags/linux/</link>
+    <description>Recent content in linux on imorta Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 30 Jul 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://cexll.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linux恢复删除文件</title>
+      <link>https://cexll.github.io/blog/30/linux%E6%81%A2%E5%A4%8D%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6/</link>
+      <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cexll.github.io/blog/30/linux%E6%81%A2%E5%A4%8D%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6/</guid>
+      <description>场景模拟  删除
+dd if=/dev/zero of=/root/test.test count=20 bs=1M rm -f /root/test.test  恢复
+ 使用lsof命令查看当前是否有进程打开/home/username/test
+lsof | grep /root/test.test  查看是否存在恢复数据 &amp;gt; /proc/13067/fd 进程操作的文件描述符目录
+   86 文件描述符
+cat /proc/13067/fd/86   使用I/O 重定向恢复文件
+cat /proc/13067/fd/86 &amp;gt; /root/test.test     以上均为测试，实际删除能否恢复不完全肯定，但具体操作是使用此方法
+在特殊情况能通过此方法恢复文件，百试不爽</description>
+    </item>
+    
+  </channel>
+</rss>
