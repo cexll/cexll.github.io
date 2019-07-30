@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Git on imorta Blog</title>
+    <title>git on imorta Blog</title>
     <link>https://cexll.github.io/tags/git/</link>
-    <description>Recent content in Git on imorta Blog</description>
+    <description>Recent content in git on imorta Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <lastBuildDate>Tue, 30 Jul 2019 00:00:00 +0000</lastBuildDate>
