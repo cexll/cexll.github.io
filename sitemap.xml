@@ -26,12 +26,6 @@
   </url>
   
   <url>
-    <loc>https://cexll.github.io/tags/git/</loc>
-    <lastmod>2019-07-30T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://cexll.github.io/blog/30/git-%E4%B8%8E-github/</loc>
     <lastmod>2019-07-30T00:00:00+00:00</lastmod>
   </url>
@@ -78,6 +72,12 @@
   
   <url>
     <loc>https://cexll.github.io/tags/composer/</loc>
+    <lastmod>2019-07-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://cexll.github.io/tags/git/</loc>
     <lastmod>2019-07-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
