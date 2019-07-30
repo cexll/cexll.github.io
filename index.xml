@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>imorta Blog</title>
+    <link>https://cexll.github.io/</link>
+    <description>Recent content on imorta Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 30 Jul 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://cexll.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Git 与 Github</title>
+      <link>https://cexll.github.io/blog/30/git-%E4%B8%8E-github/</link>
+      <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cexll.github.io/blog/30/git-%E4%B8%8E-github/</guid>
+      <description>1.Open your Terminal application. 2.Ensure Git 1.9.5 or ⬆️ is installed, type: git --version  3.Set your name in Git by replacing with your first and last name: ssh-keygen cat ~/.ssh/id_rsa.pub git config --global user.name  4.Set your email in Git by replacing with the email associated with your GitHub account. git config --global user.email  5.Set line-ending behavior for your operating system: On Windows: git config --global core.autocrlf true On Mac and Unix-like systems:</description>
+    </item>
+    
+    <item>
+      <title>Mysql5.7及以上忘记密码如何解决</title>
+      <link>https://cexll.github.io/blog/30/mysql5.7%E5%8F%8A%E4%BB%A5%E4%B8%8A%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3/</link>
+      <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cexll.github.io/blog/30/mysql5.7%E5%8F%8A%E4%BB%A5%E4%B8%8A%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3/</guid>
+      <description>解决MySQL新版本更改密码等操作 检查MySQL是否运行：
+sudo netstat -tap | grep mysql  如果成功安装，我的会显示如下内容：
+tcp 0 0 localhost:mysql *:* LISTEN 18475/mysqld  PS：重启/打开/关闭MySQL的方法是：sudo service mysql restart/start/stop
+就这两个命令就安装好了，可是我在安装过程中并没有出现要我写用户名和密码的地方，我一脸懵逼， 完成后在终端输入mysql -u root -p之后，要求我输入密码，可是我并不知道密码，随便输入之后，
+ERROR 1045 (28000): Access denied for user &#39;root&#39;@&#39;localhost&#39; (using password: YES)  百度了三五个小时，解决方案五花八门，我最后使用有效的方法是： 打开一个文件
+sudo vim /etc/mysql/debian.cnf  在这个文件里面有着MySQL默认的用户名和用户密码， 最最重要的是：用户名默认的不是root，而是debian-sys-maint，如下所示
+# Automatically generated for Debian scripts. DO NOT TOUCH! [client] host = localhost user = debian-sys-maint password = hGu99nJgoWcmCDKT socket = /var/run/mysqld/mysqld.sock [mysql_upgrade] host = localhost user = debian-sys-maint password = hGu99nJgoWcmCDKT socket = /var/run/mysqld/mysqld.</description>
+    </item>
+    
+    <item>
+      <title>使用Golang交叉编译</title>
+      <link>https://cexll.github.io/blog/30/%E4%BD%BF%E7%94%A8golang%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/</link>
+      <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cexll.github.io/blog/30/%E4%BD%BF%E7%94%A8golang%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/</guid>
+      <description> golang编译命令 GOOS=linux GOARCH=amd64 go build -ldflags &amp;quot;-w -s&amp;quot; -o name   GOOS: 要运行的操作系统 GOARCH: 要运行的系统位数(amd64/386) name: 编译后软件名称  </description>
+    </item>
+    
+    <item>
+      <title>使用Python运行FTP服务器</title>
+      <link>https://cexll.github.io/blog/30/%E4%BD%BF%E7%94%A8python%E6%90%AD%E5%BB%BAftp%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+      <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cexll.github.io/blog/30/%E4%BD%BF%E7%94%A8python%E6%90%AD%E5%BB%BAftp%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
+      <description>使用Python搭建FTP服务器 首先确认已经安装了Python,PIP,没有安装的请自行安装 # 在确认有Python和pip环境后使用PIP安装FTP库 $ sudo pip install pyftpdlib # 安装完成后运行它 $ python -m pyftpdlib # 这是运行后的界面 [I 2018-12-23 00:55:15] &amp;gt;&amp;gt;&amp;gt; starting FTP server on 0.0.0.0:2121, pid=27 &amp;lt;&amp;lt;&amp;lt; [I 2018-12-23 00:55:15] concurrency model: async [I 2018-12-23 00:55:15] masquerade (NAT) address: None [I 2018-12-23 00:55:15] passive ports: None  这个使用在本地电脑或者同一个网络环境下的电脑或者手机,打开浏览器输入运行了 pyftpdlib 电脑的 ftp://IP地址 + 2121 例: ftp://192.168.1.10:2121
+然后我们就可以在本地网络下互相下载文件了 :)</description>
+    </item>
+    
+    <item>
+      <title>给Git和终端设置代理,让我们自由飞翔</title>
+      <link>https://cexll.github.io/blog/29/%E7%BB%99%E7%BB%88%E7%AB%AF%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Mon, 29 Jul 2019 22:33:46 +0800</pubDate>
+      
+      <guid>https://cexll.github.io/blog/29/%E7%BB%99%E7%BB%88%E7%AB%AF%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/</guid>
+      <description> 给Git和终端设置代理,让我们自由飞翔 Set up agents for git and the terminal   终端设置只适用于Linux/MacOS,Windows不行,Git通用  给终端设置代理 首先,电脑要先下载类SS/SSR等软件,或者自己有VPS服务器,由于每一款代理不一样,有的是http或者socks5,输入指令前自己了解一下
+# http export http_proxy=http://proxyAddress:port # socks5 export ALL_PROXY=socks5://proxyAddress:port  例:
+# 由于我是SSR,所以使用socks5演示 export ALL_PROXY=socks5://127.0.0.1:1080  这样输入是设置的临时代理,如果只是临时设置那么可以这样,如果我想每次开机都代理呢? 可以这样
+$ vim ~/.bashrc # 提示没有vim的先安装 # 在最后一行添加上面的命令,我这里只做演示,每个人不一样自己注意 ... export ALL_PROXY=socks5://127.0.0.1:1080  给Git设置代理 给Git设置代理后下载/上传不会受墙限制
+git config --global http.proxy http://user:pwd@server.com:port  </description>
+    </item>
+    
+  </channel>
+</rss>
