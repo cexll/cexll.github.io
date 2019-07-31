@@ -6,10 +6,19 @@
     <description>Recent content in Blogs on BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 31 Jul 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 31 Jul 2019 22:08:53 +0800</lastBuildDate>
     
 	<atom:link href="https://cexll.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Ssr_proxy</title>
+      <link>https://cexll.github.io/blog/31/ssr_proxy/</link>
+      <pubDate>Wed, 31 Jul 2019 22:08:53 +0800</pubDate>
+      
+      <guid>https://cexll.github.io/blog/31/ssr_proxy/</guid>
+      <description>在Linux终端使用SSR服务实现科学上网 ssr 代理服务 下载 apt install -y git git clone https://github.com/SAMZONG/gfwlist2privoxy.git cd gfwlist2privoxy/ chmod +x ssr mv ssr /usr/local/bin  安装配置 [root@localhost ~]$ ssr install Cloning into &#39;/usr/local/share/shadowsocksr&#39;... remote: Counting objects: 5490, done. remote: Total 5490 (delta 0), reused 0 (delta 0), pack-reused 5490 Receiving objects: 100% (5490/5490), 1.71 MiB | 410.00 KiB/s, done. Resolving deltas: 100% (3799/3799), done. [root@localhost ~]$ ssr config # 配置文件路径 /usr/local/share/shadowsocksr/config.json { &amp;quot;server&amp;quot;: &amp;quot;0..0.0.0&amp;quot;,	# ssr服务器ip &amp;quot;server_ipv6&amp;quot;: &amp;quot;::&amp;quot;, &amp;quot;server_port&amp;quot;: 8080,	# ssr服务器端口 &amp;quot;local_address&amp;quot;: &amp;quot;127.</description>
+    </item>
     
     <item>
       <title>Nginx与PHP奇妙错误</title>

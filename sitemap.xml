@@ -4,14 +4,19 @@
   
   <url>
     <loc>https://cexll.github.io/</loc>
-    <lastmod>2019-07-31T00:00:00+00:00</lastmod>
+    <lastmod>2019-07-31T22:08:53+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://cexll.github.io/blog/</loc>
-    <lastmod>2019-07-31T00:00:00+00:00</lastmod>
+    <lastmod>2019-07-31T22:08:53+08:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://cexll.github.io/blog/31/ssr_proxy/</loc>
+    <lastmod>2019-07-31T22:08:53+08:00</lastmod>
   </url>
   
   <url>
