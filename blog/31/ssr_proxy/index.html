@@ -317,7 +317,7 @@ case $1 in
 esac
 </code></pre>
 
-<p>使用</p>
+<h3 id="使用">使用</h3>
 
 <pre><code class="language-bash">mv gfwlist2privoxy/ssr_manager /usr/local/bin
 chmod +x ssr_manager
@@ -331,6 +331,16 @@ ssr_manager stop
 # 添加开机自启动
 ssr_manager autostart
 </code></pre>
+
+<h3 id="局域网共享代理">局域网共享代理</h3>
+
+<pre><code class="language-bash">vim /etc/privoxy/config # 找到list 8118 
+修改 127.0.0.1:8118 为 0.0.0.0:8118 可实现局域网共享代理
+ssr_manager stop
+ssr_manager start
+</code></pre>
+
+<p>可通过手机代理设置 IP+端口 连接代理, 24小时随连</p>
 
 <p>参考链接
  - <a href="https://samzong.me/2017/11/17/howto-use-ssr-on-linux-terminal/">https://samzong.me/2017/11/17/howto-use-ssr-on-linux-terminal/</a>
