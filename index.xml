@@ -6,10 +6,33 @@
     <description>Recent content on BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 30 Jul 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 31 Jul 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://cexll.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Nginx与PHP奇妙错误</title>
+      <link>https://cexll.github.io/blog/31/nginx%E4%B8%8Ephp%E5%A5%87%E5%A6%99%E9%94%99%E8%AF%AF/</link>
+      <pubDate>Wed, 31 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cexll.github.io/blog/31/nginx%E4%B8%8Ephp%E5%A5%87%E5%A6%99%E9%94%99%E8%AF%AF/</guid>
+      <description>Nginx 与 PHP 的配置 location ~ \.php$ { root html; fastcgi_pass 127.0.0.1:9000; fastcgi_index index.php; fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; include fastcgi_params; }  出现 File not found. 进入nginx.conf配置文件修改
+astcgi_param SCRIPT_FILENAME /usr/share/nginx/html$fastcgi_script_name;  这里的路径为自己的Web环境路径,修改后重启Nginx服务
+出现 No input file specified  修改php.ini里配置
+php --ini #获取路径   找到cgi.force_redirect
+cgi.force_redirect = 1  修改后重启php-fpm服务</description>
+    </item>
+    
+    <item>
+      <title>跨域</title>
+      <link>https://cexll.github.io/blog/31/%E8%B7%A8%E5%9F%9F/</link>
+      <pubDate>Wed, 31 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cexll.github.io/blog/31/%E8%B7%A8%E5%9F%9F/</guid>
+      <description> 通过Nginx设置 # 在location下配置，配置看需求而定 location / { add_header Access-Control-Allow-Origin *; add_header Access-Control-Allow-Methods &#39;GET, POST, OPTIONS&#39;; add_header Access-Control-Allow-Headers &#39;DNT,Keep-Alive,User-Agent,Cache-Control,Content-Type,Authorization&#39;; }  PHP 设置 php 只需要在入口除设置好header就行
+header(&#39;Access-Control-Allow-Origin: *&#39;); // 允许任意域名发起的跨域请求 header(&#39;Access-Control-Allow-Headers: X-Requested-With,X_Requested_With&#39;); header(&#39;Access-Control-Allow-Methods: GET,POST,PUT&#39;);  </description>
+    </item>
     
     <item>
       <title>ComposerTimeout</title>

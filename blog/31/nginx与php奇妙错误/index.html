@@ -4,7 +4,7 @@
          
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Tags</title>
+        <title>Nginx与PHP奇妙错误</title>
         
         <style>
 
@@ -61,9 +61,6 @@
 <script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
  <meta name="generator" content="Hugo 0.57.0-DEV" />
         
-        <link href="/tags/index.xml" rel="alternate" type="application/rss&#43;xml" title="BLOG" />
-        <link href="/tags/index.xml" rel="feed" type="application/rss&#43;xml" title="BLOG" />
-        
 
         
     </head>
@@ -83,7 +80,7 @@
 
                 <div class="navbar-header">
 
-                    <a class="navbar-brand visible-xs" href="#">Tags</a>
+                    <a class="navbar-brand visible-xs" href="#">Nginx与PHP奇妙错误</a>
 
                     <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
                         <span class="icon-bar"></span>
@@ -124,95 +121,73 @@
 
 <main>
 
-    <h2>Tags</h2>
-
-     <div class="item">
+    <div class="item">
 
     
     
     
 
     
-    
+      
 
-    <h4><a href="/tags/ftpserver/">FTPServer</a></h4>
-    <h5>July 30, 2019</h5>
+    <h4><a href="/blog/31/nginx%E4%B8%8Ephp%E5%A5%87%E5%A6%99%E9%94%99%E8%AF%AF/">Nginx与PHP奇妙错误</a></h4>
+    <h5>解决nginx的各自问题</h5>
     
-
-</div>
-  <div class="item">
-
+    <a href="https://cexll.github.io/tags/nginx"><kbd class="item-tag">nginx</kbd></a>
     
-    
-    
-
-    
-    
-
-    <h4><a href="/tags/git/">Git</a></h4>
-    <h5>July 30, 2019</h5>
+    <a href="https://cexll.github.io/tags/php"><kbd class="item-tag">php</kbd></a>
     
 
 </div>
-  <div class="item">
 
-    
-    
-    
 
-    
-    
+    <br> <div class="text-justify">
 
-    <h4><a href="/tags/github/">Github</a></h4>
-    <h5>July 30, 2019</h5>
-    
+<h1 id="nginx-与-php-的配置">Nginx 与 PHP 的配置</h1>
 
+<pre><code class="language-nginx">location ~ \.php$ {  
+root html;  
+fastcgi_pass 127.0.0.1:9000;  
+fastcgi_index index.php;  
+fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;  
+include fastcgi_params;  
+}
+</code></pre>
+
+<h1 id="出现-file-not-found">出现 File not found.</h1>
+
+<p>进入<code>nginx.conf</code>配置文件修改</p>
+
+<pre><code class="language-nginx">astcgi_param SCRIPT_FILENAME /usr/share/nginx/html$fastcgi_script_name;
+</code></pre>
+
+<p>这里的路径为自己的Web环境路径,修改后重启Nginx服务</p>
+
+<h1 id="出现-no-input-file-specified">出现 No input file specified</h1>
+
+<ol>
+<li><p>修改<code>php.ini</code>里配置</p>
+
+<pre><code class="language-bash">php --ini #获取路径
+</code></pre></li>
+</ol>
+
+<p>找到<code>cgi.force_redirect</code></p>
+
+<pre><code class="language-bash">cgi.force_redirect = 1
+</code></pre>
+
+<p>修改后重启php-fpm服务</p>
 </div>
-  <div class="item">
-
-    
-    
-    
 
     
     
 
-    <h4><a href="/tags/golang/">Golang</a></h4>
-    <h5>July 30, 2019</h5>
-    
-
-</div>
-  <div class="item">
-
-    
-    
     
 
     
-    
-
-    <h4><a href="/tags/python/">Python</a></h4>
-    <h5>July 30, 2019</h5>
-    
-
-</div>
- 
 
 </main>
-
-
-
-<div class="pages">
-
-     
-    <a class="icon pages-icon" href="/tags/page/2/" rel="next">
-        <i class="fa fa-arrow-right"></i>
-    </a>
-    
-
-</div>
-
-
 
         <footer>
 
