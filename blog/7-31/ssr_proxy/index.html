@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+         
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Ssr_proxy</title>
+        
+        <style>
+
+    html body {
+        font-family: 'Raleway', sans-serif;
+        background-color: white;
+    }
+
+    :root {
+        --accent: green;
+        --border-width:  5px ;
+    }
+
+</style>
+
+
+<link rel="stylesheet" href="https://cexll.github.io/css/main.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+
+
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/solarized-dark.min.css"> 
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+ 
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/scala.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/swift.min.js"></script> 
+
+    <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
+ <meta name="generator" content="Hugo 0.57.0-DEV" />
+        
+
+        
+    </head>
+
+    
+    
+    <script type="text/javascript" async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    
+
+    <body>
+         
+        <nav class="navbar navbar-default navbar-fixed-top">
+
+            <div class="container">
+
+                <div class="navbar-header">
+
+                    <a class="navbar-brand visible-xs" href="#">Ssr_proxy</a>
+
+                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                </div>
+
+                <div class="collapse navbar-collapse">
+
+                    
+                        <ul class="nav navbar-nav">
+                            
+                                <li><a href="/">Home</a></li>
+                            
+                                <li><a href="/blog/">Blog</a></li>
+                            
+                        </ul>
+                    
+
+                    
+                        <ul class="nav navbar-nav navbar-right">
+                            
+                                <li class="navbar-icon"><a href="Mailto:evanxian9@gmail.com"><i class="fa fa-envelope-o"></i></a></li>
+                            
+                                <li class="navbar-icon"><a href="https://github.com/cexll/"><i class="fa fa-github"></i></a></li>
+                            
+                        </ul>
+                    
+
+                </div>
+
+            </div>
+
+        </nav>
+
+
+<main>
+
+    <div class="item">
+
+    
+    
+    
+
+    
+      
+
+    <h4><a href="/blog/7-31/ssr_proxy/">Ssr_proxy</a></h4>
+    <h5>为Linux配置ssr愉快的浏览国外美剧</h5>
+    
+
+</div>
+
+
+    <br> <div class="text-justify">
+
+<h1 id="在linux终端使用ssr服务实现科学上网">在Linux终端使用SSR服务实现科学上网</h1>
+
+<h2 id="ssr-代理服务">ssr 代理服务</h2>
+
+<h3 id="下载">下载</h3>
+
+<pre><code class="language-bash">apt install -y git
+git clone https://github.com/SAMZONG/gfwlist2privoxy.git
+cd gfwlist2privoxy/
+chmod +x ssr
+mv ssr /usr/local/bin
+</code></pre>
+
+<h3 id="安装配置">安装配置</h3>
+
+<pre><code class="language-bash">[root@localhost ~]$ ssr install
+Cloning into '/usr/local/share/shadowsocksr'...
+remote: Counting objects: 5490, done.
+remote: Total 5490 (delta 0), reused 0 (delta 0), pack-reused 5490
+Receiving objects: 100% (5490/5490), 1.71 MiB | 410.00 KiB/s, done.
+Resolving deltas: 100% (3799/3799), done.
+
+[root@localhost ~]$ ssr config 		# 配置文件路径 /usr/local/share/shadowsocksr/config.json
+{
+    &quot;server&quot;: &quot;0..0.0.0&quot;,	# ssr服务器ip
+    &quot;server_ipv6&quot;: &quot;::&quot;,
+    &quot;server_port&quot;: 8080,	# ssr服务器端口
+    &quot;local_address&quot;: &quot;127.0.0.1&quot;,
+    &quot;local_port&quot;: 1080,
+
+    &quot;password&quot;: &quot;123456&quot;,		# 密码
+    &quot;method&quot;: &quot;none&quot;,			# 加密方式
+    &quot;protocol&quot;: &quot;auth_chain_a&quot;,		# 协议
+    &quot;protocol_param&quot;: &quot;&quot;,          # 协议参数
+    &quot;obfs&quot;: &quot;http_simple&quot;,		# 混淆
+    &quot;obfs_param&quot;: &quot;hello.world&quot;,	# 混淆参数
+    &quot;speed_limit_per_con&quot;: 0,
+    &quot;speed_limit_per_user&quot;: 0,
+
+    &quot;additional_ports&quot; : {}, // only works under multi-user mode
+    &quot;additional_ports_only&quot; : false, // only works under multi-user mode
+    &quot;timeout&quot;: 120,
+    &quot;udp_timeout&quot;: 60,
+    &quot;dns_ipv6&quot;: false,
+    &quot;connect_verbose_info&quot;: 0,
+    &quot;redirect&quot;: &quot;&quot;,
+    &quot;fast_open&quot;: false
+}
+</code></pre>
+
+<p>启动/关闭</p>
+
+<pre><code class="language-bash">ssr start
+ssr stop
+</code></pre>
+
+<p>卸载</p>
+
+<pre><code class="language-bash">ssr uninstall # 这里操作会删除/usr/local/share/shadowsocksr
+</code></pre>
+
+<p>以上，本地监听服务已经配置完成了，在填写的过程中，要注意你的本地监听地址和监听端口，默认是127.0.0.1:1080，如果你修改了设置，那么在后续配置中也要配合修改。</p>
+
+<h2 id="privoxy-配置">Privoxy 配置</h2>
+
+<pre><code class="language-bash">apt install -y privoxy
+</code></pre>
+
+<h3 id="全局模式">全局模式</h3>
+
+<p>代理模式同其他平台上方式，将所有http/https请求走代理服务，如果需要全局代理的话按照如下操作即可，如果要使用PAC模式，请跳过此部分。</p>
+
+<pre><code class="language-bash"># 添加本地ssr服务到配置文件
+echo 'forward-socks5 / 127.0.0.1:1080 .' &gt;&gt; /etc/privoxy/config
+
+# Privoxy 默认监听端口是是8118
+export http_proxy=http://127.0.0.1:8118
+export https_proxy=http://127.0.0.1:8118
+export no_proxy=localhost
+
+# 启动服务
+systemctl start privoxy.service
+</code></pre>
+
+<h3 id="pac模式">PAC模式</h3>
+
+<p>使用GFWList是由AutoProxy官方维护，由众多网民收集整理的一个中国大陆防火长城的屏蔽列表，这里感谢@Otokaze 为我们提供了转换shell自动转换脚本，为了方便修改，我fork了这个项目，将这篇教程所用到的资源进行了汇总，你可以在最开始git clone的目录中找到执行脚本。</p>
+
+<pre><code class="language-bash">[root@localhost ~]$ cd gfwlist2privoxy/
+[root@localhost gfwlist2privoxy]$ ls
+gfw.action  gfwlist2privoxy  README.md  ssr
+[root@localhost gfwlist2privoxy]$ bash gfwlist2privoxy
+proxy(socks5): 127.0.0.1:1080		# 注意，如果你修改了ssr本地监听端口是需要设置对应的
+{+forward-override{forward-socks5 127.0.0.1:1080 .}}
+
+=================================================================
+
+&quot;cp -af /root/gfwlist2privoxy/gfw.action /etc/privoxy/&quot;
+
+[root@localhost ~]$ cp -af gfw.action /etc/privoxy/
+[root@localhost ~]$ echo 'actionsfile gfw.action' &gt;&gt; /etc/privoxy/config
+
+# Privoxy 默认监听端口是是8118
+export http_proxy=http://127.0.0.1:8118
+export https_proxy=http://127.0.0.1:8118
+export no_proxy=localhost
+
+# 启动服务
+systemctl start privoxy.service
+</code></pre>
+
+<h3 id="proxy-环境变量">proxy 环境变量</h3>
+
+<pre><code class="language-bash"># privoxy默认监听端口为8118
+export http_proxy=http://127.0.0.1:8118
+export https_proxy=http://127.0.0.1:8118
+export no_proxy=localhost
+
+# no_proxy是不经过privoxy代理的地址
+# 只能填写具体的ip、域名后缀，多个条目之间使用','逗号隔开
+# 比如: export no_proxy=&quot;localhost, 192.168.1.1, ip.cn, chinaz.com&quot;
+# 访问 localhost、192.168.1.1、ip.cn、*.ip.cn、chinaz.com、*.chinaz.com 将不使用代理
+</code></pre>
+
+<h3 id="代理测试">代理测试</h3>
+
+<pre><code class="language-bash"># 访问各大网站，如果都有网页源码输出说明代理没问题
+curl -sL www.baidu.com
+curl -sL www.google.com
+curl -sL www.google.com.hk
+curl -sL www.google.co.jp
+curl -sL www.youtube.com
+curl -sL mail.google.com
+curl -sL facebook.com
+curl -sL twitter.com
+curl -sL www.wikipedia.org
+
+# 获取当前 IP 地址
+# 如果使用 privoxy 全局模式，则应该显示 ss 服务器的 IP
+# 如果使用 privoxy gfwlist模式，则应该显示本地公网 IP
+curl -sL ip.chinaz.com/getip.aspx
+curl https://httpbin.org/get
+</code></pre>
+
+<h3 id="管理脚本">管理脚本</h3>
+
+<p>在以上部署操作完成后，应该已经可以正常科学上网了，但是如果需要进行管理时，需要分别管理ssr和privoxy，为了方便管理，这里写了一个shell脚本方便管理: ssr_manager</p>
+
+<pre><code class="language-bash">#!/bin/bash
+# Author Samzong.lu
+
+case $1 in
+	start)
+		ssr start &amp;&gt; /var/log/ssr-local.log
+		systemctl start privoxy.service
+		export http_proxy=http://127.0.0.1:8118
+		export https_proxy=http://127.0.0.1:8118
+		export no_proxy=&quot;localhost, ip.cn, chinaz.com&quot;
+		;;
+	stop)
+		unset http_proxy https_proxy no_proxy
+		systemctl stop privoxy.service
+		ssr stop &amp;&gt; /var/log/ssr-log.log
+		;;
+	autostart)
+		echo &quot;ssr start&quot; &gt;&gt; /etc/rc.local
+		systemctl enable privoxy.service
+		echo &quot;http_proxy=http://127.0.0.1:8118&quot; &gt;&gt; /etc/bashrc
+		echo &quot;https_proxy=http://127.0.0.1:8118&quot; &gt;&gt; /etc/bashrc
+		echo &quot;no_proxy='localhost, ip.cn, chinaz.com'&quot; &gt;&gt; /etc/bashrc
+		;;
+	*)
+		echo &quot;usage: source $0 start|stop|autostart&quot;
+		exit 1
+		;;
+esac
+</code></pre>
+
+<h3 id="使用">使用</h3>
+
+<pre><code class="language-bash">mv gfwlist2privoxy/ssr_manager /usr/local/bin
+chmod +x ssr_manager
+
+# 启动服务
+ssr_manager start
+
+# 关闭服务
+ssr_manager stop 
+
+# 添加开机自启动
+ssr_manager autostart
+</code></pre>
+
+<h3 id="局域网共享代理">局域网共享代理</h3>
+
+<pre><code class="language-bash">vim /etc/privoxy/config # 找到list 8118 
+修改 127.0.0.1:8118 为 0.0.0.0:8118 可实现局域网共享代理
+ssr_manager stop
+ssr_manager start
+</code></pre>
+
+<p>可通过手机代理设置 IP+端口 连接代理, 24小时随连</p>
+
+<p>参考链接
+&gt; <a href="https://samzong.me/2017/11/17/howto-use-ssr-on-linux-terminal/">https://samzong.me/2017/11/17/howto-use-ssr-on-linux-terminal/</a>
+&gt; <a href="https://www.zfl9.com/ss-local.html">https://www.zfl9.com/ss-local.html</a>
+&gt; <a href="https://www.djangoz.com/2017/08/16/linux_setup_ssr/">https://www.djangoz.com/2017/08/16/linux_setup_ssr/</a></p>
+</div>
+
+    
+    
+
+    
+
+    
+
+</main>
+
+        <footer>
+
+            <p class="copyright text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a></p>
+
+        </footer>
+       
+    </body>
+
+</html>
+

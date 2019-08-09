@@ -4,7 +4,7 @@
          
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Blogs</title>
+        <title>给Git和终端设置代理,让我们自由飞翔</title>
         
         <style>
 
@@ -61,9 +61,6 @@
 <script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
  <meta name="generator" content="Hugo 0.57.0-DEV" />
         
-        <link href="/blog/index.xml" rel="alternate" type="application/rss&#43;xml" title="BLOG" />
-        <link href="/blog/index.xml" rel="feed" type="application/rss&#43;xml" title="BLOG" />
-        
 
         
     </head>
@@ -83,7 +80,7 @@
 
                 <div class="navbar-header">
 
-                    <a class="navbar-brand visible-xs" href="#">Blogs</a>
+                    <a class="navbar-brand visible-xs" href="#">给Git和终端设置代理,让我们自由飞翔</a>
 
                     <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
                         <span class="icon-bar"></span>
@@ -124,9 +121,7 @@
 
 <main>
 
-    <h2>Blogs</h2>
-
-     <div class="item">
+    <div class="item">
 
     
     
@@ -135,106 +130,68 @@
     
       
 
-    <h4><a href="/blog/7-30/composertimeout/">ComposerTimeout</a></h4>
-    <h5>Composer更换国内源解决连接超时</h5>
+    <h4><a href="/blog/7-29/%E7%BB%99%E7%BB%88%E7%AB%AF%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/">给Git和终端设置代理,让我们自由飞翔</a></h4>
+    <h5>设置系统全局代理</h5>
     
-    <a href="https://cexll.github.io/tags/composer"><kbd class="item-tag">composer</kbd></a>
+    <a href="https://cexll.github.io/tags/git"><kbd class="item-tag">git</kbd></a>
     
-    <a href="https://cexll.github.io/tags/php"><kbd class="item-tag">php</kbd></a>
-    
-
-</div>
-  <div class="item">
-
-    
-    
-    
-
-    
-      
-
-    <h4><a href="/blog/7-30/git-%E4%B8%8E-github/">Git 与 Github</a></h4>
-    <h5>Git and Github</h5>
-    
-    <a href="https://cexll.github.io/tags/git"><kbd class="item-tag">Git</kbd></a>
-    
-    <a href="https://cexll.github.io/tags/github"><kbd class="item-tag">Github</kbd></a>
+    <a href="https://cexll.github.io/tags/proxy"><kbd class="item-tag">proxy</kbd></a>
     
 
 </div>
-  <div class="item">
 
-    
-    
-    
 
-    
-      
+    <br> <div class="text-justify">
 
-    <h4><a href="/blog/7-30/linux%E6%81%A2%E5%A4%8D%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6/">Linux恢复删除文件</a></h4>
-    <h5>linux上恢复不小心被删除的文件,救命技能</h5>
-    
-    <a href="https://cexll.github.io/tags/linux"><kbd class="item-tag">linux</kbd></a>
-    
-    <a href="https://cexll.github.io/tags/rm"><kbd class="item-tag">rm</kbd></a>
-    
+<h1 id="给git和终端设置代理-让我们自由飞翔">给Git和终端设置代理,让我们自由飞翔</h1>
 
+<pre><code class="language-bash">Set up agents for git and the terminal
+</code></pre>
+
+<ul>
+<li>终端设置只适用于Linux/MacOS,Windows不行,Git通用</li>
+</ul>
+
+<h1 id="给终端设置代理">给终端设置代理</h1>
+
+<p>首先,电脑要先下载类SS/SSR等软件,或者自己有VPS服务器,由于每一款代理不一样,有的是http或者socks5,输入指令前自己了解一下</p>
+
+<pre><code class="language-bash"># http
+export http_proxy=http://proxyAddress:port
+# socks5
+export ALL_PROXY=socks5://proxyAddress:port
+</code></pre>
+
+<p>例:</p>
+
+<pre><code class="language-bash"># 由于我是SSR,所以使用socks5演示
+export ALL_PROXY=socks5://127.0.0.1:1080
+</code></pre>
+
+<p>这样输入是设置的临时代理,如果只是临时设置那么可以这样,如果我想每次开机都代理呢? 可以这样</p>
+
+<pre><code class="language-bash">$ vim ~/.bashrc # 提示没有vim的先安装
+# 在最后一行添加上面的命令,我这里只做演示,每个人不一样自己注意
+...
+export ALL_PROXY=socks5://127.0.0.1:1080
+</code></pre>
+
+<h1 id="给git设置代理">给Git设置代理</h1>
+
+<p>给Git设置代理后下载/上传不会受墙限制</p>
+
+<pre><code class="language-bash">git config  --global http.proxy http://user:pwd@server.com:port
+</code></pre>
 </div>
-  <div class="item">
 
-    
-    
-    
-
-    
-      
-
-    <h4><a href="/blog/7-30/mysql5.7%E5%8F%8A%E4%BB%A5%E4%B8%8A%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3/">Mysql5.7及以上忘记密码如何解决</a></h4>
-    <h5>解决mysql5.7忘记密码问题</h5>
-    
-    <a href="https://cexll.github.io/tags/mysql"><kbd class="item-tag">mysql</kbd></a>
-    
-
-</div>
-  <div class="item">
-
-    
     
     
 
     
-      
 
-    <h4><a href="/blog/7-30/%E4%BD%BF%E7%94%A8golang%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/">使用Golang交叉编译</a></h4>
-    <h5>编译golang使能在各个操作系统运行</h5>
     
-    <a href="https://cexll.github.io/tags/golang"><kbd class="item-tag">Golang</kbd></a>
-    
-    <a href="https://cexll.github.io/tags/build"><kbd class="item-tag">build</kbd></a>
-    
-
-</div>
- 
 
 </main>
-
-
-
-<div class="pages">
-
-    
-    <a class="icon pages-icon" href="/blog/" rel="prev">
-        <i class="fa fa-arrow-left"></i>
-    </a>
-     
-    <a class="icon pages-icon" href="/blog/page/3/" rel="next">
-        <i class="fa fa-arrow-right"></i>
-    </a>
-    
-
-</div>
-
-
 
         <footer>
 

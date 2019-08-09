@@ -4,7 +4,7 @@
          
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Blogs</title>
+        <title>使用Python运行FTP服务器</title>
         
         <style>
 
@@ -61,9 +61,6 @@
 <script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
  <meta name="generator" content="Hugo 0.57.0-DEV" />
         
-        <link href="/blog/index.xml" rel="alternate" type="application/rss&#43;xml" title="BLOG" />
-        <link href="/blog/index.xml" rel="feed" type="application/rss&#43;xml" title="BLOG" />
-        
 
         
     </head>
@@ -83,7 +80,7 @@
 
                 <div class="navbar-header">
 
-                    <a class="navbar-brand visible-xs" href="#">Blogs</a>
+                    <a class="navbar-brand visible-xs" href="#">使用Python运行FTP服务器</a>
 
                     <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
                         <span class="icon-bar"></span>
@@ -124,9 +121,7 @@
 
 <main>
 
-    <h2>Blogs</h2>
-
-     <div class="item">
+    <div class="item">
 
     
     
@@ -135,106 +130,47 @@
     
       
 
-    <h4><a href="/blog/7-30/composertimeout/">ComposerTimeout</a></h4>
-    <h5>Composer更换国内源解决连接超时</h5>
+    <h4><a href="/blog/7-30/%E4%BD%BF%E7%94%A8python%E6%90%AD%E5%BB%BAftp%E6%9C%8D%E5%8A%A1%E5%99%A8/">使用Python运行FTP服务器</a></h4>
+    <h5>运用Python自带FTP服务器实现局域网共享文件</h5>
     
-    <a href="https://cexll.github.io/tags/composer"><kbd class="item-tag">composer</kbd></a>
+    <a href="https://cexll.github.io/tags/python"><kbd class="item-tag">Python</kbd></a>
     
-    <a href="https://cexll.github.io/tags/php"><kbd class="item-tag">php</kbd></a>
-    
-
-</div>
-  <div class="item">
-
-    
-    
-    
-
-    
-      
-
-    <h4><a href="/blog/7-30/git-%E4%B8%8E-github/">Git 与 Github</a></h4>
-    <h5>Git and Github</h5>
-    
-    <a href="https://cexll.github.io/tags/git"><kbd class="item-tag">Git</kbd></a>
-    
-    <a href="https://cexll.github.io/tags/github"><kbd class="item-tag">Github</kbd></a>
+    <a href="https://cexll.github.io/tags/ftpserver"><kbd class="item-tag">FTPServer</kbd></a>
     
 
 </div>
-  <div class="item">
 
-    
-    
-    
 
-    
-      
+    <br> <div class="text-justify">
 
-    <h4><a href="/blog/7-30/linux%E6%81%A2%E5%A4%8D%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6/">Linux恢复删除文件</a></h4>
-    <h5>linux上恢复不小心被删除的文件,救命技能</h5>
-    
-    <a href="https://cexll.github.io/tags/linux"><kbd class="item-tag">linux</kbd></a>
-    
-    <a href="https://cexll.github.io/tags/rm"><kbd class="item-tag">rm</kbd></a>
-    
+<h1 id="使用python搭建ftp服务器">使用Python搭建FTP服务器</h1>
 
+<h3 id="首先确认已经安装了-python-pip-没有安装的请自行安装">首先确认已经安装了<code>Python</code>,<code>PIP</code>,没有安装的请自行安装</h3>
+
+<pre><code class="language-bash"># 在确认有Python和pip环境后使用PIP安装FTP库
+$ sudo pip install pyftpdlib
+# 安装完成后运行它
+$ python -m pyftpdlib
+# 这是运行后的界面 
+[I 2018-12-23 00:55:15] &gt;&gt;&gt; starting FTP server on 0.0.0.0:2121, pid=27 &lt;&lt;&lt;
+[I 2018-12-23 00:55:15] concurrency model: async
+[I 2018-12-23 00:55:15] masquerade (NAT) address: None
+[I 2018-12-23 00:55:15] passive ports: None
+</code></pre>
+
+<p>这个使用在本地电脑或者同一个网络环境下的电脑或者手机,打开浏览器输入运行了 <code>pyftpdlib</code> 电脑的 <code>ftp://IP地址 + 2121</code> 例: <code>ftp://192.168.1.10:2121</code></p>
+
+<p><strong>然后我们就可以在本地网络下互相下载文件了 :)</strong></p>
 </div>
-  <div class="item">
 
-    
-    
-    
-
-    
-      
-
-    <h4><a href="/blog/7-30/mysql5.7%E5%8F%8A%E4%BB%A5%E4%B8%8A%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3/">Mysql5.7及以上忘记密码如何解决</a></h4>
-    <h5>解决mysql5.7忘记密码问题</h5>
-    
-    <a href="https://cexll.github.io/tags/mysql"><kbd class="item-tag">mysql</kbd></a>
-    
-
-</div>
-  <div class="item">
-
-    
     
     
 
     
-      
 
-    <h4><a href="/blog/7-30/%E4%BD%BF%E7%94%A8golang%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/">使用Golang交叉编译</a></h4>
-    <h5>编译golang使能在各个操作系统运行</h5>
     
-    <a href="https://cexll.github.io/tags/golang"><kbd class="item-tag">Golang</kbd></a>
-    
-    <a href="https://cexll.github.io/tags/build"><kbd class="item-tag">build</kbd></a>
-    
-
-</div>
- 
 
 </main>
-
-
-
-<div class="pages">
-
-    
-    <a class="icon pages-icon" href="/blog/" rel="prev">
-        <i class="fa fa-arrow-left"></i>
-    </a>
-     
-    <a class="icon pages-icon" href="/blog/page/3/" rel="next">
-        <i class="fa fa-arrow-right"></i>
-    </a>
-    
-
-</div>
-
-
 
         <footer>
 
