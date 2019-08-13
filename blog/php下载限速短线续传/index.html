@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Php下载限速断点续传 &middot; IMORTA</title>
+  <meta name="description" content="php文件下载限速,文件断点续传,多线程下载文件原理解析" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  
+  
+  
+  
+  <link href="https://cexll.github.io/css/concated.min.css" rel="stylesheet">
+  
+  <style>
+    body {
+      background: #ecedef url("https://cexll.github.io/") repeat;
+    }
+  </style>
+</head>
+
+  <body class="single-body">
+    <nav class="nav-bar side-padding">
+  <h1 class="nav-header"><a href="https://cexll.github.io/" class="nav-text">记录美好生活</a></h1>
+  <div class="hamburger-menu">
+    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="menu" class="hamburger-menu-overlay">
+      <li><a href="https://cexll.github.io/" class="hamburger-menu-overlay-link">Home</a></li>
+      
+      
+    </ul>
+  </div>
+</nav>
+
+    <main class="content side-text-padding">
+      <article class="post ">
+        <header class="post-header">
+        	<h1 class="post-title">Php下载限速断点续传</h1>
+          <p class="post-date">Posted <time datetime="2019-08-13">Aug 13, 2019</time></p>
+        </header>
+        
+        
+
+<blockquote>
+<p>参考 <a href="http://php20.cn">http://php20.cn</a></p>
+</blockquote>
+
+<h2 id="文件下载限速">文件下载限速</h2>
+
+<p>这里直接代码演示</p>
+
+<pre><code class="language-php">&lt;?php
+
+$filePath = './test.zip';//文件
+$fp=fopen($filePath,&quot;r&quot;);
+ 
+//取得文件大小
+$fileSize=filesize($filePath);
+ 
+header(&quot;Content-type:application/octet-stream&quot;);//设定header头为下载
+header(&quot;Accept-Ranges:bytes&quot;);
+header(&quot;Accept-Length:&quot;.$fileSize);//响应大小
+header(&quot;Content-Disposition: attachment; filename=testName&quot;);//文件名
+ob_end_clean();//缓冲区结束
+ob_implicit_flush();//强制每当有输出的时候,即刻把输出发送到浏览器
+header('X-Accel-Buffering: no'); // 不缓冲数据
+$buffer=1024;
+$bufferCount=0;
+ 
+while(!feof($fp)&amp;&amp;$fileSize-$bufferCount&gt;0){//循环读取文件数据
+    $data=fread($fp,$buffer);
+    $bufferCount+=$buffer;
+    echo $data;//输出文件
+    sleep(1);
+}
+ 
+fclose($fp);
+</code></pre>
+
+<h2 id="文件断点续传">文件断点续传</h2>
+
+<pre><code class="language-php">&lt;?php
+
+$filePath = './2.txt';//文件
+$fp=fopen($filePath,&quot;r&quot;);
+
+//取得文件大小
+$fileSize=filesize($filePath);
+$buffer=5000;
+$bufferCount=0;
+header(&quot;Content-type:application/octet-stream&quot;);//设定header头为下载
+header(&quot;Content-Disposition: attachment; filename=2.txt&quot;);//文件名
+if (!empty($_SERVER['HTTP_RANGE'])){
+    //切割字符串
+    $range = explode('-',substr($_SERVER['HTTP_RANGE'],6));
+    fseek($fp,$range[0]);//移动文件指针到range上
+    header('HTTP/1.1 206 Partial Content');
+    header(&quot;Content-Range: bytes $range[0]-$fileSize/$fileSize&quot;);
+    header(&quot;content-length:&quot;.$fileSize-$range[0]);
+}else{
+    header(&quot;Accept-Length:&quot;.$fileSize);//响应大小
+}
+ 
+ob_end_clean();//缓冲区结束
+ob_implicit_flush();//强制每当有输出的时候,即刻把输出发送到浏览器
+header('X-Accel-Buffering: no'); // 不缓冲数据
+while(!feof($fp)&amp;&amp;$fileSize-$bufferCount&gt;0){//循环读取文件数据
+    $data=fread($fp,$buffer);
+    $bufferCount+=$buffer;
+    echo $data;//输出文件
+    sleep(1);
+}
+fclose($fp);
+
+</code></pre>
+
+<h2 id="多线程下载">多线程下载</h2>
+
+<pre><code class="language-php">&lt;?php
+ 
+$filePath = '127.0.0.1';
+//查看文件大小
+$ch = curl_init();
+ 
+$headerData = [
+    &quot;Range: bytes=0-1&quot;
+];
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headerData);
+//curl_setopt($ch, CURLOPT_CUSTOMREQUEST, &quot;HEAD&quot;);
+curl_setopt($ch, CURLOPT_URL, $filePath);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // return don't print
+curl_setopt($ch, CURLOPT_TIMEOUT, 0);
+curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)');
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1); // 302 redirect
+curl_setopt($ch, CURLOPT_MAXREDIRS, 7);
+curl_setopt($ch, CURLOPT_HEADER, true);//需要获取header头
+curl_setopt($ch, CURLOPT_NOBODY, 1);    //不需要body,只需要获取header头的文件大小
+$sContent = curl_exec($ch);
+// 获得响应结果里的：头大小
+$headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);//获取header头大小
+// 根据头大小去获取头信息内容
+$header = substr($sContent, 0, $headerSize);//获取真实的header头
+curl_close($ch);
+$headerArr = explode(&quot;\r\n&quot;, $header);
+foreach ($headerArr as $item) {
+    $value = explode(':', $item);
+    if ($value[0] == 'Content-Range') {//通过分段,获取到文件大小
+        $fileSize = explode('/',$value[1])[1];//文件大小
+        break;
+    }
+}
+var_dump($fileSize);
+//开启多线程下载
+$mh = curl_multi_init();
+$count = 5;//n个线程
+$handle = [];//n线程数组
+$data = [];//数据分段数组
+$fileData = ceil($fileSize / $count);
+for ($i = 0; $i &lt; $count; $i++) {
+    $ch = curl_init();
+ 
+    //判断是否读取数量大于剩余数量
+    if ($fileData &gt; ($fileSize-($i * $fileData))) {
+        $headerData = [
+            &quot;Range:bytes=&quot; . $i * $fileData . &quot;-&quot; . ($fileSize)
+        ];
+    }else{
+        $headerData = [
+            &quot;Range:bytes=&quot; . $i * $fileData . &quot;-&quot; .(($i+1)*$fileData)
+        ];
+    }
+    echo PHP_EOL;
+    curl_setopt($ch, CURLOPT_URL, $filePath);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // return don't print
+    curl_setopt($ch, CURLOPT_TIMEOUT, 0);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)');
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1); // 302 redirect
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headerData);
+    curl_setopt($ch, CURLOPT_MAXREDIRS, 7);
+    curl_multi_add_handle($mh, $ch); // 把 curl resource 放进 multi curl handler 里
+    $handle[$i] = $ch;
+}
+$active = null;
+ 
+do {
+    //同时执行多线程,直到全部完成或超时
+    $mrc = curl_multi_exec($mh, $active);
+} while ($active);
+ 
+for ($i = 0; $i &lt; $count; $i++) {
+    $data[$i] = curl_multi_getcontent($handle[$i]);
+    curl_multi_remove_handle($mh, $handle[$i]);
+}
+curl_multi_close($mh);
+$file = implode('',$data);//组合成一个文件
+$arr = explode('x',$file);
+var_dump($data);
+var_dump(count($arr));
+var_dump($arr[count($arr)-2]);
+//测试文件是否正确
+</code></pre>
+
+      </article>
+      
+    </main>
+    <nav class="end-nav side-padding">
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://cexll.github.io/blog/innodb%E5%92%8Cmyisam%E6%95%B0%E6%8D%AE%E8%A1%A8%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%8C%BA%E5%88%AB/" class="card blog-card" rel="bookmark" >
+  
+  <article class="card-body">
+    <h2 class="card-title">Innodb和myisam数据表类型的区别</h2>
+    <p class="card-text">innodb 和myisam数据表类型的区别</p>
+    <div class="card-subtext muted-text">
+      <p>Posted <time datetime="2019-08-13 813:00">Aug 13, 2019</time></p>
+      
+    </div>
+  </article>
+</a>
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://cexll.github.io/" class="card home-card" style="background-image: url( https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1566305119&amp;di=185016699fe88f382b16342dfdc0d36e&amp;imgtype=jpg&amp;er=1&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2017-11-30%2F5a1f6d6845bc5.jpg )" rel="bookmark" >
+  Home
+</a>
+    </nav>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+  
+  <script src="https://cexll.github.io/js/core.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+</script>
+
+  </body>
+</html>
