@@ -1,147 +1,50 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-    <head>
-         
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Linux恢复删除文件</title>
-        
-        <style>
-
-    html body {
-        font-family: 'Raleway', sans-serif;
-        background-color: white;
+<html lang="zh-CN" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Linux恢复删除文件 &middot; IMORTA</title>
+  <meta name="description" content="linux上恢复不小心被删除的文件,救命技能" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  
+  
+  
+  
+  <link href="https://cexll.github.io/css/concated.min.css" rel="stylesheet">
+  
+  <style>
+    body {
+      background: #ecedef url("https://cexll.github.io/") repeat;
     }
+  </style>
+</head>
 
-    :root {
-        --accent: green;
-        --border-width:  5px ;
-    }
-
-</style>
-
-
-<link rel="stylesheet" href="https://cexll.github.io/css/main.css">
-
-
-
-
-
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-
-
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/solarized-dark.min.css"> 
-
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
- 
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/scala.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/swift.min.js"></script> 
-
-    <script>hljs.initHighlightingOnLoad();</script>
-
-
-
-
-
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-
-<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
- <meta name="generator" content="Hugo 0.57.0-DEV" />
-        
-
-        
-    </head>
-
-    
-    
-    <script type="text/javascript" async
-      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    </script>
-    
-
-    <body>
-         
-        <nav class="navbar navbar-default navbar-fixed-top">
-
-            <div class="container">
-
-                <div class="navbar-header">
-
-                    <a class="navbar-brand visible-xs" href="#">Linux恢复删除文件</a>
-
-                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-
-                </div>
-
-                <div class="collapse navbar-collapse">
-
-                    
-                        <ul class="nav navbar-nav">
-                            
-                                <li><a href="/">Home</a></li>
-                            
-                                <li><a href="/blog/">Blog</a></li>
-                            
-                        </ul>
-                    
-
-                    
-                        <ul class="nav navbar-nav navbar-right">
-                            
-                                <li class="navbar-icon"><a href="Mailto:evanxian9@gmail.com"><i class="fa fa-envelope-o"></i></a></li>
-                            
-                                <li class="navbar-icon"><a href="https://github.com/cexll/"><i class="fa fa-github"></i></a></li>
-                            
-                        </ul>
-                    
-
-                </div>
-
-            </div>
-
-        </nav>
-
-
-<main>
-
-    <div class="item">
-
-    
-    
-    
-
-    
+  <body class="single-body">
+    <nav class="nav-bar side-padding">
+  <h1 class="nav-header"><a href="https://cexll.github.io/" class="nav-text">记录美好生活</a></h1>
+  <div class="hamburger-menu">
+    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="menu" class="hamburger-menu-overlay">
+      <li><a href="https://cexll.github.io/" class="hamburger-menu-overlay-link">Home</a></li>
       
+      
+    </ul>
+  </div>
+</nav>
 
-    <h4><a href="/blog/7-30/linux%E6%81%A2%E5%A4%8D%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6/">Linux恢复删除文件</a></h4>
-    <h5>linux上恢复不小心被删除的文件,救命技能</h5>
-    
-    <a href="https://cexll.github.io/tags/linux"><kbd class="item-tag">linux</kbd></a>
-    
-    <a href="https://cexll.github.io/tags/rm"><kbd class="item-tag">rm</kbd></a>
-    
-
-</div>
-
-
-    <br> <div class="text-justify">
+    <main class="content side-text-padding">
+      <article class="post dropcase">
+        <header class="post-header">
+        	<h1 class="post-title">Linux恢复删除文件</h1>
+          <p class="post-date">Posted <time datetime="2019-07-30">Jul 30, 2019</time></p>
+        </header>
+        
+        
 
 <h2 id="场景模拟">场景模拟</h2>
 
@@ -182,24 +85,39 @@ rm -f /root/test.test
 <p>以上均为测试，实际删除能否恢复不完全肯定，但具体操作是使用此方法</p>
 
 <p>在特殊情况能通过此方法恢复文件，百试不爽</p>
-</div>
 
-    
-    
+      </article>
+      
+    </main>
+    <nav class="end-nav side-padding">
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://cexll.github.io/blog/7-30/mysql5.7%E5%8F%8A%E4%BB%A5%E4%B8%8A%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3/" class="card blog-card" rel="bookmark" >
+  
+  <article class="card-body">
+    <h2 class="card-title">Mysql5.7及以上忘记密码如何解决</h2>
+    <p class="card-text">解决mysql5.7忘记密码问题</p>
+    <div class="card-subtext muted-text">
+      <p>Posted <time datetime="2019-07-30 730:00">Jul 30, 2019</time></p>
+      
+    </div>
+  </article>
+</a>
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://cexll.github.io/" class="card home-card" style="background-image: url( https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1566305119&amp;di=185016699fe88f382b16342dfdc0d36e&amp;imgtype=jpg&amp;er=1&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2017-11-30%2F5a1f6d6845bc5.jpg )" rel="bookmark" >
+  Home
+</a>
+    </nav>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+  
+  <script src="https://cexll.github.io/js/core.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+</script>
 
-    
-
-    
-
-</main>
-
-        <footer>
-
-            <p class="copyright text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a></p>
-
-        </footer>
-       
-    </body>
-
+  </body>
 </html>
-

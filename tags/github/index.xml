@@ -1,24 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Github on BLOG</title>
+    <title>Github - IMORTA</title>
     <link>https://cexll.github.io/tags/github/</link>
-    <description>Recent content in Github on BLOG</description>
+    <description>Recent content in Github on IMORTA</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <lastBuildDate>Tue, 30 Jul 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://cexll.github.io/tags/github/index.xml" rel="self" type="application/rss+xml" />
-    
+        <atom:link href="https://cexll.github.io/tags/github/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Git 与 Github</title>
-      <link>https://cexll.github.io/blog/30/git-%E4%B8%8E-github/</link>
+      <link>https://cexll.github.io/blog/7-30/git-%E4%B8%8E-github/</link>
       <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://cexll.github.io/blog/30/git-%E4%B8%8E-github/</guid>
-      <description>1.Open your Terminal application. 2.Ensure Git 1.9.5 or ⬆️ is installed, type: git --version  3.Set your name in Git by replacing with your first and last name: ssh-keygen cat ~/.ssh/id_rsa.pub git config --global user.name  4.Set your email in Git by replacing with the email associated with your GitHub account. git config --global user.email  5.Set line-ending behavior for your operating system: On Windows: git config --global core.autocrlf true On Mac and Unix-like systems:</description>
+      <guid>https://cexll.github.io/blog/7-30/git-%E4%B8%8E-github/</guid>
+      <description>Git and Github</description>
     </item>
-    
   </channel>
 </rss>

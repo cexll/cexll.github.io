@@ -1,0 +1,35 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blogs - IMORTA</title>
+    <link>https://cexll.github.io/blog/</link>
+    <description>Recent content in Blogs on IMORTA</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 13 Aug 2019 00:00:00 +0000</lastBuildDate>
+    
+        <atom:link href="https://cexll.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>使用Golang交叉编译</title>
+      <link>https://cexll.github.io/blog/7-30/%E4%BD%BF%E7%94%A8golang%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/</link>
+      <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cexll.github.io/blog/7-30/%E4%BD%BF%E7%94%A8golang%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/</guid>
+      <description>编译golang使能在各个操作系统运行</description>
+    </item><item>
+      <title>使用Python运行FTP服务器</title>
+      <link>https://cexll.github.io/blog/7-30/%E4%BD%BF%E7%94%A8python%E6%90%AD%E5%BB%BAftp%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+      <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cexll.github.io/blog/7-30/%E4%BD%BF%E7%94%A8python%E6%90%AD%E5%BB%BAftp%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
+      <description>运用Python自带FTP服务器实现局域网共享文件</description>
+    </item><item>
+      <title>给Git和终端设置代理,让我们自由飞翔</title>
+      <link>https://cexll.github.io/blog/7-29/%E7%BB%99%E7%BB%88%E7%AB%AF%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Mon, 29 Jul 2019 22:33:46 +0800</pubDate>
+      
+      <guid>https://cexll.github.io/blog/7-29/%E7%BB%99%E7%BB%88%E7%AB%AF%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/</guid>
+      <description>设置系统全局代理</description>
+    </item>
+  </channel>
+</rss>

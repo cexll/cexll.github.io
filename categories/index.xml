@@ -1,13 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on BLOG</title>
+    <title>Categories - IMORTA</title>
     <link>https://cexll.github.io/categories/</link>
-    <description>Recent content in Categories on BLOG</description>
+    <description>Recent content in Categories on IMORTA</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     
-	<atom:link href="https://cexll.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="https://cexll.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>

@@ -1,53 +1,78 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on BLOG</title>
+    <title>Tags - IMORTA</title>
     <link>https://cexll.github.io/tags/</link>
-    <description>Recent content in Tags on BLOG</description>
+    <description>Recent content in Tags on IMORTA</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 30 Jul 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 13 Aug 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://cexll.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
-    
+        <atom:link href="https://cexll.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>MySQL</title>
+      <link>https://cexll.github.io/tags/mysql/</link>
+      <pubDate>Tue, 13 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cexll.github.io/tags/mysql/</guid>
+      <description></description>
+    </item><item>
+      <title>linux</title>
+      <link>https://cexll.github.io/tags/linux/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cexll.github.io/tags/linux/</guid>
+      <description></description>
+    </item><item>
+      <title>shell</title>
+      <link>https://cexll.github.io/tags/shell/</link>
+      <pubDate>Thu, 08 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cexll.github.io/tags/shell/</guid>
+      <description></description>
+    </item><item>
+      <title>使用inotify</title>
+      <link>https://cexll.github.io/tags/%E4%BD%BF%E7%94%A8inotify/</link>
+      <pubDate>Thu, 08 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cexll.github.io/tags/%E4%BD%BF%E7%94%A8inotify/</guid>
+      <description></description>
+    </item><item>
+      <title>nginx</title>
+      <link>https://cexll.github.io/tags/nginx/</link>
+      <pubDate>Wed, 31 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cexll.github.io/tags/nginx/</guid>
+      <description></description>
+    </item><item>
+      <title>php</title>
+      <link>https://cexll.github.io/tags/php/</link>
+      <pubDate>Wed, 31 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cexll.github.io/tags/php/</guid>
+      <description></description>
+    </item><item>
       <title>FTPServer</title>
       <link>https://cexll.github.io/tags/ftpserver/</link>
       <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
       
       <guid>https://cexll.github.io/tags/ftpserver/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>Git</title>
-      <link>https://cexll.github.io/tags/git/</link>
-      <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://cexll.github.io/tags/git/</guid>
-      <description></description>
-    </item>
-    
-    <item>
+    </item><item>
       <title>Github</title>
       <link>https://cexll.github.io/tags/github/</link>
       <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
       
       <guid>https://cexll.github.io/tags/github/</guid>
       <description></description>
-    </item>
-    
-    <item>
+    </item><item>
       <title>Golang</title>
       <link>https://cexll.github.io/tags/golang/</link>
       <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
       
       <guid>https://cexll.github.io/tags/golang/</guid>
       <description></description>
-    </item>
-    
-    <item>
+    </item><item>
       <title>Python</title>
       <link>https://cexll.github.io/tags/python/</link>
       <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
@@ -55,69 +80,5 @@
       <guid>https://cexll.github.io/tags/python/</guid>
       <description></description>
     </item>
-    
-    <item>
-      <title>build</title>
-      <link>https://cexll.github.io/tags/build/</link>
-      <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://cexll.github.io/tags/build/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>composer</title>
-      <link>https://cexll.github.io/tags/composer/</link>
-      <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://cexll.github.io/tags/composer/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>linux</title>
-      <link>https://cexll.github.io/tags/linux/</link>
-      <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://cexll.github.io/tags/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>mysql</title>
-      <link>https://cexll.github.io/tags/mysql/</link>
-      <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://cexll.github.io/tags/mysql/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>php</title>
-      <link>https://cexll.github.io/tags/php/</link>
-      <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://cexll.github.io/tags/php/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>rm</title>
-      <link>https://cexll.github.io/tags/rm/</link>
-      <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://cexll.github.io/tags/rm/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>proxy</title>
-      <link>https://cexll.github.io/tags/proxy/</link>
-      <pubDate>Mon, 29 Jul 2019 22:33:46 +0800</pubDate>
-      
-      <guid>https://cexll.github.io/tags/proxy/</guid>
-      <description></description>
-    </item>
-    
   </channel>
 </rss>

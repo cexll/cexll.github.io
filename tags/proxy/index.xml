@@ -1,28 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>proxy on BLOG</title>
+    <title>proxy - IMORTA</title>
     <link>https://cexll.github.io/tags/proxy/</link>
-    <description>Recent content in proxy on BLOG</description>
+    <description>Recent content in proxy on IMORTA</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <lastBuildDate>Mon, 29 Jul 2019 22:33:46 +0800</lastBuildDate>
     
-	<atom:link href="https://cexll.github.io/tags/proxy/index.xml" rel="self" type="application/rss+xml" />
-    
+        <atom:link href="https://cexll.github.io/tags/proxy/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>给Git和终端设置代理,让我们自由飞翔</title>
-      <link>https://cexll.github.io/blog/29/%E7%BB%99%E7%BB%88%E7%AB%AF%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/</link>
+      <link>https://cexll.github.io/blog/7-29/%E7%BB%99%E7%BB%88%E7%AB%AF%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/</link>
       <pubDate>Mon, 29 Jul 2019 22:33:46 +0800</pubDate>
       
-      <guid>https://cexll.github.io/blog/29/%E7%BB%99%E7%BB%88%E7%AB%AF%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/</guid>
-      <description> 给Git和终端设置代理,让我们自由飞翔 Set up agents for git and the terminal   终端设置只适用于Linux/MacOS,Windows不行,Git通用  给终端设置代理 首先,电脑要先下载类SS/SSR等软件,或者自己有VPS服务器,由于每一款代理不一样,有的是http或者socks5,输入指令前自己了解一下
-# http export http_proxy=http://proxyAddress:port # socks5 export ALL_PROXY=socks5://proxyAddress:port  例:
-# 由于我是SSR,所以使用socks5演示 export ALL_PROXY=socks5://127.0.0.1:1080  这样输入是设置的临时代理,如果只是临时设置那么可以这样,如果我想每次开机都代理呢? 可以这样
-$ vim ~/.bashrc # 提示没有vim的先安装 # 在最后一行添加上面的命令,我这里只做演示,每个人不一样自己注意 ... export ALL_PROXY=socks5://127.0.0.1:1080  给Git设置代理 给Git设置代理后下载/上传不会受墙限制
-git config --global http.proxy http://user:pwd@server.com:port  </description>
+      <guid>https://cexll.github.io/blog/7-29/%E7%BB%99%E7%BB%88%E7%AB%AF%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/</guid>
+      <description>设置系统全局代理</description>
     </item>
-    
   </channel>
 </rss>
