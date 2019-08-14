@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Nginx与PHP奇妙错误 &middot; IMORTA</title>
+  <meta name="description" content="解决nginx的各自问题" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  
+  
+  
+  
+  <link href="https://cexll.github.io/css/concated.min.css" rel="stylesheet">
+  
+  <style>
+    body {
+      background: #ecedef url("https://cexll.github.io/") repeat;
+    }
+  </style>
+</head>
+
+  <body class="single-body">
+    <nav class="nav-bar side-padding">
+  <h1 class="nav-header"><a href="https://cexll.github.io/" class="nav-text">记录美好生活</a></h1>
+  <div class="hamburger-menu">
+    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="menu" class="hamburger-menu-overlay">
+      <li><a href="https://cexll.github.io/" class="hamburger-menu-overlay-link">Home</a></li>
+      
+      
+    </ul>
+  </div>
+</nav>
+
+    <main class="content side-text-padding">
+      <article class="post dropcase">
+        <header class="post-header">
+        	<h1 class="post-title">Nginx与PHP奇妙错误</h1>
+          <p class="post-date">Posted <time datetime="2019-07-31">Jul 31, 2019</time></p>
+        </header>
+        
+        
+
+<h1 id="nginx-与-php-的配置">Nginx 与 PHP 的配置</h1>
+
+<pre><code class="language-nginx">location ~ \.php$ {  
+root html;  
+fastcgi_pass 127.0.0.1:9000;  
+fastcgi_index index.php;  
+fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;  
+include fastcgi_params;  
+}
+</code></pre>
+
+<h1 id="出现-file-not-found">出现 File not found.</h1>
+
+<p>进入<code>nginx.conf</code>配置文件修改</p>
+
+<pre><code class="language-nginx">astcgi_param SCRIPT_FILENAME /usr/share/nginx/html$fastcgi_script_name;
+</code></pre>
+
+<p>这里的路径为自己的Web环境路径,修改后重启Nginx服务</p>
+
+<h1 id="出现-no-input-file-specified">出现 No input file specified</h1>
+
+<ol>
+<li><p>修改<code>php.ini</code>里配置</p>
+
+<pre><code class="language-bash">php --ini #获取路径
+</code></pre></li>
+</ol>
+
+<p>找到<code>cgi.force_redirect</code></p>
+
+<pre><code class="language-bash">cgi.force_redirect = 1
+</code></pre>
+
+<p>修改后重启php-fpm服务</p>
+
+      </article>
+      
+    </main>
+    <nav class="end-nav side-padding">
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://cexll.github.io/blog/2019/7-31/%E8%B7%A8%E5%9F%9F/" class="card blog-card" rel="bookmark" >
+  
+  <article class="card-body">
+    <h2 class="card-title">跨域</h2>
+    <p class="card-text">解决日常API跨域请求</p>
+    <div class="card-subtext muted-text">
+      <p>Posted <time datetime="2019-07-31 731:00">Jul 31, 2019</time></p>
+      
+    </div>
+  </article>
+</a>
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://cexll.github.io/" class="card home-card" style="background-image: url( https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1566305119&amp;di=185016699fe88f382b16342dfdc0d36e&amp;imgtype=jpg&amp;er=1&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2017-11-30%2F5a1f6d6845bc5.jpg )" rel="bookmark" >
+  Home
+</a>
+    </nav>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+  
+  <script src="https://cexll.github.io/js/core.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+</script>
+
+  </body>
+</html>

@@ -11,17 +11,17 @@
     
     <item>
       <title>Nginx与PHP奇妙错误</title>
-      <link>https://cexll.github.io/blog/7-31/nginx%E4%B8%8Ephp%E5%A5%87%E5%A6%99%E9%94%99%E8%AF%AF/</link>
+      <link>https://cexll.github.io/blog/2019/7-31/nginx%E4%B8%8Ephp%E5%A5%87%E5%A6%99%E9%94%99%E8%AF%AF/</link>
       <pubDate>Wed, 31 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://cexll.github.io/blog/7-31/nginx%E4%B8%8Ephp%E5%A5%87%E5%A6%99%E9%94%99%E8%AF%AF/</guid>
+      <guid>https://cexll.github.io/blog/2019/7-31/nginx%E4%B8%8Ephp%E5%A5%87%E5%A6%99%E9%94%99%E8%AF%AF/</guid>
       <description>解决nginx的各自问题</description>
     </item><item>
       <title>跨域</title>
-      <link>https://cexll.github.io/blog/7-31/%E8%B7%A8%E5%9F%9F/</link>
+      <link>https://cexll.github.io/blog/2019/7-31/%E8%B7%A8%E5%9F%9F/</link>
       <pubDate>Wed, 31 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://cexll.github.io/blog/7-31/%E8%B7%A8%E5%9F%9F/</guid>
+      <guid>https://cexll.github.io/blog/2019/7-31/%E8%B7%A8%E5%9F%9F/</guid>
       <description>解决日常API跨域请求</description>
     </item>
   </channel>

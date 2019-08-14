@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>NPS内网穿透 &middot; IMORTA</title>
+  <meta name="description" content="超轻量级NPS内网穿透自带后台设置界面" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  
+  
+  
+  
+  <link href="https://cexll.github.io/css/concated.min.css" rel="stylesheet">
+  
+  <style>
+    body {
+      background: #ecedef url("https://cexll.github.io/") repeat;
+    }
+  </style>
+</head>
+
+  <body class="single-body">
+    <nav class="nav-bar side-padding">
+  <h1 class="nav-header"><a href="https://cexll.github.io/" class="nav-text">记录美好生活</a></h1>
+  <div class="hamburger-menu">
+    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="menu" class="hamburger-menu-overlay">
+      <li><a href="https://cexll.github.io/" class="hamburger-menu-overlay-link">Home</a></li>
+      
+      
+    </ul>
+  </div>
+</nav>
+
+    <main class="content side-text-padding">
+      <article class="post ">
+        <header class="post-header">
+        	<h1 class="post-title">NPS内网穿透</h1>
+          <p class="post-date">Posted <time datetime="2019-08-14">Aug 14, 2019</time></p>
+        </header>
+        
+        
+
+<h2 id="一-nps的github页面地址">一、NPS的GitHub页面地址</h2>
+
+<p>GitHub：<a href="https://github.com/cnlh/nps">https://github.com/cnlh/nps</a></p>
+
+<h2 id="二-进入releases安装页面">二、进入releases安装页面</h2>
+
+<p>releases github:<a href="https://github.com/cnlh/nps/releases">https://github.com/cnlh/nps/releases</a></p>
+
+<p>找到你需要的版本，我这里用的服务器是ubuntu16.04，那么也就是Linux的64位版本，所以我需要下载对应的客户端和服务端。</p>
+
+<p><img src="../1.png" alt="1" /></p>
+
+<h2 id="三-登录你的服务器的ssh配置nps服务端">三、登录你的服务器的SSH配置NPS服务端</h2>
+
+<p>1.我这里用的阿里云，没有安装wget，就安装一下。</p>
+
+<pre><code class="language-bash"># Debian/Ubuntu: apt install wget -y
+# Centos/Rhel: yum install wget -y
+</code></pre>
+
+<p>2.从github上获取最新版本的nps服务端</p>
+
+<pre><code class="language-bash">wget https://github.com/cnlh/nps/releases/download/v0.23.1/linux_amd64_server.tar.gz
+</code></pre>
+
+<p>3.进行解压</p>
+
+<pre><code class="language-bash">tar xvf linux_amd64_server.tar.gz
+</code></pre>
+
+<p>4.启动服务端</p>
+
+<pre><code class="language-bash">./nps start
+</code></pre>
+
+<h2 id="四-输入服务器的ip地址加8080端口号-即可进入nps的后台界面">四、输入服务器的IP地址加8080端口号，即可进入NPS的后台界面</h2>
+
+<p><img src="../2.png" alt="2" /></p>
+
+<p>默认用户名：admin 默认密码：123</p>
+
+<h2 id="五-登录后台-添加一条客户端">五、登录后台，添加一条客户端</h2>
+
+<p><img src="../3.png" alt="3" /></p>
+
+<p><img src="../4.png" alt="4" /></p>
+
+<p><img src="../5.png" alt="5" /></p>
+
+<h2 id="六-配置客户端">六、配置客户端</h2>
+
+<ol>
+<li><p>SFTP功能 (这里使用香橙派)</p>
+
+<pre><code class="language-bash">apt update
+apt install openssh-sftp-server
+</code></pre></li>
+
+<li><p>下载NPS客户端(自己是啥就下载啥)</p></li>
+</ol>
+
+<p><img src="../6.png" alt="6" /></p>
+
+<pre><code class="language-bash">wget https://github.com/cnlh/nps/releases/download/v0.23.1/linux_arm64_client.tar.gz
+</code></pre>
+
+<ol>
+<li><p>解压</p>
+
+<pre><code class="language-bash">tar xvf linux_arm64_client.tar.gz
+</code></pre></li>
+</ol>
+
+<h2 id="七-启动客户端">七、启动客户端</h2>
+
+<p>1.临时启动客户端测试</p>
+
+<pre><code class="language-bash">./npc -server=(ip:port) -vkey=(web界面中显示的密钥)
+</code></pre>
+
+<p>例子：</p>
+
+<pre><code class="language-bash">./npc -server=35.221.192.140:8024 -vkey=123456
+</code></pre>
+
+<p><img src="../7.png" alt="临时连接成功 客户端显示online" /></p>
+
+<blockquote>
+<p>临时连接成功 客户端显示online</p>
+</blockquote>
+
+<p>2.常驻客户端后台</p>
+
+<pre><code class="language-bash">nohup ./npc -server=(ip:port) -vkey=(web界面中显示的密钥)
+</code></pre>
+
+<h2 id="八-解析域名并绑定">八、解析域名并绑定</h2>
+
+<p>1.进入域名后台解析一个域名到你的服务端的IP上</p>
+
+<p><img src="../8.png" alt="8" /></p>
+
+<p>2.进入NPS后台绑定域名以及设置内网IP及端口号</p>
+
+<p><img src="../9.png" alt="9" /></p>
+
+<p><img src="../10.png" alt="10" /></p>
+
+<p><img src="../11.png" alt="域名这里显示online，就说明绑定成功，已经可以穿透访问了" /></p>
+
+<blockquote>
+<p>域名这里显示online，就说明绑定成功，已经可以穿透访问了</p>
+</blockquote>
+
+      </article>
+      
+    </main>
+    <nav class="end-nav side-padding">
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://cexll.github.io/blog/2019/8-14/linux%E7%B3%BB%E7%BB%9F%E9%AB%98%E5%B9%B6%E5%8F%91socket%E6%9C%80%E5%A4%A7%E8%BF%9E%E6%8E%A5%E6%95%B0%E4%BC%98%E5%8C%96/" class="card blog-card" rel="bookmark" >
+  
+  <article class="card-body">
+    <h2 class="card-title">Linux系统高并发socket最大连接数优化</h2>
+    <p class="card-text">优化Linux,提高高并发</p>
+    <div class="card-subtext muted-text">
+      <p>Posted <time datetime="2019-08-14 814:00">Aug 14, 2019</time></p>
+      
+    </div>
+  </article>
+</a>
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://cexll.github.io/" class="card home-card" style="background-image: url( https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1566305119&amp;di=185016699fe88f382b16342dfdc0d36e&amp;imgtype=jpg&amp;er=1&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2017-11-30%2F5a1f6d6845bc5.jpg )" rel="bookmark" >
+  Home
+</a>
+    </nav>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+  
+  <script src="https://cexll.github.io/js/core.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+</script>
+
+  </body>
+</html>
