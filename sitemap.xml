@@ -4,13 +4,18 @@
   
   <url>
     <loc>https://cexll.github.io/blog/</loc>
-    <lastmod>2019-08-14T12:53:54+08:00</lastmod>
+    <lastmod>2019-08-15T18:40:35+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>https://cexll.github.io/blog/2019/8-15/docker%E5%BF%AB%E9%80%9F%E5%88%A0%E9%99%A4%E6%89%80%E6%9C%89%E5%AE%B9%E5%99%A8/</loc>
+    <lastmod>2019-08-15T18:40:35+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://cexll.github.io/</loc>
-    <lastmod>2019-08-14T12:53:54+08:00</lastmod>
+    <lastmod>2019-08-15T18:40:35+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -123,12 +128,6 @@
   </url>
   
   <url>
-    <loc>https://cexll.github.io/tags/github/</loc>
-    <lastmod>2019-07-30T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://cexll.github.io/tags/golang/</loc>
     <lastmod>2019-07-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -163,12 +162,6 @@
   </url>
   
   <url>
-    <loc>https://cexll.github.io/tags/git/</loc>
-    <lastmod>2019-07-30T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://cexll.github.io/tags/rm/</loc>
     <lastmod>2019-07-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -182,6 +175,12 @@
   <url>
     <loc>https://cexll.github.io/blog/2019/7-30/%E4%BD%BF%E7%94%A8python%E6%90%AD%E5%BB%BAftp%E6%9C%8D%E5%8A%A1%E5%99%A8/</loc>
     <lastmod>2019-07-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cexll.github.io/tags/git/</loc>
+    <lastmod>2019-07-29T22:33:46+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
