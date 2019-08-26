@@ -5,11 +5,18 @@
     <description>Recent content on IMORTA</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 15 Aug 2019 20:57:16 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 26 Aug 2019 18:35:32 +0800</lastBuildDate>
     
         <atom:link href="https://cexll.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>SSR_PROXY</title>
+      <link>https://cexll.github.io/blog/2019/7-31/ssr_proxy/</link>
+      <pubDate>Wed, 31 Jul 2019 22:08:53 +0800</pubDate>
+      
+      <guid>https://cexll.github.io/blog/2019/7-31/ssr_proxy/</guid>
+      <description>为Linux配置ssr愉快的浏览国外美剧</description>
+    </item><item>
       <title>Nginx与PHP奇妙错误</title>
       <link>https://cexll.github.io/blog/2019/7-31/nginx%E4%B8%8Ephp%E5%A5%87%E5%A6%99%E9%94%99%E8%AF%AF/</link>
       <pubDate>Wed, 31 Jul 2019 00:00:00 +0000</pubDate>

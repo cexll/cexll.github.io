@@ -1,8 +1,8 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>MySQL - IMORTA</title>
+    <title>mysql - IMORTA</title>
     <link>https://cexll.github.io/tags/mysql/</link>
-    <description>Recent content in MySQL on IMORTA</description>
+    <description>Recent content in mysql on IMORTA</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <lastBuildDate>Tue, 13 Aug 2019 00:00:00 +0000</lastBuildDate>

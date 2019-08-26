@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>PHP安全 &middot; IMORTA</title>
+  <meta name="description" content="Linux系统安全,PHP安全" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  
+  
+  
+  
+  <link href="https://cexll.github.io/css/concated.min.css" rel="stylesheet">
+  
+  <style>
+    body {
+      background: #ecedef url("https://cexll.github.io/") repeat;
+    }
+  </style>
+</head>
+
+  <body class="single-body">
+    <nav class="nav-bar side-padding">
+  <h1 class="nav-header"><a href="https://cexll.github.io/" class="nav-text">记录美好生活</a></h1>
+  <div class="hamburger-menu">
+    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="menu" class="hamburger-menu-overlay">
+      <li><a href="https://cexll.github.io/" class="hamburger-menu-overlay-link">Home</a></li>
+      
+      
+    </ul>
+  </div>
+</nav>
+
+    <main class="content side-text-padding">
+      <article class="post ">
+        <header class="post-header">
+        	<h1 class="post-title">PHP安全</h1>
+          <p class="post-date">Posted <time datetime="2019-08-26">Aug 26, 2019</time></p>
+        </header>
+        
+        
+
+<blockquote>
+<p>参考 <a href="https://www.infoq.cn/article/2ZRMIDIJBuxK2fcetAfS">https://www.infoq.cn/article/2ZRMIDIJBuxK2fcetAfS</a></p>
+</blockquote>
+
+<p>PHP 是流行的 Web 开发语言，也是部署广泛的网站运行时环境。</p>
+
+<h2 id="php-配置的安全选项">PHP 配置的安全选项</h2>
+
+<p>在配置 PHP 运行时环境时，需要重点关注的安全选项包括：</p>
+
+<p>禁止将 PHP 报错信息输出给用户。如果 PHP 报错信息直接输出给用户，则可能会泄露服务器或者数据库配置信息。如图 8-5 所示：</p>
+
+<p><img src="../1.png" alt="8-5 PHP 报错信息泄露代码结构" /></p>
+
+<p>禁止将 PHP 报错信息输出给用户的配置方法是在 php.ini 中增加以下内容：</p>
+
+<pre><code class="language-bash">expose_php = Off #在 HTTP 头部中隐藏 PHP 信息
+error_reporting = E_ALL #报告所有错误和警告
+display_errors = Off #禁止把错误信息显示在客户端输出中
+display_startup_errors = Off #禁止把启动错误显示在客户端输出中
+log_errors = On #记录错误
+error_log = /valid_path/PHP-logs/php_error.log #指定错误文件的路径
+ignore_repeated_errors  = Off #禁止忽略重复的错误
+</code></pre>
+
+<p>PHP 的通用安全配置。在 php.ini 中增加以下内容：</p>
+
+<pre><code class="language-bash">open_basedir = /path/DocumentRoot/PHP-scripts/ #只允许 PHP 访问该路径下的文件
+allow_url_fopen = Off #禁止 PHP 打开远程文件
+allow_url_include = Off #禁止 PHP 包含远程文件
+variables_order = &quot;GPSE&quot; #设置变量的解析顺序
+allow_webdav_methods = Off #禁用 webdav 方法
+</code></pre>
+
+<p>PHP 上传文件的安全处理。在 php.ini 中增加以下内容：</p>
+
+<pre><code class="language-bash">file_uploads = On #是否启用文件上传，如不需要，则配置为 Off
+upload_tmp_dir = /path/PHP-uploads/ #指定上传文件的临时目录
+upload_max_filesize = 2M #指定允许上传的最大文件大小
+</code></pre>
+
+<p>PHP 执行文件的安全处理。在 php.ini 中增加以下内容：</p>
+
+<pre><code class="language-bash">enable_dl = Off #禁止动态加载模块  	
+disable_functions = system, exec, shell_exec, passthru, phpinfo, show_source, popen, proc_open, fopen_with_path, dbmopen, dbase_open, putenv, move_uploaded_file, chdir, mkdir, rmdir, chmod, rename, filepro, filepro_rowcount, filepro_retrieve, posix_mkfifo #禁用危险函数，很多 Webshell 正是使用了这些危险函数来实现恶意功能
+</code></pre>
+
+<p>PHP 会话（Session）的安全处理。在 php.ini 中增加以下内容：</p>
+
+<pre><code class="language-bash">session.cookie_secure = On #仅在 HTTPS 安全连接情况下传输
+session.cookie_httponly = 1 #在 Cookie 中设置了 &quot;HttpOnly&quot; 属性，那么通过程序 (JS 脚本、Applet 等) 将无法读取到 Cookie 信息，这样能有效的防止 XSS 攻击
+session.gc_maxlifetime  = 600 #设置会话过期时间
+</code></pre>
+
+<p>保持 PHP 版本更新。每次在官方发布 PHP 新版本后，其支持周期为 3 年，在此期间，官方会发布小版本修复漏洞。因此，笔者建议，系统管理员需要关注官方网站（ <a href="http://php.net">http://php.net</a> ）来进行 PHP 版本升级，以避免旧版本的漏洞被黑客利用而导致网站被入侵。</p>
+
+<h2 id="php-开发框架的安全">PHP 开发框架的安全</h2>
+
+<p>对于 PHP 开发者来说，还需要特别注意使用到的 PHP 开发框架的安全。例如，在知名漏洞搜索平台 <a href="https://www.seebug.org">https://www.seebug.org</a> 上以关键字“ThinkPHP”检索得出的高危漏洞就多达 34 个，如图 8-6 所示：</p>
+
+<p><img src="../2.jpg" alt="图 8-6 ThinkPHP 框架高危漏洞示例" /></p>
+
+      </article>
+      
+    </main>
+    <nav class="end-nav side-padding">
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://cexll.github.io/blog/2019/8-15/github%E4%B8%8Afork%E9%A1%B9%E7%9B%AE%E4%B8%8E%E6%BA%90%E9%A1%B9%E7%9B%AE%E5%90%8C%E6%AD%A5/" class="card blog-card" rel="bookmark" >
+  
+  <article class="card-body">
+    <h2 class="card-title">Github上fork项目与源项目同步</h2>
+    <p class="card-text">使Github上fork的项目与源项目代码保持一致</p>
+    <div class="card-subtext muted-text">
+      <p>Posted <time datetime="2019-08-15 815:00">Aug 15, 2019</time></p>
+      
+    </div>
+  </article>
+</a>
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://cexll.github.io/" class="card home-card" style="background-image: url( https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1566305119&amp;di=185016699fe88f382b16342dfdc0d36e&amp;imgtype=jpg&amp;er=1&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2017-11-30%2F5a1f6d6845bc5.jpg )" rel="bookmark" >
+  Home
+</a>
+    </nav>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+  
+  <script src="https://cexll.github.io/js/core.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+</script>
+
+  </body>
+</html>
