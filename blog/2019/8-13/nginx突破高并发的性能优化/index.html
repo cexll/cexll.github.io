@@ -494,6 +494,27 @@ limit_conn slimits 5;
 <li><p>试着避免使用HTTP认证。HTTP认证默认使用crypt，它的哈希并不安全。如果你要用的话就用MD5（这也不是个好选择但负载方面比crypt好） 。</p></li>
 </ol>
 
+<h2 id="负载均衡">负载均衡</h2>
+
+<p><code>修改nginx.conf</code></p>
+
+<p>首先添加一个 <code>upstream</code></p>
+
+<pre><code class="language-conf">upstream tomcat_8111_8222{
+    server  127.0.0.1:8111 weight=1;
+    server  127.0.0.1:8222 weight=2;
+}
+</code></pre>
+
+<p>然后修改location，反向代理到上述配置。</p>
+
+<pre><code class="language-conf">location / {
+    proxy_pass http://tomcat_8111_8222;
+}
+</code></pre>
+
+<p>weight表示权重，值越大，被分配到的几率越大。</p>
+
       </article>
       
     </main>
