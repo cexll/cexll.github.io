@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>面试总结 &middot; IMORTA</title>
+  <meta name="description" content="面试失败指南..." />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  
+  
+  
+  
+  <link href="https://cexll.github.io/css/concated.min.css" rel="stylesheet">
+  
+  <style>
+    body {
+      background: #ecedef url("https://cexll.github.io/") repeat;
+    }
+  </style>
+</head>
+
+  <body class="single-body">
+    <nav class="nav-bar side-padding">
+  <h1 class="nav-header"><a href="https://cexll.github.io/" class="nav-text">记录美好生活</a></h1>
+  <div class="hamburger-menu">
+    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="menu" class="hamburger-menu-overlay">
+      <li><a href="https://cexll.github.io/" class="hamburger-menu-overlay-link">Home</a></li>
+      
+      
+    </ul>
+  </div>
+</nav>
+
+    <main class="content side-text-padding">
+      <article class="post ">
+        <header class="post-header">
+        	<h1 class="post-title">面试总结</h1>
+          <p class="post-date">Posted <time datetime="2019-10-14">Oct 14, 2019</time></p>
+        </header>
+        
+        
+
+<h2 id="java中string可以继承吗-为什么">Java中String可以继承吗? 为什么</h2>
+
+<pre><code>不能, 因为String有 final 修饰符, 而 final修饰的类是不能呗继承的,实现细节不允许改变.
+</code></pre>
+
+<h2 id="什么是反射">什么是反射?</h2>
+
+<pre><code>反射就是把Java类中的各自成分映射成一个个Java对象
+</code></pre>
+
+<p>反射学习资料 <a href="https://blog.csdn.net/sinat_38259539/article/details/71799078">https://blog.csdn.net/sinat_38259539/article/details/71799078</a></p>
+
+<h2 id="java如何创建线程">Java如何创建线程?</h2>
+
+<ol>
+<li><p>继承Thread创建线程类</p>
+
+<ul>
+<li>定义Thread类的子类,并重写该类run方法</li>
+<li>创建Thread子类的实例 创建线程对象</li>
+
+<li><p>调用线程对象start()启动线程</p>
+
+<pre><code class="language-java">public class FirstThreadTest extends Thread{
+	int i = 0;
+	//重写run方法，run方法的方法体就是现场执行体
+	public void run()
+	{
+		for(;i&lt;100;i++){
+		System.out.println(getName()+&quot;  &quot;+i);
+		
+		}
+	}
+	public static void main(String[] args)
+	{
+		for(int i = 0;i&lt; 100;i++)
+		{
+			System.out.println(Thread.currentThread().getName()+&quot;  : &quot;+i);
+			if(i==20)
+			{
+				new FirstThreadTest().start();
+				new FirstThreadTest().start();
+			}
+		}
+	}
+</code></pre></li>
+</ul></li>
+
+<li><p>通过Runnable接口创建线程类</p>
+
+<ul>
+<li>定义runnable接口实现类,重写run()方法</li>
+<li>创建 Runnable实现类的实例,并依次实例作为Thread的target来创建Thread对象</li>
+
+<li><p>调用线程对象start()启动线程</p>
+
+<pre><code class="language-java">
+public class RunnableThreadTest implements Runnable
+{
+ 
+	private int i;
+	public void run()
+	{
+		for(i = 0;i &lt;100;i++)
+		{
+			System.out.println(Thread.currentThread().getName()+&quot; &quot;+i);
+		}
+	}
+	public static void main(String[] args)
+	{
+		for(int i = 0;i &lt; 100;i++)
+		{
+			System.out.println(Thread.currentThread().getName()+&quot; &quot;+i);
+			if(i==20)
+			{
+				RunnableThreadTest rtt = new RunnableThreadTest();
+				new Thread(rtt,&quot;新线程1&quot;).start();
+				new Thread(rtt,&quot;新线程2&quot;).start();
+			}
+		}
+ 
+	}
+</code></pre></li>
+</ul></li>
+
+<li><p>通过Callable和Future创建线程</p>
+
+<ul>
+<li>创建Callable接口的实现类,并实现call()方法</li>
+<li>创建Callable实现类的实例,使用FutureTask类来包装Callable对象,该FutureTask对象封装了该Callable对象的call()返回值</li>
+<li>使用FutureTask对象作为Thread对象的target创建并启动新线程</li>
+
+<li><p>调用FutureTask对象的get()方法来获得子线程执行结束后的返回值</p>
+
+<pre><code class="language-java">
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
+ 
+public class CallableThreadTest implements Callable&lt;Integer&gt;
+{
+ 
+	public static void main(String[] args)
+	{
+		CallableThreadTest ctt = new CallableThreadTest();
+		FutureTask&lt;Integer&gt; ft = new FutureTask&lt;&gt;(ctt);
+		for(int i = 0;i &lt; 100;i++)
+		{
+			System.out.println(Thread.currentThread().getName()+&quot; 的循环变量i的值&quot;+i);
+			if(i==20)
+			{
+				new Thread(ft,&quot;有返回值的线程&quot;).start();
+			}
+		}
+		try
+		{
+			System.out.println(&quot;子线程的返回值：&quot;+ft.get());
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		} catch (ExecutionException e)
+		{
+			e.printStackTrace();
+		}
+ 
+	}
+ 
+	@Override
+	public Integer call() throws Exception
+	{
+		int i = 0;
+		for(;i&lt;100;i++)
+		{
+			System.out.println(Thread.currentThread().getName()+&quot; &quot;+i);
+		}
+		return i;
+	}
+ 
+}
+</code></pre></li>
+</ul></li>
+</ol>
+
+<h2 id="为什么要使用索引">为什么要使用索引</h2>
+
+<pre><code>1. 通过创建唯一性索引，可以保证数据库表中每一行数据的唯一性。
+2. 可以大大加快 数据的检索速度（大大减少的检索的数据量）, 这也是创建索引的最主要的原因。
+3. 帮助服务器避免排序和临时表
+4. 将随机IO变为顺序IO
+5. 可以加速表和表之间的连接，特别是在实现数据的参考完整性方面特别有意义。
+</code></pre>
+
+<h2 id="索引这么多优点-为什么不对表中的每一个列创建一个索引呢">索引这么多优点，为什么不对表中的每一个列创建一个索引呢？</h2>
+
+<pre><code>1. 当对表中的数据进行增加、删除和修改的时候，索引也要动态的维护，这样就降低了数据的维护速度
+2. 索引需要占物理空间，除了数据表占数据空间之外，每一个索引还要占一定的物理空间，如果要建立聚簇索引，那么需要的空间就会更大
+3. 建索引和维护索引要耗费时间，这种时间随着数据量的增加而增加
+</code></pre>
+
+<h2 id="索引如何提高查询速度">索引如何提高查询速度?</h2>
+
+<pre><code>将无序的数据变成相对有序的数据(就像查目录一样)
+</code></pre>
+
+<h2 id="说一下使用索引的注意事项">说一下使用索引的注意事项</h2>
+
+<pre><code>1. 避免 where 子句中对字段施加函数，这会造成无法命中索引。
+2. 在使用InnoDB时使用与业务无关的自增主键作为主键，即使用逻辑主键，而不要使用业务主键。
+3. 将打算加索引的列设置为 NOT NULL ，否则将导致引擎放弃使用索引而进行全表扫描
+4. 删除长期未使用的索引，不用的索引的存在会造成不必要的性能损耗 MySQL 5.7 可以通过查询 sys 库的 schema_unused_indexes 视图来查询哪些索引从未被使用
+5. 在使用 limit offset 查询缓慢时，可以借助索引来提高性能
+</code></pre>
+
+<h2 id="mysql索引主要使用的哪两种数据结构">Mysql索引主要使用的哪两种数据结构？</h2>
+
+<pre><code> 哈希索引：对于哈希索引来说，底层的数据结构就是哈希表，因此在绝大多数需求为单条记录查询的时候，可以选择哈希索引，查询性能最快；其余大部分场景，建议选择BTree索引。
+ BTree索引：Mysql的BTree索引使用的是B树中的B+Tree。但对于主要的两种存储引擎（MyISAM和InnoDB）的实现方式是不同的。
+</code></pre>
+
+<h2 id="一般给那些字段加索引">一般给那些字段加索引?</h2>
+
+<pre><code>经常查询,常用where条件判断的字段
+</code></pre>
+
+<p>关于索引知识 <code>https://juejin.im/post/5b55b842f265da0f9e589e79</code></p>
+
+<h2 id="什么是事务">什么是事务?</h2>
+
+<pre><code>事务是逻辑上的一组操作,要么都执行,要么都不执行
+</code></pre>
+
+<p>事务最经典也经常被拿出来说例子就是转账了。假如小明要给小红转账1000元，这个转账会涉及到两个关键操作就是：将小明的余额减少1000元，将小红的余额增加1000元。万一在这两个操作之间突然出现错误比如银行系统崩溃，导致小明余额减少而小红的余额没有增加，这样就不对了。事务就是保证这两个关键操作要么都成功，要么都要失败。</p>
+
+<h2 id="事务的特性">事务的特性</h2>
+
+<pre><code>原子性： 事务是最小的执行单位，不允许分割。事务的原子性确保动作要么全部完成，要么完全不起作用；
+一致性： 执行事务前后，数据保持一致，多个事务对同一个数据读取的结果是相同的；
+隔离性： 并发访问数据库时，一个用户的事务不被其他事务所干扰，各并发事务之间数据库是独立的；
+持久性： 一个事务被提交之后。它对数据库中数据的改变是持久的，即使数据库发生故障也不应该对其有任何影响。
+</code></pre>
+
+<h2 id="innodb-和-myisam的区别">InnoDB 和 MyIsam的区别?</h2>
+
+<pre><code>MyISAM更适合读密集的表，而InnoDB更适合写密集的表
+MyISAM性能更强执行速度必InnoDB快,但不提供事务支持
+InnoDB提供事务支持,外部键等搞基数据库功能
+</code></pre>
+
+<h2 id="什么是ioc">什么是IOC?</h2>
+
+<pre><code>控制反转也叫依赖注入.
+将对象交给容器管理，你只需要在spring配置文件中配置对应的bean以及设置相关的属性，让spring容器来生成类的实例对象以及管理对象。在spring容器启动的时候，spring会把你在配置文件中配置的bean都初始化好，然后在你需要调用的时候，就把它已经初始化好的那些bean分配给你需要调用这些bean的类。
+</code></pre>
+
+<h2 id="什么是aop">什么是AOP?</h2>
+
+<pre><code>面向切面编程
+一是采用动态代理技术，利用截取消息的方式，对该消息进行装饰，以取代原有对象行为的执行；二是采用静态织入的方式，引入特定的语法创建“方面”，从而使得编译器可以在编译期间织入有关“方面”的代码，属于静态代理。
+</code></pre>
+
+      </article>
+      
+    </main>
+    <nav class="end-nav side-padding">
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://cexll.github.io/blog/2019/9-1/git%E7%9A%84%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/" class="card blog-card" rel="bookmark" >
+  
+  <article class="card-body">
+    <h2 class="card-title">Git的奇技淫巧</h2>
+    <p class="card-text">Git的奇技淫巧</p>
+    <div class="card-subtext muted-text">
+      <p>Posted <time datetime="2019-09-01 91:00">Sep 1, 2019</time></p>
+      
+    </div>
+  </article>
+</a>
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://cexll.github.io/" class="card home-card" style="background-image: url( https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1566305119&amp;di=185016699fe88f382b16342dfdc0d36e&amp;imgtype=jpg&amp;er=1&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2017-11-30%2F5a1f6d6845bc5.jpg )" rel="bookmark" >
+  Home
+</a>
+    </nav>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+  
+  <script src="https://cexll.github.io/js/core.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+</script>
+
+  </body>
+</html>

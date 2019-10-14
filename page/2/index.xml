@@ -5,11 +5,18 @@
     <description>Recent content on IMORTA</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 01 Sep 2019 21:21:47 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 14 Oct 2019 12:34:44 +0800</lastBuildDate>
     
         <atom:link href="https://cexll.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Innodb和myisam数据表类型的区别</title>
+      <link>https://cexll.github.io/blog/2019/8-13/innodb%E5%92%8Cmyisam%E6%95%B0%E6%8D%AE%E8%A1%A8%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%8C%BA%E5%88%AB/</link>
+      <pubDate>Tue, 13 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cexll.github.io/blog/2019/8-13/innodb%E5%92%8Cmyisam%E6%95%B0%E6%8D%AE%E8%A1%A8%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%8C%BA%E5%88%AB/</guid>
+      <description>innodb 和myisam数据表类型的区别</description>
+    </item><item>
       <title>Linux服务和进程管理</title>
       <link>https://cexll.github.io/blog/2019/8-9/linux%E6%9C%8D%E5%8A%A1%E5%92%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/</link>
       <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
@@ -72,13 +79,6 @@
       
       <guid>https://cexll.github.io/blog/2019/7-30/mysql5.7%E5%8F%8A%E4%BB%A5%E4%B8%8A%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3/</guid>
       <description>解决mysql5.7忘记密码问题</description>
-    </item><item>
-      <title>使用Golang交叉编译</title>
-      <link>https://cexll.github.io/blog/2019/7-30/%E4%BD%BF%E7%94%A8golang%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/</link>
-      <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://cexll.github.io/blog/2019/7-30/%E4%BD%BF%E7%94%A8golang%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/</guid>
-      <description>编译golang使能在各个操作系统运行</description>
     </item>
   </channel>
 </rss>
