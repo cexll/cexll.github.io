@@ -5,16 +5,23 @@
     <description>Recent content in Blogs on IMORTA</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 14 Oct 2019 12:34:44 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 14 Nov 2019 22:22:19 +0800</lastBuildDate>
     
         <atom:link href="https://cexll.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Linux扩容硬盘空间不足</title>
+      <link>https://cexll.github.io/blog/2019/11-14/linux%E5%AE%B9%E9%87%8F%E4%B8%8D%E8%B6%B3%E6%B7%BB%E5%8A%A0%E7%A1%AC%E7%9B%98/</link>
+      <pubDate>Thu, 14 Nov 2019 22:22:19 +0800</pubDate>
+      
+      <guid>https://cexll.github.io/blog/2019/11-14/linux%E5%AE%B9%E9%87%8F%E4%B8%8D%E8%B6%B3%E6%B7%BB%E5%8A%A0%E7%A1%AC%E7%9B%98/</guid>
+      <description>Linux组合多硬盘解决空间不足</description>
+    </item><item>
       <title>面试总结</title>
-      <link>https://cexll.github.io/blog/2019/10.14/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/</link>
+      <link>https://cexll.github.io/blog/2019/10-14/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/</link>
       <pubDate>Mon, 14 Oct 2019 12:34:44 +0800</pubDate>
       
-      <guid>https://cexll.github.io/blog/2019/10.14/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/</guid>
+      <guid>https://cexll.github.io/blog/2019/10-14/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/</guid>
       <description>面试失败指南...</description>
     </item><item>
       <title>Git的奇技淫巧</title>
@@ -72,13 +79,6 @@
       
       <guid>https://cexll.github.io/blog/2019/8-13/nginx%E7%AA%81%E7%A0%B4%E9%AB%98%E5%B9%B6%E5%8F%91%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</guid>
       <description>Nginx突破高并发的性能优化</description>
-    </item><item>
-      <title>Php下载限速断点续传</title>
-      <link>https://cexll.github.io/blog/2019/8-13/php%E4%B8%8B%E8%BD%BD%E9%99%90%E9%80%9F%E7%9F%AD%E7%BA%BF%E7%BB%AD%E4%BC%A0/</link>
-      <pubDate>Tue, 13 Aug 2019 20:52:35 +0800</pubDate>
-      
-      <guid>https://cexll.github.io/blog/2019/8-13/php%E4%B8%8B%E8%BD%BD%E9%99%90%E9%80%9F%E7%9F%AD%E7%BA%BF%E7%BB%AD%E4%BC%A0/</guid>
-      <description>php文件下载限速,文件断点续传,多线程下载文件原理解析</description>
     </item>
   </channel>
 </rss>

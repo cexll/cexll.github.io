@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Linux扩容硬盘空间不足 &middot; IMORTA</title>
+  <meta name="description" content="Linux组合多硬盘解决空间不足" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  
+  
+  
+  
+  <link href="https://cexll.github.io/css/concated.min.css" rel="stylesheet">
+  
+  <style>
+    body {
+      background: #ecedef url("https://cexll.github.io/") repeat;
+    }
+  </style>
+</head>
+
+  <body class="single-body">
+    <nav class="nav-bar side-padding">
+  <h1 class="nav-header"><a href="https://cexll.github.io/" class="nav-text">记录美好生活</a></h1>
+  <div class="hamburger-menu">
+    <button onclick="hamburgerMenuPressed.call(this)" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="menu" class="hamburger-menu-overlay">
+      <li><a href="https://cexll.github.io/" class="hamburger-menu-overlay-link">Home</a></li>
+      
+      
+    </ul>
+  </div>
+</nav>
+
+    <main class="content side-text-padding">
+      <article class="post ">
+        <header class="post-header">
+        	<h1 class="post-title">Linux扩容硬盘空间不足</h1>
+          <p class="post-date">Posted <time datetime="2019-11-14">Nov 14, 2019</time></p>
+        </header>
+        
+        
+
+<p><strong>Linux 在多个小硬盘下非常难受，如2个128G的固态，使用非常难受，今天就让它们组合起来使用，让多个硬盘组合成一个使用而不需要归成一个，我平常喜欢让一个硬盘挂载系统，另一个挂再home目录，组合使用更加舒服</strong></p>
+
+<h2 id="以下操作全部需要root执行-sudo">以下操作全部需要root执行: sudo</h2>
+
+<pre><code class="language-bash">su root | sudo
+</code></pre>
+
+<h2 id="1-查看硬盘信息">1、查看硬盘信息</h2>
+
+<pre><code class="language-bash">fdisk -l
+</code></pre>
+
+<h2 id="2-进入磁盘-对磁盘进行分区">2、进入磁盘，对磁盘进行分区</h2>
+
+<ul>
+<li><p>删除旧分区</p>
+
+<pre><code class="language-bash">fdisk [磁盘路径] | 例: /dev/sdb
+m   // 帮助
+d   // 删除分区
+n   // 添加分区
+p   // 创建逻辑分区
+</code></pre></li>
+</ul>
+
+<h3 id="输入1-进入逻辑分区阶段">输入1，进入逻辑分区阶段</h3>
+
+<pre><code class="language-bash">artion number(1-4)：1
+这里需要一点fdisk基础，默认全部分区直接回车就行
+</code></pre>
+
+<h3 id="保存-w">保存 w</h3>
+
+<pre><code class="language-bash">w
+</code></pre>
+
+<h2 id="3-格式化分区-挂载">3、格式化分区&amp;挂载</h2>
+
+<ul>
+<li><p>手动卸载分区</p>
+
+<pre><code class="language-bash">umount [磁盘路径]
+</code></pre></li>
+
+<li><p>将 <code>/dev/sdb1</code> 格式化为 <code>ext4</code> 类型</p>
+
+<pre><code class="language-bash">mkfs.ext4 /dev/sdb1
+</code></pre></li>
+
+<li><p>在根目录下创建一个目录</p>
+
+<pre><code class="language-bash">mkdir /[目录名]
+</code></pre></li>
+
+<li><p>挂载分区</p>
+
+<pre><code class="language-bash">mount /dev/sdb1 /[目录名]
+</code></pre></li>
+
+<li><p>查看硬盘和挂载分区等信息</p>
+
+<pre><code class="language-bash">df -h
+</code></pre></li>
+</ul>
+
+<h2 id="4-设置开机自动挂载">4、设置开机自动挂载</h2>
+
+<ul>
+<li><p>查询磁盘UUID</p>
+
+<pre><code class="language-bash">ls -al /dev/disk/by-uuid
+</code></pre></li>
+
+<li><p>编辑 <code>/dev/fstab</code></p>
+
+<pre><code class="language-bash">vim /etc/fstab
+</code></pre></li>
+
+<li><p>加入挂载磁盘的信息</p>
+
+<pre><code class="language-bash">UUID=xxx /[挂载目录] ext4(文件格式) defaults 0 0
+</code></pre></li>
+
+<li><p>重启</p>
+
+<pre><code class="language-bash">reboot
+</code></pre></li>
+</ul>
+
+<h1 id="问题表">问题表</h1>
+
+<h2 id="1-重启失败-命令行界面">1、重启失败(命令行界面)</h2>
+
+<ul>
+<li>输入登录密码</li>
+
+<li><p>检查修改磁盘挂载信息</p>
+
+<pre><code class="language-bash">vim /etc/fstab
+</code></pre></li>
+</ul>
+
+<p>注释掉之前添加的信息，再次重启</p>
+
+<pre><code class="language-bash">reboot
+</code></pre>
+
+      </article>
+      
+    </main>
+    <nav class="end-nav side-padding">
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://cexll.github.io/blog/2019/10-14/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/" class="card blog-card" rel="bookmark" >
+  
+  <article class="card-body">
+    <h2 class="card-title">面试总结</h2>
+    <p class="card-text">面试失败指南...</p>
+    <div class="card-subtext muted-text">
+      <p>Posted <time datetime="2019-10-14 1014:00">Oct 14, 2019</time></p>
+      
+    </div>
+  </article>
+</a>
+      
+      <a ontouchstart="cardPressed.call(this)" ontouchend="cardReleased.call(this)" ontouchmove="cardReleased.call(this)" 
+  href="https://cexll.github.io/" class="card home-card" style="background-image: url( https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1566305119&amp;di=185016699fe88f382b16342dfdc0d36e&amp;imgtype=jpg&amp;er=1&amp;src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2017-11-30%2F5a1f6d6845bc5.jpg )" rel="bookmark" >
+  Home
+</a>
+    </nav>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+  
+  <script src="https://cexll.github.io/js/core.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+</script>
+
+  </body>
+</html>
