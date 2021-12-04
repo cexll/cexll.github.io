@@ -1,17 +1,31 @@
-name = "Hyde"
+name = "LoveIt"
 license = "MIT"
-licenselink = "https://github.com/spf13/hyde/blob/master/LICENSE.md"
-description = "An elegant open source and mobile first theme"
-tags = ["blog", "company"]
-features = ["blog", "themes", "disqus"]
-min_version = 0.53
+licenselink = "https://github.com/dillonzq/LoveIt/blob/master/LICENSE"
+description = "A Clean, Elegant but Advanced Hugo Theme for Hugo."
+homepage = "https://hugoloveit.com"
+tags = [
+  "blog",
+  "clean",
+  "responsive",
+  "dark",
+  "theme"
+]
+features = [
+  "cover-image",
+  "favicon",
+  "multilingual",
+  "pagination",
+  "social-menu",
+  "syntax-highlighting",
+  "SEO Optimized"
+]
+min_version = "0.62.0"
 
 [author]
-    name = "spf13"
-    homepage = "http://spf13.com"
+  name = "Dillon"
+  homepage = "https://dillonzq.com/"
 
-# If Porting existing theme
 [original]
-    author =  "mdo"
-    homepage = "http://markdotto.com/"
-    repo = "https://www.github.com/mdo/hyde"
+  name = "Fastbyte01"
+  homepage = "https://www.fsb01.com/"
+  repo = "https://github.com/Fastbyte01/KeepIt"
