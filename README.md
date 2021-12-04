@@ -1,3 +1,3 @@
 # 自动hugo静态化
 
-test
+使用GitHub Action 完成自动静态化博客
