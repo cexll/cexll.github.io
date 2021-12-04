@@ -5,11 +5,15 @@ date: 2021-12-04T16:45:37+08:00
 lastmod: 2021-12-04T16:45:37+08:00
 draft: true
 author: "cexll"
-authorLink: "github.com/cexll"
+authorLink: "cexll"
 description: ""
 
-tags: []
-categories: []
+tags: [
+  hugo,action
+]
+categories: [
+  blog
+]
 
 hiddenFromHomePage: false
 hiddenFromSearch: false
@@ -22,7 +26,7 @@ toc:
 math:
   enable: false
 lightgallery: false
-license: ""
+license: "MIT"
 ---
 
 <!--more-->
