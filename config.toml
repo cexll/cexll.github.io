@@ -41,6 +41,14 @@ theme = "LoveIt"
     url = "/categories/"
     title = ""
     weight = 3
+  [[menu.main]]
+  identifier = "about"
+  pre = ""
+  post = ""
+  name = "关于"
+  url = "/about/about/index.html"
+  title = ""
+  weight = 4
 
 # Hugo 解析文档的配置
 [markup]
