@@ -7,29 +7,22 @@ draft: true
 # Hi there 👋 <img src="https://cdn.jsdelivr.net/gh/sy-records/staticfile@master/images/202007/huaji.gif" align="right" height="50" />
 
 
-🎉 Welcome to my Blog!
+🎉 Welcome to my GitHub profile!
 
-I'm cexll  a 🐳Php Dev engineer I Love PHP,And Hyperf,Swoole.
+I'm cexll  a 🐳Php Dev engineer I Love PHP,And Hyperf,Swoole
 
-<!--## Blog Posts -->
+But recently I like golang.
 
-<!-- <details>
-<summary>About My Blogs </summary>
-  
-  ## My Blogs:
-  
-  - [Laravel 使用时的一些优化技巧](https://www.cexll.cn/index.php/archives/90/)
-  - [Composer 国内加速镜像](https://www.cexll.cn/index.php/archives/77/)
-  - [Github上fork项目与源项目同步](https://www.cexll.cn/index.php/archives/25/)
-  - [给Git和终端设置代理,让我们自由飞翔](https://www.cexll.cn/index.php/archives/43/)
-  - [Nginx突破高并发的性能优化](https://www.cexll.cn/index.php/archives/29/)
 
-</details>  -->
+<!-- ![Anurag's github stats](https://github-readme-stats.vercel.app/api?username=cexll&show_icons=true&icon_color=805AD5&text_color=718096&bg_color=ffffff&hide_title=true) -->
+![](https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=cexll&theme=github)
 
-![Anurag's github stats](https://github-readme-stats.vercel.app/api/?username=cexll&show_icons=true&title_color=fff&icon_color=79ff97&text_color=9f9f9f&bg_color=151515)
+<!-- ![](https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=cexll&theme=github) -->
+![](https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=cexll&theme=github)
+![](https://github-profile-summary-cards.vercel.app/api/cards/stats?username=cexll&theme=github)
+<!-- ![](https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=cexll&theme=github) -->
+
 
 **See more on [cexll.cn](https://cexll.cn).**
-
-**[Github](https://github.com/cexll).**
 
 
