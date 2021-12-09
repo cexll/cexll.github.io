@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>PHP安全 - 小仙的博客</title><meta name="Description" content=""><meta property="og:title" content="PHP安全" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://cexll.github.cn/posts/php%E5%AE%89%E5%85%A8/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-06-24T13:42:22+00:00" />
+<meta property="article:modified_time" content="2021-06-24T13:42:22+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="PHP安全"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="小仙的博客">
+<meta name="apple-mobile-web-app-title" content="小仙的博客"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://cexll.github.cn/posts/php%E5%AE%89%E5%85%A8/" /><link rel="prev" href="http://cexll.github.cn/posts/github%E4%B8%8Afork%E9%A1%B9%E7%9B%AE%E4%B8%8E%E6%BA%90%E9%A1%B9%E7%9B%AE%E5%90%8C%E6%AD%A5/" /><link rel="next" href="http://cexll.github.cn/posts/git%E7%9A%84%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "PHP安全",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/cexll.github.cn\/posts\/php%E5%AE%89%E5%85%A8\/"
+        },"genre": "posts","keywords": "php, 安全","wordcount":  791 ,
+        "url": "http:\/\/cexll.github.cn\/posts\/php%E5%AE%89%E5%85%A8\/","datePublished": "2021-06-24T13:42:22+00:00","dateModified": "2021-06-24T13:42:22+00:00","publisher": {
+            "@type": "Organization",
+            "name": "cexll"},"author": {
+                "@type": "Person",
+                "name": "cexll"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="小仙的博客">小仙的博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="小仙的博客">小仙的博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">PHP安全</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/php/"><i class="far fa-folder fa-fw"></i>php</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-06-24">2021-06-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 791 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#php-配置的安全选项">PHP 配置的安全选项</a></li>
+    <li><a href="#php-开发框架的安全">PHP 开发框架的安全</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>参考 <a href="https://www.infoq.cn/article/2ZRMIDIJBuxK2fcetAfS">https://www.infoq.cn/article/2ZRMIDIJBuxK2fcetAfS</a></p>
+</blockquote>
+<p>PHP 是流行的 Web 开发语言，也是部署广泛的网站运行时环境。</p>
+<h2 id="php-配置的安全选项">PHP 配置的安全选项</h2>
+<p>在配置 PHP 运行时环境时，需要重点关注的安全选项包括：</p>
+<p>禁止将 PHP 报错信息输出给用户。如果 PHP 报错信息直接输出给用户，则可能会泄露服务器或者数据库配置信息。如图 8-5 所示：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="http://192.168.1.41:8090/upload/2020/1/1-1fa4e5b5f3d9479085d3d0e7b67184d2.png#vwid=888&amp;vhei=372"
+        data-srcset="http://192.168.1.41:8090/upload/2020/1/1-1fa4e5b5f3d9479085d3d0e7b67184d2.png#vwid=888&amp;vhei=372, http://192.168.1.41:8090/upload/2020/1/1-1fa4e5b5f3d9479085d3d0e7b67184d2.png#vwid=888&amp;vhei=372 1.5x, http://192.168.1.41:8090/upload/2020/1/1-1fa4e5b5f3d9479085d3d0e7b67184d2.png#vwid=888&amp;vhei=372 2x"
+        data-sizes="auto"
+        alt="http://192.168.1.41:8090/upload/2020/1/1-1fa4e5b5f3d9479085d3d0e7b67184d2.png#vwid=888&amp;vhei=372"
+        title="1.png" /></p>
+<p>禁止将 PHP 报错信息输出给用户的配置方法是在 php.ini 中增加以下内容：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">expose_php</span> <span class="o">=</span> Off <span class="c1">#在 HTTP 头部中隐藏 PHP 信息</span>
+<span class="nv">error_reporting</span> <span class="o">=</span> E_ALL <span class="c1">#报告所有错误和警告</span>
+<span class="nv">display_errors</span> <span class="o">=</span> Off <span class="c1">#禁止把错误信息显示在客户端输出中</span>
+<span class="nv">display_startup_errors</span> <span class="o">=</span> Off <span class="c1">#禁止把启动错误显示在客户端输出中</span>
+<span class="nv">log_errors</span> <span class="o">=</span> On <span class="c1">#记录错误</span>
+<span class="nv">error_log</span> <span class="o">=</span> /valid_path/PHP-logs/php_error.log <span class="c1">#指定错误文件的路径</span>
+<span class="nv">ignore_repeated_errors</span>  <span class="o">=</span> Off <span class="c1">#禁止忽略重复的错误</span>
+</code></pre></div><p>PHP 的通用安全配置。在 php.ini 中增加以下内容：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">open_basedir</span> <span class="o">=</span> /path/DocumentRoot/PHP-scripts/ <span class="c1">#只允许 PHP 访问该路径下的文件</span>
+<span class="nv">allow_url_fopen</span> <span class="o">=</span> Off <span class="c1">#禁止 PHP 打开远程文件</span>
+<span class="nv">allow_url_include</span> <span class="o">=</span> Off <span class="c1">#禁止 PHP 包含远程文件</span>
+<span class="nv">variables_order</span> <span class="o">=</span> <span class="s2">&#34;GPSE&#34;</span> <span class="c1">#设置变量的解析顺序</span>
+<span class="nv">allow_webdav_methods</span> <span class="o">=</span> Off <span class="c1">#禁用 webdav 方法</span>
+</code></pre></div><p>PHP 上传文件的安全处理。在 php.ini 中增加以下内容：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">file_uploads</span> <span class="o">=</span> On <span class="c1">#是否启用文件上传，如不需要，则配置为 Off</span>
+<span class="nv">upload_tmp_dir</span> <span class="o">=</span> /path/PHP-uploads/ <span class="c1">#指定上传文件的临时目录</span>
+<span class="nv">upload_max_filesize</span> <span class="o">=</span> 2M <span class="c1">#指定允许上传的最大文件大小</span>
+</code></pre></div><p>PHP 执行文件的安全处理。在 php.ini 中增加以下内容：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">enable_dl</span> <span class="o">=</span> Off <span class="c1">#禁止动态加载模块  	</span>
+<span class="nv">disable_functions</span> <span class="o">=</span> system, exec, shell_exec, passthru, phpinfo, show_source, popen, proc_open, fopen_with_path, dbmopen, dbase_open, putenv, move_uploaded_file, chdir, mkdir, rmdir, chmod, rename, filepro, filepro_rowcount, filepro_retrieve, posix_mkfifo <span class="c1">#禁用危险函数，很多 Webshell 正是使用了这些危险函数来实现恶意功能</span>
+</code></pre></div><p>PHP 会话（Session）的安全处理。在 php.ini 中增加以下内容：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">session.cookie_secure <span class="o">=</span> On <span class="c1">#仅在 HTTPS 安全连接情况下传输</span>
+session.cookie_httponly <span class="o">=</span> <span class="m">1</span> <span class="c1">#在 Cookie 中设置了 &#34;HttpOnly&#34; 属性，那么通过程序 (JS 脚本、Applet 等) 将无法读取到 Cookie 信息，这样能有效的防止 XSS 攻击</span>
+session.gc_maxlifetime  <span class="o">=</span> <span class="m">600</span> <span class="c1">#设置会话过期时间</span>
+</code></pre></div><p>保持 PHP 版本更新。每次在官方发布 PHP 新版本后，其支持周期为 3 年，在此期间，官方会发布小版本修复漏洞。因此，笔者建议，系统管理员需要关注官方网站（ <a href="http://php.net">http://php.net</a> ）来进行 PHP 版本升级，以避免旧版本的漏洞被黑客利用而导致网站被入侵。</p>
+<h2 id="php-开发框架的安全">PHP 开发框架的安全</h2>
+<p>对于 PHP 开发者来说，还需要特别注意使用到的 PHP 开发框架的安全。例如，在知名漏洞搜索平台 <a href="https://www.seebug.org">https://www.seebug.org</a> 上以关键字“ThinkPHP”检索得出的高危漏洞就多达 34 个，如图 8-6 所示：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="http://192.168.1.41:8090/upload/2020/1/2-9eb101eef77f4cfdae0439818294f385.jpg#vwid=1205&amp;vhei=548"
+        data-srcset="http://192.168.1.41:8090/upload/2020/1/2-9eb101eef77f4cfdae0439818294f385.jpg#vwid=1205&amp;vhei=548, http://192.168.1.41:8090/upload/2020/1/2-9eb101eef77f4cfdae0439818294f385.jpg#vwid=1205&amp;vhei=548 1.5x, http://192.168.1.41:8090/upload/2020/1/2-9eb101eef77f4cfdae0439818294f385.jpg#vwid=1205&amp;vhei=548 2x"
+        data-sizes="auto"
+        alt="http://192.168.1.41:8090/upload/2020/1/2-9eb101eef77f4cfdae0439818294f385.jpg#vwid=1205&amp;vhei=548"
+        title="2.jpg" /></p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-06-24</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/php/">php</a>,&nbsp;<a href="/tags/%E5%AE%89%E5%85%A8/">安全</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/github%E4%B8%8Afork%E9%A1%B9%E7%9B%AE%E4%B8%8E%E6%BA%90%E9%A1%B9%E7%9B%AE%E5%90%8C%E6%AD%A5/" class="prev" rel="prev" title="Github上fork项目与源项目同步"><i class="fas fa-angle-left fa-fw"></i>Github上fork项目与源项目同步</a>
+            <a href="/posts/git%E7%9A%84%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/" class="next" rel="next" title="Git的奇技淫巧">Git的奇技淫巧<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.85.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

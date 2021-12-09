@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Shell监控文件改变 - 小仙的博客</title><meta name="Description" content=""><meta property="og:title" content="Shell监控文件改变" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://cexll.github.cn/posts/shell%E7%9B%91%E6%8E%A7%E6%96%87%E4%BB%B6%E6%94%B9%E5%8F%98/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-06-24T13:39:48+00:00" />
+<meta property="article:modified_time" content="2021-06-24T13:39:48+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Shell监控文件改变"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="小仙的博客">
+<meta name="apple-mobile-web-app-title" content="小仙的博客"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://cexll.github.cn/posts/shell%E7%9B%91%E6%8E%A7%E6%96%87%E4%BB%B6%E6%94%B9%E5%8F%98/" /><link rel="prev" href="http://cexll.github.cn/posts/linux/win-%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86/" /><link rel="next" href="http://cexll.github.cn/posts/linux%E6%9C%8D%E5%8A%A1%E5%92%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Shell监控文件改变",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/cexll.github.cn\/posts\/shell%E7%9B%91%E6%8E%A7%E6%96%87%E4%BB%B6%E6%94%B9%E5%8F%98\/"
+        },"genre": "posts","keywords": "shell, 监控, linux, inotify","wordcount":  2596 ,
+        "url": "http:\/\/cexll.github.cn\/posts\/shell%E7%9B%91%E6%8E%A7%E6%96%87%E4%BB%B6%E6%94%B9%E5%8F%98\/","datePublished": "2021-06-24T13:39:48+00:00","dateModified": "2021-06-24T13:39:48+00:00","publisher": {
+            "@type": "Organization",
+            "name": "cexll"},"author": {
+                "@type": "Person",
+                "name": "cexll"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="小仙的博客">小仙的博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="小仙的博客">小仙的博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Shell监控文件改变</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/linux/"><i class="far fa-folder fa-fw"></i>linux</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-06-24">2021-06-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2596 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#inotify安装">inotify安装</a></li>
+    <li><a href="#inotify-tools使用">inotify-tools使用</a></li>
+    <li><a href="#inotifywait">inotifywait</a></li>
+    <li><a href="#inotifywatch">inotifywatch</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="使用inotifyfswatch构建自动监控脚本">使用inotify/fswatch构建自动监控脚本</h1>
+<p>inotify-tools 是一个用C语言库，一个为Linux提供简单inotify接口的命令行程序。这些程序可以用于监视文件系统事件并执行相应操作。这些程序是用C语言来写的，除了需要Linux内核的inotify支持外，没有其他的依赖。inotify-tools 3.14是目前最新版本，其于2010年3月7日发布。</p>
+<p>那么什么inotify又是什么？</p>
+<p>inotify，它是Linux在内核 2.6.13 (June 18, 2005)版本中引入的一个新功能，它为用户态监视文件系统的变化提供了强大的支持，允许监控程序打开一个独立文件描述符，并针对事件集监控一个或者多个文件，例如打开、关闭、移动/重命名、删除、创建或者改变属性。</p>
+<p>官方站点地址：http://inotify-tools.sourceforge.net/
+Github地址：https://github.com/rvoicilas/inotify-tools</p>
+<h2 id="inotify安装">inotify安装</h2>
+<blockquote>
+<p>只有在内核 2.6.13 (June 18, 2005)以上的Linux版本中才支持inotify-tools。</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">Debian/Ubuntu:# sudo apt install inotify-tools
+Centos/RHEL:# sudo yum install inotify-tools
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># 编译安装</span>
+<span class="c1"># wget --no-check-certificate https://github.com/downloads/rvoicilas/inotify-tools/inotify-tools-3.14.tar.gz</span>
+<span class="c1"># tar zxvf inotify-tools-3.14.tar.gz</span>
+<span class="c1"># cd inotify-tools-3.14</span>
+<span class="c1"># ./configure</span>
+<span class="c1"># make</span>
+<span class="c1"># make install</span>
+</code></pre></div><blockquote>
+<p>注：源码包安装需要编译，需要系统已经安装过C编译器</p>
+</blockquote>
+<h2 id="inotify-tools使用">inotify-tools使用</h2>
+<p>inotify 的默认内核参数详解</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/proc/sys/fs/inotify/max_queued_events
+    默认值: <span class="m">16384</span>
+    该文件中的值为调用inotify_init时分配给inotify instance中可排队的event的数目的最大值，超出这个值得事件被丢弃，但会触发IN_Q_OVERFLOW事件
+/proc/sys/fs/inotify/max_user_instances
+    默认值: <span class="m">128</span>
+    指定了每一个real user ID可创建的inotify instatnces的数量上限
+/proc/sys/fs/inotify/max_user_watches
+    默认值: <span class="m">8192</span>
+    指定了每个inotify instance相关联的watches的上限，也就是每一个inotify实例可监控的最大目录数。如果监控的文件数目巨大，需要根据实际情况适当增加此值得大小。
+
+注意:
+    max_queued_events 是 Inotify 管理的队列的最大长度，文件系统变化越频繁，这个值就应该越大！如果你在日志中看到Event Queue Overflow，说明max_queued_events太小需要调整参数后再次使用
+</code></pre></div><p>优化参数配置</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">echo</span> <span class="m">104857600</span> &gt; /proc/sys/fs/inotify/max_user_watches
+</code></pre></div><p>inotify-tools 工具包中包含了两个命令</p>
+<ul>
+<li>inotifywait</li>
+<li>inotifywatch</li>
+</ul>
+<h2 id="inotifywait">inotifywait</h2>
+<blockquote>
+<p>inotifywait 仅执行阻塞，等待 inotify 事件，你可以使用它来监控任何一组文件和目录，或监控整个目录树（目录、子目录、子目录的子目录等等），并且可以结合 shell 脚本，更好的使用 inotifywait。</p>
+</blockquote>
+<p>命令格式：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">inotifywait <span class="o">[</span>-hcmrq<span class="o">]</span> <span class="o">[</span>-e &lt;event&gt; <span class="o">]</span> <span class="o">[</span>-t &lt;seconds&gt; <span class="o">]</span> <span class="o">[</span>--format &lt;fmt&gt; <span class="o">]</span> <span class="o">[</span>--timefmt &lt;fmt&gt; <span class="o">]</span> &lt;file&gt; <span class="o">[</span> ... <span class="o">]</span>
+</code></pre></div><p>选项参数：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">-h<span class="p">|</span>--help     	显示帮助信息
+@&lt;file&gt;       	排除不需要监视的文件，可以是相对路径，也可以是绝对路径
+--exclude &lt;pattern&gt;
+                正则匹配需要排除的文件，大小写敏感
+--excludei &lt;pattern&gt;
+                正则匹配需要排除的文件，忽略大小写。
+-m<span class="p">|</span>--monitor  	接收到一个事情而不退出，无限期地执行。默认行为是接收到一个事情后立即退出
+-d<span class="p">|</span>--daemon   	跟--monitor一样，除了是在后台运行，需要指定--outfile把事情输出到一个文件。也意味着使用了--syslog
+-r<span class="p">|</span>--recursive	监视一个目录下的所有子目录
+--fromfile &lt;file&gt;
+                从文件读取需要监视的文件或排除的文件，一个文件一行，排除的文件以@开头
+-o<span class="p">|</span>--outfile &lt;file&gt;
+                输出事件到文件.
+-s<span class="p">|</span>--syslog   	输出错误信息到系统日志
+-q<span class="p">|</span>--quiet    	不输出详细信息，只输出事件
+-qq           	除了致命错误，不会输出任何信息
+--timefmt &lt;fmt&gt;	指定时间格式，用于�format选项中的%T格式
+-c<span class="p">|</span>--csv      	输出csv格式。
+-t<span class="p">|</span>--timeout &lt;seconds&gt;
+                设置超时时间，如果为0，则无限期地执行下去。
+-e<span class="p">|</span>--event &lt;event1&gt; <span class="o">[</span> -e<span class="p">|</span>--event &lt;event2&gt; ... <span class="o">]</span>
+                指定监听的时间，如果省略，则侦听所有事件。
+--format &lt;fmt&gt;	指定输出格式
+     %w 表示发生事件的目录
+     %f 表示发生事件的文件
+     %e 表示发生的事件
+     %Xe 事件以“X”分隔
+     %T 使用由--timefmt定义的时间格式
+</code></pre></div><p>可监听的事件</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">access		    文件或者目录被读
+modify		    文件或目录被写入
+attrib		    文件或者目录属性被更改
+close_write	  文件或目录关闭，在写模式下打开后
+close_nowrite	文件或目录关闭，在只读模式打开后
+close		      文件或目录关闭，而不管是读/写模式
+open		      文件或目录被打开
+moved_to	    文件或者目录移动到监视目录
+moved_from	  文件或者目录移出监视目录
+move		      文件或目录移出或者移入目录
+create		    文件或目录被创建在监视目录
+delete		    文件或者目录被删除在监视目录
+delete_self	  文件或目录移除，之后不再监听此文件或目录
+unmount		    文件系统取消挂载，之后不再监听此文件系统
+</code></pre></div><p>示例1、监控/data目录</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">inotifywait -rmq /data
+</code></pre></div><p>我们在另一个终端中向该目录中写入一个文件</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">echo</span> <span class="s2">&#34;test&#34;</span> &gt;&gt; /data/newfile
+</code></pre></div><p>这个时候我们就会在前一个终端中看到如下信息</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># inotifywait -rmq /data</span>
+/data/ CREATE newfile
+/data/ OPEN newfile
+/data/ MODIFY newfile
+/data/ CLOSE_WRITE,CLOSE newfile
+</code></pre></div><p>如上所示，我们监控的了对于newfile文件的 CREATE、OPEN、MODIFY、CLOSE_WRITE、CLOSE等事件。</p>
+<p>示例2、实时监控对/etc/passwd 文件的修改、删除和权限相关时间，并且按照指定格式输出。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># inotifywait -mrq --timefmt &#39;%d/%m/%y %H:%M&#39; --format  &#39;%T %w%f %e&#39; --event modify,delete,attrib  /etc/passwd</span>
+</code></pre></div><p>这是我们在另一终端创建一个新用户</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># useradd testuser</span>
+</code></pre></div><p>这时在前一个终端中就会监控到一个ATTRIB 事件</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># inotifywait -mrq --timefmt &#39;%d/%m/%y %H:%M&#39; --format  &#39;%T %w%f %e&#39; --event modify,delete,attrib  /etc/passwd</span>
+29/10/16 16:59 /etc/passwd ATTRIB
+</code></pre></div><p>示例3、实现对 /data/web 目录进行监控，监控文件删除，修改，创建和权限相关事件，并且要求将监控信息写入/var/log/web_watch.log。要求日志条目要清晰明了，能突显文件路径、事件名和时间。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># cat web_watch.sh</span>
+<span class="c1">#!/bin/bash</span>
+inotifywait -mrq --timefmt <span class="s1">&#39;%y/%m/%d %H:%M&#39;</span> --format  <span class="s1">&#39;%T %w%f %e&#39;</span> --event delete,modify,create,attrib  /data/web <span class="p">|</span> <span class="k">while</span> <span class="nb">read</span>  date <span class="nb">time</span> file event
+  <span class="k">do</span>
+      <span class="k">case</span> <span class="nv">$event</span> in
+          MODIFY<span class="p">|</span>CREATE<span class="p">|</span>MOVE<span class="p">|</span>MODIFY,ISDIR<span class="p">|</span>CREATE,ISDIR<span class="p">|</span>MODIFY,ISDIR<span class="o">)</span>
+                  <span class="nb">echo</span> <span class="nv">$event</span><span class="s1">&#39;-&#39;</span><span class="nv">$file</span><span class="s1">&#39;-&#39;</span><span class="nv">$date</span><span class="s1">&#39;-&#39;</span><span class="nv">$time</span> &gt;&gt; /var/log/web_watch.log
+              <span class="p">;;</span>
+
+          MOVED_FROM<span class="p">|</span>MOVED_FROM,ISDIR<span class="p">|</span>DELETE<span class="p">|</span>DELETE,ISDIR<span class="o">)</span>
+                  <span class="nb">echo</span> <span class="nv">$event</span><span class="s1">&#39;-&#39;</span><span class="nv">$file</span><span class="s1">&#39;-&#39;</span><span class="nv">$date</span><span class="s1">&#39;-&#39;</span><span class="nv">$time</span> /var/log/web_watch.log
+              <span class="p">;;</span>
+      <span class="k">esac</span>
+  <span class="k">done</span>
+</code></pre></div><p>运行脚本后，在另一个终端操作后，查看/var/log/web_watch.log日志</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># cat /var/log/web_watch.log</span>
+CREATE-/data/web/a-14/06/27-16:21
+CREATE-/data/web/aa-14/06/27-16:21
+CREATE-/data/web/aaaa-14/06/27-16:24
+CREATE-/data/web/aaaaa-14/06/27-16:24
+</code></pre></div><p>更多的使用方式，请查看 inotifywatch man page</p>
+<h2 id="inotifywatch">inotifywatch</h2>
+<blockquote>
+<p>inotifywatch 用来收集关于被监视的文件系统的统计数据，包括每个 inotify 事件发生多少次。</p>
+</blockquote>
+<p>命令格式：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">inotifywatch  <span class="o">[</span>-hvzrqf<span class="o">]</span>  <span class="o">[</span>-e  &lt;event&gt;  <span class="o">]</span> <span class="o">[</span>-t &lt;seconds&gt; <span class="o">]</span> <span class="o">[</span>-a &lt;event&gt; <span class="o">]</span> <span class="o">[</span>-d &lt;event&gt; <span class="o">]</span> &lt;file&gt; <span class="o">[</span> ... <span class="o">]</span>
+</code></pre></div><p>选项参数：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">-h<span class="p">|</span>--help    	            显示帮助信息
+-v<span class="p">|</span>--verbose 	            详细信息
+@&lt;file&gt;       	          排除不需要监视的文件，可以是相对路径，也可以是绝对路径
+--fromfile &lt;file&gt;         从文件读取需要监视的文件或排除的文件，一个文件一行，排除的文件以@开头
+--exclude &lt;pattern&gt;       正则匹配需要排除的文件，大小写敏感
+--excludei &lt;pattern&gt;      正则匹配需要排除的文件，忽略大小写。
+-z<span class="p">|</span>--zero                 输出表格的行和列，即使元素为空
+-r<span class="p">|</span>--recursive	          监视一个目录下的所有子目录
+-t<span class="p">|</span>--timeout &lt;seconds&gt;
+                          设置超时时间，如果为0，则无限期地执行下去。
+-e<span class="p">|</span>--event &lt;event1&gt; <span class="o">[</span> -e<span class="p">|</span>--event &lt;event2&gt; ... <span class="o">]</span>
+                          指定监听的时间，如果省略，则侦听所有事件。
+-a<span class="p">|</span>--ascending &lt;event&gt;    以指定事件升序排列
+-d<span class="p">|</span>--descending &lt;event&gt;   以指定事件降序排列
+</code></pre></div><p>示例1、统计/data目录所在文件系统发生的事件次数</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">inotifywatch -v -e create,modify,delete -t <span class="m">30</span> -r /data
+</code></pre></div><p>然后在另一终端中进行一些操作</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># echo &#34;test&#34; &gt;&gt; /data/newfile1</span>
+...
+<span class="c1"># rm /data/newfile</span>
+rm：是否删除普通文件 <span class="s2">&#34;/data/newfile&#34;</span>？y
+<span class="c1"># rm /data/newfile1</span>
+rm：是否删除普通文件 <span class="s2">&#34;/data/newfile1&#34;</span>？y
+</code></pre></div><p>30秒后，前一个终端会生成如下报告</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># inotifywatch -v -e create,modify,delete -t 30 -r /data</span>
+Establishing watches...
+Setting up watch<span class="o">(</span>es<span class="o">)</span> on /data
+OK, /data is now being watched.
+Total of <span class="m">1</span> watches.
+Finished establishing watches, now collecting statistics.
+Will listen <span class="k">for</span> events <span class="k">for</span> <span class="m">30</span> seconds.
+total  modify  create  delete  filename
+<span class="m">11</span>     <span class="m">8</span>       <span class="m">1</span>       <span class="m">2</span>       /data/
+</code></pre></div><p>更多的使用方式，请查看 inotifywatch man page</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-06-24</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/shell/">shell</a>,&nbsp;<a href="/tags/%E7%9B%91%E6%8E%A7/">监控</a>,&nbsp;<a href="/tags/linux/">linux</a>,&nbsp;<a href="/tags/inotify/">inotify</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/linux/win-%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86/" class="prev" rel="prev" title="Linux/Win 配置使用终端代理"><i class="fas fa-angle-left fa-fw"></i>Linux/Win 配置使用终端代理</a>
+            <a href="/posts/linux%E6%9C%8D%E5%8A%A1%E5%92%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" class="next" rel="next" title="Linux服务和进程管理">Linux服务和进程管理<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.85.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

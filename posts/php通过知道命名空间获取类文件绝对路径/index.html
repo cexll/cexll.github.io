@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>PHP通过(知道)命名空间获取类(文件)绝对路径 - 小仙的博客</title><meta name="Description" content=""><meta property="og:title" content="PHP通过(知道)命名空间获取类(文件)绝对路径" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://cexll.github.cn/posts/php%E9%80%9A%E8%BF%87%E7%9F%A5%E9%81%93%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E8%8E%B7%E5%8F%96%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-09-20T18:49:51+00:00" />
+<meta property="article:modified_time" content="2021-09-20T18:49:51+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="PHP通过(知道)命名空间获取类(文件)绝对路径"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="小仙的博客">
+<meta name="apple-mobile-web-app-title" content="小仙的博客"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://cexll.github.cn/posts/php%E9%80%9A%E8%BF%87%E7%9F%A5%E9%81%93%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E8%8E%B7%E5%8F%96%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84/" /><link rel="prev" href="http://cexll.github.cn/posts/docker%E5%AE%B9%E5%99%A8%E5%86%85%E9%87%8D%E5%90%AF%E5%85%B6%E4%BB%96%E5%AE%B9%E5%99%A8%E6%88%96%E8%80%85%E9%87%8D%E5%90%AF%E8%87%AA%E5%B7%B1/" /><link rel="next" href="http://cexll.github.cn/posts/%E8%AE%B0%E5%BD%95%E5%88%A0%E9%99%A4.git%E8%AE%B0%E5%BD%95%E5%A4%A7%E6%96%87%E4%BB%B6%E7%9A%84%E8%BF%87%E7%A8%8B/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "PHP通过(知道)命名空间获取类(文件)绝对路径",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/cexll.github.cn\/posts\/php%E9%80%9A%E8%BF%87%E7%9F%A5%E9%81%93%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E8%8E%B7%E5%8F%96%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84\/"
+        },"genre": "posts","keywords": "php, composer","wordcount":  308 ,
+        "url": "http:\/\/cexll.github.cn\/posts\/php%E9%80%9A%E8%BF%87%E7%9F%A5%E9%81%93%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E8%8E%B7%E5%8F%96%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84\/","datePublished": "2021-09-20T18:49:51+00:00","dateModified": "2021-09-20T18:49:51+00:00","publisher": {
+            "@type": "Organization",
+            "name": "cexll"},"author": {
+                "@type": "Person",
+                "name": "cexll"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="小仙的博客">小仙的博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="小仙的博客">小仙的博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">PHP通过(知道)命名空间获取类(文件)绝对路径</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/php/"><i class="far fa-folder fa-fw"></i>php</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-09-20">2021-09-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 308 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 1 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>在PHP开发中,如果为了高效(偷懒)都会通过脚本去实现一些事情, 但最近遇到一个问题我知道一个文件的命名空间想解析出它的文件绝对路径怎么办?</p>
+</blockquote>
+<h1 id="php神器-composer">PHP神器 Composer</h1>
+<p>现代 phper 开发都会用到的 composer 就是神器
+通过 <code>composer dump-autoload -o</code> 解析路径
+会发现 <code>vendor/composer/autoload_psr4.php</code>里面就解析出来了所有加载的命名空间和绝对路径
+例:</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// autoload_psr4.php @generated by Composer
+</span><span class="c1"></span>
+<span class="nv">$vendorDir</span> <span class="o">=</span> <span class="nx">dirname</span><span class="p">(</span><span class="nx">dirname</span><span class="p">(</span><span class="no">__FILE__</span><span class="p">));</span>
+<span class="nv">$baseDir</span> <span class="o">=</span> <span class="nx">dirname</span><span class="p">(</span><span class="nv">$vendorDir</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;phpseclib3\\&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="nv">$vendorDir</span> <span class="o">.</span> <span class="s1">&#39;/phpseclib/phpseclib/phpseclib&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;phpDocumentor\\Reflection\\&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="nv">$vendorDir</span> <span class="o">.</span> <span class="s1">&#39;/phpdocumentor/reflection-common/src&#39;</span><span class="p">,</span> <span class="nv">$vendorDir</span> <span class="o">.</span> <span class="s1">&#39;/phpdocumentor/reflection-docblock/src&#39;</span><span class="p">,</span> <span class="nv">$vendorDir</span> <span class="o">.</span> <span class="s1">&#39;/phpdocumentor/type-resolver/src&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;Zxing\\&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="nv">$vendorDir</span> <span class="o">.</span> <span class="s1">&#39;/khanamiryan/qrcode-detector-decoder/lib&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;Zipkin\\&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="nv">$vendorDir</span> <span class="o">.</span> <span class="s1">&#39;/openzipkin/zipkin/src/Zipkin&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;ZipkinOpenTracing\\&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="nv">$vendorDir</span> <span class="o">.</span> <span class="s1">&#39;/jcchavezs/zipkin-opentracing/src/ZipkinOpenTracing&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;Yansongda\\Supports\\&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="nv">$vendorDir</span> <span class="o">.</span> <span class="s1">&#39;/yansongda/supports/src&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;Yansongda\\Pay\\&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="nv">$vendorDir</span> <span class="o">.</span> <span class="s1">&#39;/yansongda/pay/src&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;Webmozart\\Assert\\&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="nv">$vendorDir</span> <span class="o">.</span> <span class="s1">&#39;/webmozart/assert/src&#39;</span><span class="p">),</span>
+
+</code></pre></div><p>于是 通过 <code>require</code> 加载该文件就可以读取到</p>
+<pre><code>$loader = require BASE_PATH . '/vendor/composer/autoload_psr4.php';
+</code></pre><p>同时 在 <code>vendor/composer/</code> 下的其他文件也可以用到</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">├── ClassLoader.php
+├── InstalledVersions.php
+├── LICENSE
+├── autoload_classmap.php
+├── autoload_files.php
+├── autoload_namespaces.php
+├── autoload_psr4.php
+├── autoload_real.php
+├── autoload_static.php
+├── installed.json
+├── installed.php
+</code></pre></div><p>具体玩法自行研究</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-09-20</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/php/">php</a>,&nbsp;<a href="/tags/composer/">composer</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/docker%E5%AE%B9%E5%99%A8%E5%86%85%E9%87%8D%E5%90%AF%E5%85%B6%E4%BB%96%E5%AE%B9%E5%99%A8%E6%88%96%E8%80%85%E9%87%8D%E5%90%AF%E8%87%AA%E5%B7%B1/" class="prev" rel="prev" title="Docker容器内重启其他容器或者重启自己"><i class="fas fa-angle-left fa-fw"></i>Docker容器内重启其他容器或者重启自己</a>
+            <a href="/posts/%E8%AE%B0%E5%BD%95%E5%88%A0%E9%99%A4.git%E8%AE%B0%E5%BD%95%E5%A4%A7%E6%96%87%E4%BB%B6%E7%9A%84%E8%BF%87%E7%A8%8B/" class="next" rel="next" title="记录删除.git记录大文件的过程">记录删除.git记录大文件的过程<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.85.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

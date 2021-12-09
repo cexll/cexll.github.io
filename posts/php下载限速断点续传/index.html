@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>PHP下载限速断点续传 - 小仙的博客</title><meta name="Description" content=""><meta property="og:title" content="PHP下载限速断点续传" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://cexll.github.cn/posts/php%E4%B8%8B%E8%BD%BD%E9%99%90%E9%80%9F%E6%96%AD%E7%82%B9%E7%BB%AD%E4%BC%A0/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-06-24T13:40:34+00:00" />
+<meta property="article:modified_time" content="2021-06-24T13:40:34+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="PHP下载限速断点续传"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="小仙的博客">
+<meta name="apple-mobile-web-app-title" content="小仙的博客"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://cexll.github.cn/posts/php%E4%B8%8B%E8%BD%BD%E9%99%90%E9%80%9F%E6%96%AD%E7%82%B9%E7%BB%AD%E4%BC%A0/" /><link rel="prev" href="http://cexll.github.cn/posts/linux%E6%9C%8D%E5%8A%A1%E5%92%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" /><link rel="next" href="http://cexll.github.cn/posts/nginx%E7%AA%81%E7%A0%B4%E9%AB%98%E5%B9%B6%E5%8F%91%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "PHP下载限速断点续传",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/cexll.github.cn\/posts\/php%E4%B8%8B%E8%BD%BD%E9%99%90%E9%80%9F%E6%96%AD%E7%82%B9%E7%BB%AD%E4%BC%A0\/"
+        },"genre": "posts","keywords": "php, 断点续传, 限速","wordcount":  1328 ,
+        "url": "http:\/\/cexll.github.cn\/posts\/php%E4%B8%8B%E8%BD%BD%E9%99%90%E9%80%9F%E6%96%AD%E7%82%B9%E7%BB%AD%E4%BC%A0\/","datePublished": "2021-06-24T13:40:34+00:00","dateModified": "2021-06-24T13:40:34+00:00","publisher": {
+            "@type": "Organization",
+            "name": "cexll"},"author": {
+                "@type": "Person",
+                "name": "cexll"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="小仙的博客">小仙的博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="小仙的博客">小仙的博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">PHP下载限速断点续传</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/php/"><i class="far fa-folder fa-fw"></i>php</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-06-24">2021-06-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1328 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#文件下载限速">文件下载限速</a></li>
+    <li><a href="#文件断点续传">文件断点续传</a></li>
+    <li><a href="#多线程下载">多线程下载</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>参考 <a href="http://php20.cn">http://php20.cn</a></p>
+</blockquote>
+<h2 id="文件下载限速">文件下载限速</h2>
+<p>这里直接代码演示</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="nv">$filePath</span> <span class="o">=</span> <span class="s1">&#39;./test.zip&#39;</span><span class="p">;</span><span class="c1">//文件
+</span><span class="c1"></span><span class="nv">$fp</span><span class="o">=</span><span class="nx">fopen</span><span class="p">(</span><span class="nv">$filePath</span><span class="p">,</span><span class="s2">&#34;r&#34;</span><span class="p">);</span>
+ 
+<span class="c1">//取得文件大小
+</span><span class="c1"></span><span class="nv">$fileSize</span><span class="o">=</span><span class="nx">filesize</span><span class="p">(</span><span class="nv">$filePath</span><span class="p">);</span>
+ 
+<span class="nx">header</span><span class="p">(</span><span class="s2">&#34;Content-type:application/octet-stream&#34;</span><span class="p">);</span><span class="c1">//设定header头为下载
+</span><span class="c1"></span><span class="nx">header</span><span class="p">(</span><span class="s2">&#34;Accept-Ranges:bytes&#34;</span><span class="p">);</span>
+<span class="nx">header</span><span class="p">(</span><span class="s2">&#34;Accept-Length:&#34;</span><span class="o">.</span><span class="nv">$fileSize</span><span class="p">);</span><span class="c1">//响应大小
+</span><span class="c1"></span><span class="nx">header</span><span class="p">(</span><span class="s2">&#34;Content-Disposition: attachment; filename=testName&#34;</span><span class="p">);</span><span class="c1">//文件名
+</span><span class="c1"></span><span class="nx">ob_end_clean</span><span class="p">();</span><span class="c1">//缓冲区结束
+</span><span class="c1"></span><span class="nx">ob_implicit_flush</span><span class="p">();</span><span class="c1">//强制每当有输出的时候,即刻把输出发送到浏览器
+</span><span class="c1"></span><span class="nx">header</span><span class="p">(</span><span class="s1">&#39;X-Accel-Buffering: no&#39;</span><span class="p">);</span> <span class="c1">// 不缓冲数据
+</span><span class="c1"></span><span class="nv">$buffer</span><span class="o">=</span><span class="mi">1024</span><span class="p">;</span>
+<span class="nv">$bufferCount</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+ 
+<span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="nx">feof</span><span class="p">(</span><span class="nv">$fp</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="nv">$fileSize</span><span class="o">-</span><span class="nv">$bufferCount</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">){</span><span class="c1">//循环读取文件数据
+</span><span class="c1"></span>    <span class="nv">$data</span><span class="o">=</span><span class="nx">fread</span><span class="p">(</span><span class="nv">$fp</span><span class="p">,</span><span class="nv">$buffer</span><span class="p">);</span>
+    <span class="nv">$bufferCount</span><span class="o">+=</span><span class="nv">$buffer</span><span class="p">;</span>
+    <span class="k">echo</span> <span class="nv">$data</span><span class="p">;</span><span class="c1">//输出文件
+</span><span class="c1"></span>    <span class="nx">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+ 
+<span class="nx">fclose</span><span class="p">(</span><span class="nv">$fp</span><span class="p">);</span>
+</code></pre></div><h2 id="文件断点续传">文件断点续传</h2>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="nv">$filePath</span> <span class="o">=</span> <span class="s1">&#39;./2.txt&#39;</span><span class="p">;</span><span class="c1">//文件
+</span><span class="c1"></span><span class="nv">$fp</span><span class="o">=</span><span class="nx">fopen</span><span class="p">(</span><span class="nv">$filePath</span><span class="p">,</span><span class="s2">&#34;r&#34;</span><span class="p">);</span>
+
+<span class="c1">//取得文件大小
+</span><span class="c1"></span><span class="nv">$fileSize</span><span class="o">=</span><span class="nx">filesize</span><span class="p">(</span><span class="nv">$filePath</span><span class="p">);</span>
+<span class="nv">$buffer</span><span class="o">=</span><span class="mi">5000</span><span class="p">;</span>
+<span class="nv">$bufferCount</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="nx">header</span><span class="p">(</span><span class="s2">&#34;Content-type:application/octet-stream&#34;</span><span class="p">);</span><span class="c1">//设定header头为下载
+</span><span class="c1"></span><span class="nx">header</span><span class="p">(</span><span class="s2">&#34;Content-Disposition: attachment; filename=2.txt&#34;</span><span class="p">);</span><span class="c1">//文件名
+</span><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">&#39;HTTP_RANGE&#39;</span><span class="p">])){</span>
+    <span class="c1">//切割字符串
+</span><span class="c1"></span>    <span class="nv">$range</span> <span class="o">=</span> <span class="nx">explode</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="nx">substr</span><span class="p">(</span><span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">&#39;HTTP_RANGE&#39;</span><span class="p">],</span><span class="mi">6</span><span class="p">));</span>
+    <span class="nx">fseek</span><span class="p">(</span><span class="nv">$fp</span><span class="p">,</span><span class="nv">$range</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span><span class="c1">//移动文件指针到range上
+</span><span class="c1"></span>    <span class="nx">header</span><span class="p">(</span><span class="s1">&#39;HTTP/1.1 206 Partial Content&#39;</span><span class="p">);</span>
+    <span class="nx">header</span><span class="p">(</span><span class="s2">&#34;Content-Range: bytes </span><span class="si">$range[0]</span><span class="s2">-</span><span class="si">$fileSize</span><span class="s2">/</span><span class="si">$fileSize</span><span class="s2">&#34;</span><span class="p">);</span>
+    <span class="nx">header</span><span class="p">(</span><span class="s2">&#34;content-length:&#34;</span><span class="o">.</span><span class="nv">$fileSize</span><span class="o">-</span><span class="nv">$range</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="p">}</span><span class="k">else</span><span class="p">{</span>
+    <span class="nx">header</span><span class="p">(</span><span class="s2">&#34;Accept-Length:&#34;</span><span class="o">.</span><span class="nv">$fileSize</span><span class="p">);</span><span class="c1">//响应大小
+</span><span class="c1"></span><span class="p">}</span>
+ 
+<span class="nx">ob_end_clean</span><span class="p">();</span><span class="c1">//缓冲区结束
+</span><span class="c1"></span><span class="nx">ob_implicit_flush</span><span class="p">();</span><span class="c1">//强制每当有输出的时候,即刻把输出发送到浏览器
+</span><span class="c1"></span><span class="nx">header</span><span class="p">(</span><span class="s1">&#39;X-Accel-Buffering: no&#39;</span><span class="p">);</span> <span class="c1">// 不缓冲数据
+</span><span class="c1"></span><span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="nx">feof</span><span class="p">(</span><span class="nv">$fp</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="nv">$fileSize</span><span class="o">-</span><span class="nv">$bufferCount</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">){</span><span class="c1">//循环读取文件数据
+</span><span class="c1"></span>    <span class="nv">$data</span><span class="o">=</span><span class="nx">fread</span><span class="p">(</span><span class="nv">$fp</span><span class="p">,</span><span class="nv">$buffer</span><span class="p">);</span>
+    <span class="nv">$bufferCount</span><span class="o">+=</span><span class="nv">$buffer</span><span class="p">;</span>
+    <span class="k">echo</span> <span class="nv">$data</span><span class="p">;</span><span class="c1">//输出文件
+</span><span class="c1"></span>    <span class="nx">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">fclose</span><span class="p">(</span><span class="nv">$fp</span><span class="p">);</span>
+
+</code></pre></div><h2 id="多线程下载">多线程下载</h2>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span>
+ 
+<span class="nv">$filePath</span> <span class="o">=</span> <span class="s1">&#39;127.0.0.1&#39;</span><span class="p">;</span>
+<span class="c1">//查看文件大小
+</span><span class="c1"></span><span class="nv">$ch</span> <span class="o">=</span> <span class="nx">curl_init</span><span class="p">();</span>
+ 
+<span class="nv">$headerData</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&#34;Range: bytes=0-1&#34;</span>
+<span class="p">];</span>
+<span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="nv">$headerData</span><span class="p">);</span>
+<span class="c1">//curl_setopt($ch, CURLOPT_CUSTOMREQUEST, &#34;HEAD&#34;);
+</span><span class="c1"></span><span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="nv">$filePath</span><span class="p">);</span>
+<span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// return don&#39;t print
+</span><span class="c1"></span><span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_TIMEOUT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_USERAGENT</span><span class="p">,</span> <span class="s1">&#39;Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)&#39;</span><span class="p">);</span>
+<span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_FOLLOWLOCATION</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// 302 redirect
+</span><span class="c1"></span><span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_MAXREDIRS</span><span class="p">,</span> <span class="mi">7</span><span class="p">);</span>
+<span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span><span class="c1">//需要获取header头
+</span><span class="c1"></span><span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_NOBODY</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>    <span class="c1">//不需要body,只需要获取header头的文件大小
+</span><span class="c1"></span><span class="nv">$sContent</span> <span class="o">=</span> <span class="nx">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+<span class="c1">// 获得响应结果里的：头大小
+</span><span class="c1"></span><span class="nv">$headerSize</span> <span class="o">=</span> <span class="nx">curl_getinfo</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLINFO_HEADER_SIZE</span><span class="p">);</span><span class="c1">//获取header头大小
+</span><span class="c1">// 根据头大小去获取头信息内容
+</span><span class="c1"></span><span class="nv">$header</span> <span class="o">=</span> <span class="nx">substr</span><span class="p">(</span><span class="nv">$sContent</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">$headerSize</span><span class="p">);</span><span class="c1">//获取真实的header头
+</span><span class="c1"></span><span class="nx">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+<span class="nv">$headerArr</span> <span class="o">=</span> <span class="nx">explode</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\r\n</span><span class="s2">&#34;</span><span class="p">,</span> <span class="nv">$header</span><span class="p">);</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$headerArr</span> <span class="k">as</span> <span class="nv">$item</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$value</span> <span class="o">=</span> <span class="nx">explode</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="nv">$item</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Content-Range&#39;</span><span class="p">)</span> <span class="p">{</span><span class="c1">//通过分段,获取到文件大小
+</span><span class="c1"></span>        <span class="nv">$fileSize</span> <span class="o">=</span> <span class="nx">explode</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span><span class="nv">$value</span><span class="p">[</span><span class="mi">1</span><span class="p">])[</span><span class="mi">1</span><span class="p">];</span><span class="c1">//文件大小
+</span><span class="c1"></span>        <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="nx">var_dump</span><span class="p">(</span><span class="nv">$fileSize</span><span class="p">);</span>
+<span class="c1">//开启多线程下载
+</span><span class="c1"></span><span class="nv">$mh</span> <span class="o">=</span> <span class="nx">curl_multi_init</span><span class="p">();</span>
+<span class="nv">$count</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span><span class="c1">//n个线程
+</span><span class="c1"></span><span class="nv">$handle</span> <span class="o">=</span> <span class="p">[];</span><span class="c1">//n线程数组
+</span><span class="c1"></span><span class="nv">$data</span> <span class="o">=</span> <span class="p">[];</span><span class="c1">//数据分段数组
+</span><span class="c1"></span><span class="nv">$fileData</span> <span class="o">=</span> <span class="nx">ceil</span><span class="p">(</span><span class="nv">$fileSize</span> <span class="o">/</span> <span class="nv">$count</span><span class="p">);</span>
+<span class="k">for</span> <span class="p">(</span><span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nv">$i</span> <span class="o">&lt;</span> <span class="nv">$count</span><span class="p">;</span> <span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$ch</span> <span class="o">=</span> <span class="nx">curl_init</span><span class="p">();</span>
+ 
+    <span class="c1">//判断是否读取数量大于剩余数量
+</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="nv">$fileData</span> <span class="o">&gt;</span> <span class="p">(</span><span class="nv">$fileSize</span><span class="o">-</span><span class="p">(</span><span class="nv">$i</span> <span class="o">*</span> <span class="nv">$fileData</span><span class="p">)))</span> <span class="p">{</span>
+        <span class="nv">$headerData</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&#34;Range:bytes=&#34;</span> <span class="o">.</span> <span class="nv">$i</span> <span class="o">*</span> <span class="nv">$fileData</span> <span class="o">.</span> <span class="s2">&#34;-&#34;</span> <span class="o">.</span> <span class="p">(</span><span class="nv">$fileSize</span><span class="p">)</span>
+        <span class="p">];</span>
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+        <span class="nv">$headerData</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&#34;Range:bytes=&#34;</span> <span class="o">.</span> <span class="nv">$i</span> <span class="o">*</span> <span class="nv">$fileData</span> <span class="o">.</span> <span class="s2">&#34;-&#34;</span> <span class="o">.</span><span class="p">((</span><span class="nv">$i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="nv">$fileData</span><span class="p">)</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">echo</span> <span class="nx">PHP_EOL</span><span class="p">;</span>
+    <span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="nv">$filePath</span><span class="p">);</span>
+    <span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// return don&#39;t print
+</span><span class="c1"></span>    <span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_TIMEOUT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_USERAGENT</span><span class="p">,</span> <span class="s1">&#39;Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)&#39;</span><span class="p">);</span>
+    <span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_FOLLOWLOCATION</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// 302 redirect
+</span><span class="c1"></span>    <span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="nv">$headerData</span><span class="p">);</span>
+    <span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_MAXREDIRS</span><span class="p">,</span> <span class="mi">7</span><span class="p">);</span>
+    <span class="nx">curl_multi_add_handle</span><span class="p">(</span><span class="nv">$mh</span><span class="p">,</span> <span class="nv">$ch</span><span class="p">);</span> <span class="c1">// 把 curl resource 放进 multi curl handler 里
+</span><span class="c1"></span>    <span class="nv">$handle</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$ch</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nv">$active</span> <span class="o">=</span> <span class="k">null</span><span class="p">;</span>
+ 
+<span class="k">do</span> <span class="p">{</span>
+    <span class="c1">//同时执行多线程,直到全部完成或超时
+</span><span class="c1"></span>    <span class="nv">$mrc</span> <span class="o">=</span> <span class="nx">curl_multi_exec</span><span class="p">(</span><span class="nv">$mh</span><span class="p">,</span> <span class="nv">$active</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="nv">$active</span><span class="p">);</span>
+ 
+<span class="k">for</span> <span class="p">(</span><span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nv">$i</span> <span class="o">&lt;</span> <span class="nv">$count</span><span class="p">;</span> <span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$data</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">curl_multi_getcontent</span><span class="p">(</span><span class="nv">$handle</span><span class="p">[</span><span class="nv">$i</span><span class="p">]);</span>
+    <span class="nx">curl_multi_remove_handle</span><span class="p">(</span><span class="nv">$mh</span><span class="p">,</span> <span class="nv">$handle</span><span class="p">[</span><span class="nv">$i</span><span class="p">]);</span>
+<span class="p">}</span>
+<span class="nx">curl_multi_close</span><span class="p">(</span><span class="nv">$mh</span><span class="p">);</span>
+<span class="nv">$file</span> <span class="o">=</span> <span class="nx">implode</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="nv">$data</span><span class="p">);</span><span class="c1">//组合成一个文件
+</span><span class="c1"></span><span class="nv">$arr</span> <span class="o">=</span> <span class="nx">explode</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="nv">$file</span><span class="p">);</span>
+<span class="nx">var_dump</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+<span class="nx">var_dump</span><span class="p">(</span><span class="nx">count</span><span class="p">(</span><span class="nv">$arr</span><span class="p">));</span>
+<span class="nx">var_dump</span><span class="p">(</span><span class="nv">$arr</span><span class="p">[</span><span class="nx">count</span><span class="p">(</span><span class="nv">$arr</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="p">]);</span>
+<span class="c1">//测试文件是否正确
+</span></code></pre></div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-06-24</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/php/">php</a>,&nbsp;<a href="/tags/%E6%96%AD%E7%82%B9%E7%BB%AD%E4%BC%A0/">断点续传</a>,&nbsp;<a href="/tags/%E9%99%90%E9%80%9F/">限速</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/linux%E6%9C%8D%E5%8A%A1%E5%92%8C%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" class="prev" rel="prev" title="Linux服务和进程管理"><i class="fas fa-angle-left fa-fw"></i>Linux服务和进程管理</a>
+            <a href="/posts/nginx%E7%AA%81%E7%A0%B4%E9%AB%98%E5%B9%B6%E5%8F%91%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="next" rel="next" title="Nginx突破高并发的性能优化">Nginx突破高并发的性能优化<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.85.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

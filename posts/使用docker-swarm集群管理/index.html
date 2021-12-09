@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>使用docker-swarm集群管理 - 小仙的博客</title><meta name="Description" content=""><meta property="og:title" content="使用docker-swarm集群管理" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://cexll.github.cn/posts/%E4%BD%BF%E7%94%A8docker-swarm%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-09-22T21:43:58+00:00" />
+<meta property="article:modified_time" content="2021-09-22T21:43:58+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用docker-swarm集群管理"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="小仙的博客">
+<meta name="apple-mobile-web-app-title" content="小仙的博客"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://cexll.github.cn/posts/%E4%BD%BF%E7%94%A8docker-swarm%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86/" /><link rel="prev" href="http://cexll.github.cn/posts/%E8%AE%B0%E5%BD%95%E5%88%A0%E9%99%A4.git%E8%AE%B0%E5%BD%95%E5%A4%A7%E6%96%87%E4%BB%B6%E7%9A%84%E8%BF%87%E7%A8%8B/" /><link rel="next" href="http://cexll.github.cn/posts/%E4%BD%BF%E7%94%A8-redis-geo-hash-%E5%AE%9E%E7%8E%B0%E5%AE%9E%E6%97%B6%E6%9F%A5%E7%9C%8B%E9%99%84%E8%BF%91%E7%9A%84%E4%BA%BA/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "使用docker-swarm集群管理",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/cexll.github.cn\/posts\/%E4%BD%BF%E7%94%A8docker-swarm%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86\/"
+        },"genre": "posts","keywords": "docker, swarm, 集群","wordcount":  1472 ,
+        "url": "http:\/\/cexll.github.cn\/posts\/%E4%BD%BF%E7%94%A8docker-swarm%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86\/","datePublished": "2021-09-22T21:43:58+00:00","dateModified": "2021-09-22T21:43:58+00:00","publisher": {
+            "@type": "Organization",
+            "name": "cexll"},"author": {
+                "@type": "Person",
+                "name": "cexll"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="小仙的博客">小仙的博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="小仙的博客">小仙的博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">使用docker-swarm集群管理</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/docker/"><i class="far fa-folder fa-fw"></i>docker</a>&nbsp;<a href="/categories/swarm/"><i class="far fa-folder fa-fw"></i>swarm</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-09-22">2021-09-22</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1472 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-列出可用机器">1. 列出可用机器</a></li>
+    <li><a href="#2-创建机器">2. 创建机器</a></li>
+    <li><a href="#3-查看机器的-ip">3. 查看机器的 ip</a></li>
+    <li><a href="#4-停止机器">4. 停止机器</a></li>
+    <li><a href="#5-启动机器">5. 启动机器</a></li>
+    <li><a href="#6-进入机器">6. 进入机器</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#原理">原理</a></li>
+    <li><a href="#1-创建-swarm-集群管理节点manager">1. 创建 swarm 集群管理节点（manager）</a></li>
+    <li><a href="#2-创建-swarm-集群工作节点worker">2. 创建 swarm 集群工作节点（worker）</a></li>
+    <li><a href="#3-查看集群信息">3. 查看集群信息</a></li>
+    <li><a href="#4-部署服务到集群中">4. 部署服务到集群中</a></li>
+    <li><a href="#5-查看服务部署情况">5. 查看服务部署情况</a></li>
+    <li><a href="#6-扩展集群服务">6. 扩展集群服务</a></li>
+    <li><a href="#7-删除服务">7. 删除服务</a></li>
+    <li><a href="#8-滚动升级服务">8. 滚动升级服务</a></li>
+    <li><a href="#9-停止某个节点接收新的任务">9. 停止某个节点接收新的任务</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>对于热门的k8s，docker也有相应的集群管理工具，虽然现在是k8s的时代，但是对于中小型公司，docker其实已经够用</p>
+</blockquote>
+<h1 id="docker-machine">Docker-Machine</h1>
+<p>Docker Machine 是一种可以让您在虚拟主机上安装 Docker 的工具，并可以使用 docker-machine 命令来管理主机。
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/68747470733a2f2f646f63732e646f636b65722e636f6d2f6d616368696e652f696d672f6c6f676f2e706e67-183afe9a648847688090f455d4899dda.png"
+        data-srcset="https://cexll.cn/upload/2021/09/68747470733a2f2f646f63732e646f636b65722e636f6d2f6d616368696e652f696d672f6c6f676f2e706e67-183afe9a648847688090f455d4899dda.png, https://cexll.cn/upload/2021/09/68747470733a2f2f646f63732e646f636b65722e636f6d2f6d616368696e652f696d672f6c6f676f2e706e67-183afe9a648847688090f455d4899dda.png 1.5x, https://cexll.cn/upload/2021/09/68747470733a2f2f646f63732e646f636b65722e636f6d2f6d616368696e652f696d672f6c6f676f2e706e67-183afe9a648847688090f455d4899dda.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/68747470733a2f2f646f63732e646f636b65722e636f6d2f6d616368696e652f696d672f6c6f676f2e706e67-183afe9a648847688090f455d4899dda.png"
+        title="68747470733a2f2f646f63732e646f636b65722e636f6d2f6d616368696e652f696d672f6c6f676f2e706e67" />
+Docker Machine 也可以集中管理所有的 docker 主机，比如快速的给 100 台服务器安装上 docker。</p>
+<p>Docker Machine 管理的虚拟主机可以是机上的，也可以是云供应商，如阿里云，腾讯云，AWS，或 DigitalOcean。</p>
+<p>使用 docker-machine 命令，您可以启动，检查，停止和重新启动托管主机，也可以升级 Docker 客户端和守护程序，以及配置 Docker 客户端与您的主机进行通信。
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/machine-5f64b86f780b4854801f825f5cc31780.png"
+        data-srcset="https://cexll.cn/upload/2021/09/machine-5f64b86f780b4854801f825f5cc31780.png, https://cexll.cn/upload/2021/09/machine-5f64b86f780b4854801f825f5cc31780.png 1.5x, https://cexll.cn/upload/2021/09/machine-5f64b86f780b4854801f825f5cc31780.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/machine-5f64b86f780b4854801f825f5cc31780.png"
+        title="machine" /></p>
+<h1 id="install">Install</h1>
+<ul>
+<li>Linux</li>
+</ul>
+<pre><code>$ base=https://github.com/docker/machine/releases/download/v0.16.0 &amp;&amp;
+  curl -L $base/docker-machine-$(uname -s)-$(uname -m) &gt;/tmp/docker-machine &amp;&amp;
+  sudo mv /tmp/docker-machine /usr/local/bin/docker-machine &amp;&amp;
+  chmod +x /usr/local/bin/docker-machine
+</code></pre><ul>
+<li>Windows
+注意 Windows 需要使用<code>GitBash</code></li>
+</ul>
+<pre><code>$ base=https://github.com/docker/machine/releases/download/v0.16.0 &amp;&amp;
+  mkdir -p &quot;$HOME/bin&quot; &amp;&amp;
+  curl -L $base/docker-machine-Windows-x86_64.exe &gt; &quot;$HOME/bin/docker-machine.exe&quot; &amp;&amp;
+  chmod +x &quot;$HOME/bin/docker-machine.exe&quot;
+</code></pre><ul>
+<li>MacOS</li>
+</ul>
+<pre><code>$ base=https://github.com/docker/machine/releases/download/v0.16.0 &amp;&amp;
+  curl -L $base/docker-machine-$(uname -s)-$(uname -m) &gt;/usr/local/bin/docker-machine &amp;&amp;
+  chmod +x /usr/local/bin/docker-machine
+</code></pre><p>查看是否安装成功：</p>
+<pre><code>$ docker-machine version
+docker-machine version 0.16.0, build 9371605
+</code></pre><blockquote>
+<p>注意 本地需要提前安装 virtuabox</p>
+</blockquote>
+<h1 id="使用">使用</h1>
+<h2 id="1-列出可用机器">1. 列出可用机器</h2>
+<pre><code>docker-machine ls
+</code></pre><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/docker-machine1-4c0ffc1f196f43529f24112fc6652eee.png"
+        data-srcset="https://cexll.cn/upload/2021/09/docker-machine1-4c0ffc1f196f43529f24112fc6652eee.png, https://cexll.cn/upload/2021/09/docker-machine1-4c0ffc1f196f43529f24112fc6652eee.png 1.5x, https://cexll.cn/upload/2021/09/docker-machine1-4c0ffc1f196f43529f24112fc6652eee.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/docker-machine1-4c0ffc1f196f43529f24112fc6652eee.png"
+        title="docker-machine1" /></p>
+<h2 id="2-创建机器">2. 创建机器</h2>
+<pre><code>$ docker-machine create --driver virtualbox test
+</code></pre><blockquote>
+<p>&ndash;driver：指定用来创建机器的驱动类型，这里是 virtualbox。
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/docker-machine2-99c1e47e3e11445bb518c1dcc75a6340.png"
+        data-srcset="https://cexll.cn/upload/2021/09/docker-machine2-99c1e47e3e11445bb518c1dcc75a6340.png, https://cexll.cn/upload/2021/09/docker-machine2-99c1e47e3e11445bb518c1dcc75a6340.png 1.5x, https://cexll.cn/upload/2021/09/docker-machine2-99c1e47e3e11445bb518c1dcc75a6340.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/docker-machine2-99c1e47e3e11445bb518c1dcc75a6340.png"
+        title="docker-machine2" /></p>
+</blockquote>
+<h2 id="3-查看机器的-ip">3. 查看机器的 ip</h2>
+<pre><code>$ docker-machine ip test
+</code></pre><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/docker-machine3-601a4ef336174b4c88b174eaa982369c.png"
+        data-srcset="https://cexll.cn/upload/2021/09/docker-machine3-601a4ef336174b4c88b174eaa982369c.png, https://cexll.cn/upload/2021/09/docker-machine3-601a4ef336174b4c88b174eaa982369c.png 1.5x, https://cexll.cn/upload/2021/09/docker-machine3-601a4ef336174b4c88b174eaa982369c.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/docker-machine3-601a4ef336174b4c88b174eaa982369c.png"
+        title="docker-machine3" /></p>
+<h2 id="4-停止机器">4. 停止机器</h2>
+<pre><code>$ docker-machine stop test
+</code></pre><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/docker-machine4-f26e1e153cfc49d881ffd822b2b91eac.png"
+        data-srcset="https://cexll.cn/upload/2021/09/docker-machine4-f26e1e153cfc49d881ffd822b2b91eac.png, https://cexll.cn/upload/2021/09/docker-machine4-f26e1e153cfc49d881ffd822b2b91eac.png 1.5x, https://cexll.cn/upload/2021/09/docker-machine4-f26e1e153cfc49d881ffd822b2b91eac.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/docker-machine4-f26e1e153cfc49d881ffd822b2b91eac.png"
+        title="docker-machine4" /></p>
+<h2 id="5-启动机器">5. 启动机器</h2>
+<pre><code>$ docker-machine start test
+</code></pre><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/docker-machine5-f55e3b9bea614e9ca3c0775116dc65b6.png"
+        data-srcset="https://cexll.cn/upload/2021/09/docker-machine5-f55e3b9bea614e9ca3c0775116dc65b6.png, https://cexll.cn/upload/2021/09/docker-machine5-f55e3b9bea614e9ca3c0775116dc65b6.png 1.5x, https://cexll.cn/upload/2021/09/docker-machine5-f55e3b9bea614e9ca3c0775116dc65b6.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/docker-machine5-f55e3b9bea614e9ca3c0775116dc65b6.png"
+        title="docker-machine5" /></p>
+<h2 id="6-进入机器">6. 进入机器</h2>
+<pre><code>$ docker-machine ssh test
+</code></pre><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/docker-machine6-7e653ae483764c6dbcb36c8546a9bfab.png"
+        data-srcset="https://cexll.cn/upload/2021/09/docker-machine6-7e653ae483764c6dbcb36c8546a9bfab.png, https://cexll.cn/upload/2021/09/docker-machine6-7e653ae483764c6dbcb36c8546a9bfab.png 1.5x, https://cexll.cn/upload/2021/09/docker-machine6-7e653ae483764c6dbcb36c8546a9bfab.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/docker-machine6-7e653ae483764c6dbcb36c8546a9bfab.png"
+        title="docker-machine6" /></p>
+<h1 id="swarm-集群">Swarm 集群</h1>
+<p>Docker Swarm 是 Docker 的集群管理工具。它将 Docker 主机池转变为单个虚拟 Docker 主机。 Docker Swarm 提供了标准的 Docker API，所有任何已经与 Docker 守护程序通信的工具都可以使用 Swarm 轻松地扩展到多个主机。</p>
+<h2 id="原理">原理</h2>
+<p>如下图所示，swarm 集群由管理节点（manager）和工作节点（work node）构成。</p>
+<ul>
+<li>swarm mananger：负责整个集群的管理工作包括集群配置、服务管理等所有跟集群有关的工作。</li>
+<li>work node：即图中的 available node，主要负责运行相应的服务来执行任务（task）。</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/services-diagram-bddba1e829434efcb3864d0ef714da09.png"
+        data-srcset="https://cexll.cn/upload/2021/09/services-diagram-bddba1e829434efcb3864d0ef714da09.png, https://cexll.cn/upload/2021/09/services-diagram-bddba1e829434efcb3864d0ef714da09.png 1.5x, https://cexll.cn/upload/2021/09/services-diagram-bddba1e829434efcb3864d0ef714da09.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/services-diagram-bddba1e829434efcb3864d0ef714da09.png"
+        title="services-diagram" /></p>
+<h2 id="1-创建-swarm-集群管理节点manager">1. 创建 swarm 集群管理节点（manager）</h2>
+<pre><code>$ docker-machine create -d virtualbox swarm-manager
+</code></pre><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/swarm1-d5fb270cf2b8403f9cf1e7548e1babc0.png"
+        data-srcset="https://cexll.cn/upload/2021/09/swarm1-d5fb270cf2b8403f9cf1e7548e1babc0.png, https://cexll.cn/upload/2021/09/swarm1-d5fb270cf2b8403f9cf1e7548e1babc0.png 1.5x, https://cexll.cn/upload/2021/09/swarm1-d5fb270cf2b8403f9cf1e7548e1babc0.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/swarm1-d5fb270cf2b8403f9cf1e7548e1babc0.png"
+        title="swarm1" /></p>
+<p>初始化 swarm 集群，进行初始化的这台机器，就是集群的管理节点。</p>
+<pre><code>$ docker-machine ssh swarm-manager
+$ docker swarm init --advertise-addr 192.168.99.107 #这里的 IP 为创建机器时分配的 ip。
+</code></pre><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/swarm2-e29f3e1f9dec4ca6a1e6e7a2b446f6d7.png"
+        data-srcset="https://cexll.cn/upload/2021/09/swarm2-e29f3e1f9dec4ca6a1e6e7a2b446f6d7.png, https://cexll.cn/upload/2021/09/swarm2-e29f3e1f9dec4ca6a1e6e7a2b446f6d7.png 1.5x, https://cexll.cn/upload/2021/09/swarm2-e29f3e1f9dec4ca6a1e6e7a2b446f6d7.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/swarm2-e29f3e1f9dec4ca6a1e6e7a2b446f6d7.png"
+        title="swarm2" />
+以上输出，证明已经初始化成功。需要把以下这行复制出来，在增加工作节点时会用到：</p>
+<pre><code>docker swarm join --token SWMTKN-1-4oogo9qziq768dma0uh3j0z0m5twlm10iynvz7ixza96k6jh9p-ajkb6w7qd06y1e33yrgko64sk 192.168.99.107:2377
+</code></pre><h2 id="2-创建-swarm-集群工作节点worker">2. 创建 swarm 集群工作节点（worker）</h2>
+<p>这里直接创建好俩台机器，swarm-worker1 和 swarm-worker2</p>
+<pre><code>$ docker-machine create -d virtualbox swarm-worker1
+$ docker-machine create -d virtualbox swarm-worker2
+</code></pre><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/swarm3-e4ae4503562b44218fe4e25e002f4d28.png"
+        data-srcset="https://cexll.cn/upload/2021/09/swarm3-e4ae4503562b44218fe4e25e002f4d28.png, https://cexll.cn/upload/2021/09/swarm3-e4ae4503562b44218fe4e25e002f4d28.png 1.5x, https://cexll.cn/upload/2021/09/swarm3-e4ae4503562b44218fe4e25e002f4d28.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/swarm3-e4ae4503562b44218fe4e25e002f4d28.png"
+        title="swarm3" /></p>
+<p>分别进入两个机器里，指定添加至上一步中创建的集群，这里会用到上一步复制的内容。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/swarm4-08ead86529254488b5df9762d79dbedb.png"
+        data-srcset="https://cexll.cn/upload/2021/09/swarm4-08ead86529254488b5df9762d79dbedb.png, https://cexll.cn/upload/2021/09/swarm4-08ead86529254488b5df9762d79dbedb.png 1.5x, https://cexll.cn/upload/2021/09/swarm4-08ead86529254488b5df9762d79dbedb.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/swarm4-08ead86529254488b5df9762d79dbedb.png"
+        title="swarm4" /></p>
+<p>以上数据输出说明已经添加成功。</p>
+<p>上图中，由于上一步复制的内容比较长，会被自动截断，实际上在图运行的命令如下：</p>
+<pre><code>docker@swarm-worker1:~$ docker swarm join --token SWMTKN-1-4oogo9qziq768dma0uh3j0z0m5twlm10iynvz7ixza96k6jh9p-ajkb6w7qd06y1e33yrgko64sk 192.168.99.107:2377
+</code></pre><h2 id="3-查看集群信息">3. 查看集群信息</h2>
+<p>进入管理节点，执行：docker info 可以查看当前集群的信息。</p>
+<pre><code>$ docker info
+</code></pre><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/swarm5-a6a0c5bc1286482e90b115cb18708130.png"
+        data-srcset="https://cexll.cn/upload/2021/09/swarm5-a6a0c5bc1286482e90b115cb18708130.png, https://cexll.cn/upload/2021/09/swarm5-a6a0c5bc1286482e90b115cb18708130.png 1.5x, https://cexll.cn/upload/2021/09/swarm5-a6a0c5bc1286482e90b115cb18708130.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/swarm5-a6a0c5bc1286482e90b115cb18708130.png"
+        title="swarm5" /></p>
+<p>通过画红圈的地方，可以知道当前运行的集群中，有三个节点，其中有一个是管理节点。</p>
+<h2 id="4-部署服务到集群中">4. 部署服务到集群中</h2>
+<p>注意：跟集群管理有关的任何操作，都是在管理节点上操作的。</p>
+<p>以下例子，在一个工作节点上创建一个名为 helloworld 的服务，这里是随机指派给一个工作节点：</p>
+<pre><code>docker@swarm-manager:~$ docker service create --replicas 1 --name helloworld alpine ping docker.com
+</code></pre><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/swarm6-a831a842068f4a38ac4d67ebb963c19b.png"
+        data-srcset="https://cexll.cn/upload/2021/09/swarm6-a831a842068f4a38ac4d67ebb963c19b.png, https://cexll.cn/upload/2021/09/swarm6-a831a842068f4a38ac4d67ebb963c19b.png 1.5x, https://cexll.cn/upload/2021/09/swarm6-a831a842068f4a38ac4d67ebb963c19b.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/swarm6-a831a842068f4a38ac4d67ebb963c19b.png"
+        title="swarm6" /></p>
+<h2 id="5-查看服务部署情况">5. 查看服务部署情况</h2>
+<p>查看 helloworld 服务运行在哪个节点上，可以看到目前是在 swarm-worker1 节点：</p>
+<pre><code>docker@swarm-manager:~$ docker service ps helloworld
+</code></pre><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/swarm7-1d056e4da6e3461b86359f2aef050152.png"
+        data-srcset="https://cexll.cn/upload/2021/09/swarm7-1d056e4da6e3461b86359f2aef050152.png, https://cexll.cn/upload/2021/09/swarm7-1d056e4da6e3461b86359f2aef050152.png 1.5x, https://cexll.cn/upload/2021/09/swarm7-1d056e4da6e3461b86359f2aef050152.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/swarm7-1d056e4da6e3461b86359f2aef050152.png"
+        title="swarm7" /></p>
+<p>查看 helloworld 部署的具体信息：</p>
+<pre><code>docker@swarm-manager:~$ docker service inspect --pretty helloworld
+</code></pre><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/swarm8-a45e6d68bff94770aa3bb94a8c24334e.png"
+        data-srcset="https://cexll.cn/upload/2021/09/swarm8-a45e6d68bff94770aa3bb94a8c24334e.png, https://cexll.cn/upload/2021/09/swarm8-a45e6d68bff94770aa3bb94a8c24334e.png 1.5x, https://cexll.cn/upload/2021/09/swarm8-a45e6d68bff94770aa3bb94a8c24334e.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/swarm8-a45e6d68bff94770aa3bb94a8c24334e.png"
+        title="swarm8" /></p>
+<h2 id="6-扩展集群服务">6. 扩展集群服务</h2>
+<p>我们将上述的 helloworld 服务扩展到俩个节点。</p>
+<pre><code>docker@swarm-manager:~$ docker service scale helloworld=2
+</code></pre><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/swarm9-12b8e13314814fac877c6d6924b70fb6.png"
+        data-srcset="https://cexll.cn/upload/2021/09/swarm9-12b8e13314814fac877c6d6924b70fb6.png, https://cexll.cn/upload/2021/09/swarm9-12b8e13314814fac877c6d6924b70fb6.png 1.5x, https://cexll.cn/upload/2021/09/swarm9-12b8e13314814fac877c6d6924b70fb6.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/swarm9-12b8e13314814fac877c6d6924b70fb6.png"
+        title="swarm9" /></p>
+<p>可以看到已经从一个节点，扩展到两个节点。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/swarm10-d06d247bfd044c5d89f1c451edbac3b0.png"
+        data-srcset="https://cexll.cn/upload/2021/09/swarm10-d06d247bfd044c5d89f1c451edbac3b0.png, https://cexll.cn/upload/2021/09/swarm10-d06d247bfd044c5d89f1c451edbac3b0.png 1.5x, https://cexll.cn/upload/2021/09/swarm10-d06d247bfd044c5d89f1c451edbac3b0.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/swarm10-d06d247bfd044c5d89f1c451edbac3b0.png"
+        title="swarm10" /></p>
+<h2 id="7-删除服务">7. 删除服务</h2>
+<pre><code>docker@swarm-manager:~$ docker service rm helloworld
+</code></pre><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/swarm11-cf84fd6cfefc46bfae25194df3c77a43.png"
+        data-srcset="https://cexll.cn/upload/2021/09/swarm11-cf84fd6cfefc46bfae25194df3c77a43.png, https://cexll.cn/upload/2021/09/swarm11-cf84fd6cfefc46bfae25194df3c77a43.png 1.5x, https://cexll.cn/upload/2021/09/swarm11-cf84fd6cfefc46bfae25194df3c77a43.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/swarm11-cf84fd6cfefc46bfae25194df3c77a43.png"
+        title="swarm11" /></p>
+<p>查看是否已删除：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/swarm12-1158c287564943ceb8dc96eb2d56e4b8.png"
+        data-srcset="https://cexll.cn/upload/2021/09/swarm12-1158c287564943ceb8dc96eb2d56e4b8.png, https://cexll.cn/upload/2021/09/swarm12-1158c287564943ceb8dc96eb2d56e4b8.png 1.5x, https://cexll.cn/upload/2021/09/swarm12-1158c287564943ceb8dc96eb2d56e4b8.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/swarm12-1158c287564943ceb8dc96eb2d56e4b8.png"
+        title="swarm12" /></p>
+<h2 id="8-滚动升级服务">8. 滚动升级服务</h2>
+<p>以下实例，我们将介绍 redis 版本如何滚动升级至更高版本。</p>
+<p>创建一个 3.0.6 版本的 redis。</p>
+<pre><code>docker@swarm-manager:~$ docker service create --replicas 1 --name redis --update-delay 10s redis:3.0.6
+</code></pre><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/swarm13-c07bf48d1e6c48c890a011922f85a43c.png"
+        data-srcset="https://cexll.cn/upload/2021/09/swarm13-c07bf48d1e6c48c890a011922f85a43c.png, https://cexll.cn/upload/2021/09/swarm13-c07bf48d1e6c48c890a011922f85a43c.png 1.5x, https://cexll.cn/upload/2021/09/swarm13-c07bf48d1e6c48c890a011922f85a43c.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/swarm13-c07bf48d1e6c48c890a011922f85a43c.png"
+        title="swarm13" /></p>
+<p>滚动升级 redis 。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/swarm14-cd9108cdbecd44a9846a7daef102917d.png"
+        data-srcset="https://cexll.cn/upload/2021/09/swarm14-cd9108cdbecd44a9846a7daef102917d.png, https://cexll.cn/upload/2021/09/swarm14-cd9108cdbecd44a9846a7daef102917d.png 1.5x, https://cexll.cn/upload/2021/09/swarm14-cd9108cdbecd44a9846a7daef102917d.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/swarm14-cd9108cdbecd44a9846a7daef102917d.png"
+        title="swarm14" /></p>
+<p>看图可以知道 redis 的版本已经从 3.0.6 升级到了 3.0.7，说明服务已经升级成功。</p>
+<h2 id="9-停止某个节点接收新的任务">9. 停止某个节点接收新的任务</h2>
+<p>查看所有的节点：</p>
+<pre><code>docker@swarm-manager:~$ docker node ls
+</code></pre><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/swarm16-a77384df67054bcfbf030d1cc9e290ec.png"
+        data-srcset="https://cexll.cn/upload/2021/09/swarm16-a77384df67054bcfbf030d1cc9e290ec.png, https://cexll.cn/upload/2021/09/swarm16-a77384df67054bcfbf030d1cc9e290ec.png 1.5x, https://cexll.cn/upload/2021/09/swarm16-a77384df67054bcfbf030d1cc9e290ec.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/swarm16-a77384df67054bcfbf030d1cc9e290ec.png"
+        title="swarm16" /></p>
+<p>可以看到目前所有的节点都是 Active, 可以接收新的任务分配。</p>
+<p>停止节点 swarm-worker1：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/swarm17-09c34283ef7a44bf9a9bdabdde6c984f.png"
+        data-srcset="https://cexll.cn/upload/2021/09/swarm17-09c34283ef7a44bf9a9bdabdde6c984f.png, https://cexll.cn/upload/2021/09/swarm17-09c34283ef7a44bf9a9bdabdde6c984f.png 1.5x, https://cexll.cn/upload/2021/09/swarm17-09c34283ef7a44bf9a9bdabdde6c984f.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/swarm17-09c34283ef7a44bf9a9bdabdde6c984f.png"
+        title="swarm17" />
+注意：swarm-worker1 状态变为 Drain。不会影响到集群的服务，只是 swarm-worker1 节点不再接收新的任务，集群的负载能力有所下降。</p>
+<p>可以通过以下命令重新激活节点：</p>
+<pre><code>docker@swarm-manager:~$  docker node update --availability active swarm-worker1
+</code></pre><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/swarm19-6bf905c072f54808afcf58ba70697b02.png"
+        data-srcset="https://cexll.cn/upload/2021/09/swarm19-6bf905c072f54808afcf58ba70697b02.png, https://cexll.cn/upload/2021/09/swarm19-6bf905c072f54808afcf58ba70697b02.png 1.5x, https://cexll.cn/upload/2021/09/swarm19-6bf905c072f54808afcf58ba70697b02.png 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/swarm19-6bf905c072f54808afcf58ba70697b02.png"
+        title="swarm19" /></p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-09-22</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/docker/">docker</a>,&nbsp;<a href="/tags/swarm/">swarm</a>,&nbsp;<a href="/tags/%E9%9B%86%E7%BE%A4/">集群</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/%E8%AE%B0%E5%BD%95%E5%88%A0%E9%99%A4.git%E8%AE%B0%E5%BD%95%E5%A4%A7%E6%96%87%E4%BB%B6%E7%9A%84%E8%BF%87%E7%A8%8B/" class="prev" rel="prev" title="记录删除.git记录大文件的过程"><i class="fas fa-angle-left fa-fw"></i>记录删除.git记录大文件的过程</a>
+            <a href="/posts/%E4%BD%BF%E7%94%A8-redis-geo-hash-%E5%AE%9E%E7%8E%B0%E5%AE%9E%E6%97%B6%E6%9F%A5%E7%9C%8B%E9%99%84%E8%BF%91%E7%9A%84%E4%BA%BA/" class="next" rel="next" title="使用 Redis-GEO HASH 实现实时查看附近的人">使用 Redis-GEO HASH 实现实时查看附近的人<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.85.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

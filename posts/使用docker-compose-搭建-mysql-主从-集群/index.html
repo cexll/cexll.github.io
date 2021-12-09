@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>使用Docker-compose 搭建 MySQL 主从 集群 - 小仙的博客</title><meta name="Description" content=""><meta property="og:title" content="使用Docker-compose 搭建 MySQL 主从 集群" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://cexll.github.cn/posts/%E4%BD%BF%E7%94%A8docker-compose-%E6%90%AD%E5%BB%BA-mysql-%E4%B8%BB%E4%BB%8E-%E9%9B%86%E7%BE%A4/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-10-30T13:58:56+00:00" />
+<meta property="article:modified_time" content="2021-10-30T13:58:56+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用Docker-compose 搭建 MySQL 主从 集群"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="小仙的博客">
+<meta name="apple-mobile-web-app-title" content="小仙的博客"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://cexll.github.cn/posts/%E4%BD%BF%E7%94%A8docker-compose-%E6%90%AD%E5%BB%BA-mysql-%E4%B8%BB%E4%BB%8E-%E9%9B%86%E7%BE%A4/" /><link rel="prev" href="http://cexll.github.cn/posts/%E4%BD%BF%E7%94%A8-redis-geo-hash-%E5%AE%9E%E7%8E%B0%E5%AE%9E%E6%97%B6%E6%9F%A5%E7%9C%8B%E9%99%84%E8%BF%91%E7%9A%84%E4%BA%BA/" /><link rel="next" href="http://cexll.github.cn/posts/%E4%BD%BF%E7%94%A8docker-compose-%E6%90%AD%E5%BB%BA-redis-%E9%9B%86%E7%BE%A4/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "使用Docker-compose 搭建 MySQL 主从 集群",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/cexll.github.cn\/posts\/%E4%BD%BF%E7%94%A8docker-compose-%E6%90%AD%E5%BB%BA-mysql-%E4%B8%BB%E4%BB%8E-%E9%9B%86%E7%BE%A4\/"
+        },"genre": "posts","keywords": "docker, docker-compose, 集群, mysql, 分布式, 主从","wordcount":  6247 ,
+        "url": "http:\/\/cexll.github.cn\/posts\/%E4%BD%BF%E7%94%A8docker-compose-%E6%90%AD%E5%BB%BA-mysql-%E4%B8%BB%E4%BB%8E-%E9%9B%86%E7%BE%A4\/","datePublished": "2021-10-30T13:58:56+00:00","dateModified": "2021-10-30T13:58:56+00:00","publisher": {
+            "@type": "Organization",
+            "name": "cexll"},"author": {
+                "@type": "Person",
+                "name": "cexll"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="小仙的博客">小仙的博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="小仙的博客">小仙的博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">使用Docker-compose 搭建 MySQL 主从 集群</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/mysql/"><i class="far fa-folder fa-fw"></i>mysql</a>&nbsp;<a href="/categories/docker/"><i class="far fa-folder fa-fw"></i>docker</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-10-30">2021-10-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 6247 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 13 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#编写dockercomposeyml">编写<code>dockercompose.yml</code></a></li>
+        <li><a href="#编辑-mysqlcnf">编辑 <code>mysql.cnf</code></a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#常见问题">常见问题</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>因为Docker的存在我们可以在不需要考虑环境的情况下安装各种软件</p>
+<h1 id="准备工作">准备工作</h1>
+<h3 id="编写dockercomposeyml">编写<code>dockercompose.yml</code></h3>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3.7&#34;</span><span class="w">
+</span><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">db1</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">mysql:5.7</span><span class="w">
+</span><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span>--<span class="l">default-authentication-plugin=mysql_native_password</span><span class="w">
+</span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="s2">&#34;13307:3306&#34;</span><span class="w">
+</span><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">MYSQL_ROOT_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l">root</span><span class="w">
+</span><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="s2">&#34;./conf/db1/mysql.cnf:/etc/mysql/conf.d/mysql.cnf&#34;</span><span class="w">
+</span><span class="w">      </span>- <span class="s2">&#34;./data/db1:/var/lib/mysql/&#34;</span><span class="w">
+</span><span class="w">    </span><span class="nt">expose</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="m">3306</span><span class="w">
+</span><span class="w">  </span><span class="nt">db2</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">mysql:5.7</span><span class="w">
+</span><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span>--<span class="l">default-authentication-plugin=mysql_native_password</span><span class="w">
+</span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="s2">&#34;13308:3306&#34;</span><span class="w">
+</span><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">MYSQL_ROOT_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l">root</span><span class="w">
+</span><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="s2">&#34;./conf/db2/mysql.cnf:/etc/mysql/conf.d/mysql.cnf&#34;</span><span class="w">
+</span><span class="w">      </span>- <span class="s2">&#34;./data/db2:/var/lib/mysql/&#34;</span><span class="w">
+</span><span class="w">    </span><span class="nt">expose</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="m">3306</span><span class="w">
+</span></code></pre></div><p>在当前文件夹下创建两个文件, <code>conf</code>, <code>data</code>, 用来存放配置和数据库文件</p>
+<p>这里会启动两个service 名为 <code>db1</code> <code>db2</code>, 对外提供端口<code>13307</code>,<code>13308</code>, <code>expose</code>是对内提供端口,让容器与容器之间可以通信</p>
+<h3 id="编辑-mysqlcnf">编辑 <code>mysql.cnf</code></h3>
+<p>在<code>conf</code>目录创建两个目录<code>db1</code> <code>db2</code> 用来区分两个db</p>
+<p><code>db1</code> 我们用来当<code>master</code>即我们的主库</p>
+<pre><code class="language-conf" data-lang="conf">[client]
+port                    = 3306
+default-character-set   = utf8mb4
+
+[mysqld]
+user                    = mysql
+port                    = 3306
+sql_mode                = &quot;&quot;
+server_id               = 1 ## 全局id 这里用来区分
+log_bin                 = mysql-bin
+# 需要同步的数据库，如果不配置则同步全部数据库
+#binlog-do-db=test_db
+expire_logs_days        = 10  ## 存放天数 超过天数丢弃
+binlog_format           = ROW ## 日志格式
+
+default-storage-engine  = InnoDB
+default-authentication-plugin   = mysql_native_password
+character-set-server    = utf8mb4
+collation-server        = utf8mb4_unicode_ci
+init_connect            = 'SET NAMES utf8mb4'
+
+
+slow_query_log
+long_query_time         = 3
+slow-query-log-file     = /var/lib/mysql/mysql.slow.log
+log-error               = /var/lib/mysql/mysql.error.log
+
+default-time-zone       = '+8:00'
+
+[mysql]
+default-character-set   = utf8mb4
+</code></pre><p>编写<code>db2</code>的配置 即从库 <code>slave</code></p>
+<pre><code class="language-conf" data-lang="conf">[client]
+port                    = 3306
+default-character-set   = utf8mb4
+
+[mysqld]
+user                    = mysql
+port                    = 3306
+sql_mode                = &quot;&quot;
+server_id               = 2 ## 全局id 不能和其他库的一样
+log_bin                 = mysql-bin
+binlog_format           = ROW 
+log_slave_updates        = ON ## 默认没有开启, 是从库自己也更新binlog
+read_only                = ON ## 从库只读模式
+super_read_only            = ON ## 通用只读但是是super也一样
+
+
+default-storage-engine  = InnoDB
+default-authentication-plugin   = mysql_native_password
+character-set-server    = utf8mb4
+collation-server        = utf8mb4_unicode_ci
+init_connect            = 'SET NAMES utf8mb4'
+
+slow_query_log
+long_query_time         = 3
+slow-query-log-file     = /var/lib/mysql/mysql.slow.log
+log-error               = /var/lib/mysql/mysql.error.log
+
+default-time-zone       = '+8:00'
+
+[mysql]
+default-character-set   = utf8mb4
+</code></pre><h1 id="开始工作">开始工作</h1>
+<p>准备工作结束之后就可以开始了</p>
+<p>启动 <code>mysql</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">docker-compose up -d 
+</code></pre></div><p>运行完之后我们就启动了两个<code>db</code> 这时候我们先设置 <code>master</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">mysql -u root -P <span class="m">13307</span> -h db1 <span class="c1"># 这里db1根据你们自己的ip填写</span>
+<span class="c1">## 先创建一个从库同步用户</span>
+GRANT REPLICATION SLAVE ON *.* to <span class="s1">&#39;slave_user2&#39;</span>@<span class="s1">&#39;db2&#39;</span> identified by <span class="s1">&#39;123456&#39;</span><span class="p">;</span> <span class="c1"># 这里db2 换成db2的IP</span>
+FLUSH PRIVILEGES<span class="p">;</span> <span class="c1">## 刷新并应用</span>
+</code></pre></div><p>查看<code>master</code>信息</p>
+<div class="highlight"><pre class="chroma"><code class="language-mysql" data-lang="mysql"><span class="k">show</span><span class="w"> </span><span class="n">master</span><span class="w"> </span><span class="n">status</span><span class="p">;</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="o">+------------------+----------+--------------+------------------+-------------------+</span><span class="w">
+</span><span class="w"></span><span class="o">|</span><span class="w"> </span><span class="n">File</span><span class="w">             </span><span class="o">|</span><span class="w"> </span><span class="n">Position</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Binlog_Do_DB</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Binlog_Ignore_DB</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Executed_Gtid_Set</span><span class="w"> </span><span class="o">|</span><span class="w">
+</span><span class="w"></span><span class="o">+------------------+----------+--------------+------------------+-------------------+</span><span class="w">
+</span><span class="w"></span><span class="o">|</span><span class="w"> </span><span class="n">mysql</span><span class="o">-</span><span class="n">bin</span><span class="p">.</span><span class="mi">000004</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">423</span><span class="w">      </span><span class="o">|</span><span class="w">              </span><span class="o">|</span><span class="w">                  </span><span class="o">|</span><span class="w">                   </span><span class="o">|</span><span class="w">
+</span><span class="w"></span><span class="o">+------------------+----------+--------------+------------------+-------------------+</span><span class="w">
+</span><span class="w"></span><span class="mi">1</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="kt">set</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">02</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span><span class="w">
+</span></code></pre></div><p>接来下编辑从库</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">mysql -u root -P <span class="m">13308</span> -h db2 
+<span class="c1">## 从库只需要指定master是谁就可以</span>
+change master to <span class="nv">master_host</span><span class="o">=</span><span class="s1">&#39;db1&#39;</span>,master_port<span class="o">=</span>3306,master_user<span class="o">=</span><span class="s1">&#39;slave_user2&#39;</span>,master_password<span class="o">=</span><span class="s1">&#39;123456&#39;</span>,master_log_file<span class="o">=</span><span class="s1">&#39;mysql-bin.000004&#39;</span>,master_log_pos<span class="o">=</span>423<span class="p">;</span> <span class="c1">## 容器内可以通过名称来指定 因为docker内部有自己的dns指定了对应的ip, 正常情况都是指定IP, master_log_file填写master上打印的信息master_log_pos也一样</span>
+start slave<span class="p">;</span> <span class="c1">## 启动</span>
+</code></pre></div><p>这时候就搞定了</p>
+<div class="highlight"><pre class="chroma"><code class="language-mysql" data-lang="mysql"><span class="k">show</span><span class="w"> </span><span class="n">slave</span><span class="w"> </span><span class="n">status</span><span class="p">;</span><span class="w"> </span><span class="c1">## 查看从库状态
+</span><span class="c1"></span><span class="o">+----------------------------------+-------------+-------------+-------------+---------------+------------------+---------------------+-------------------------------+---------------+-----------------------+------------------+-------------------+-----------------+---------------------+--------------------+------------------------+-------------------------+-----------------------------+------------+------------+--------------+---------------------+-----------------+-----------------+----------------+---------------+--------------------+--------------------+--------------------+-----------------+-------------------+----------------+-----------------------+-------------------------------+---------------+---------------+----------------+----------------+-----------------------------+------------------+--------------------------------------+----------------------------+-----------+---------------------+--------------------------------------------------------+--------------------+-------------+-------------------------+--------------------------+----------------+--------------------+--------------------+-------------------+---------------+----------------------+--------------+--------------------+</span><span class="w">
+</span><span class="w"></span><span class="o">|</span><span class="w"> </span><span class="n">Slave_IO_State</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="n">Master_Host</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Master_User</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Master_Port</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Connect_Retry</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Master_Log_File</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">Read_Master_Log_Pos</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Relay_Log_File</span><span class="w">                </span><span class="o">|</span><span class="w"> </span><span class="n">Relay_Log_Pos</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Relay_Master_Log_File</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Slave_IO_Running</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Slave_SQL_Running</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Replicate_Do_DB</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Replicate_Ignore_DB</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Replicate_Do_Table</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Replicate_Ignore_Table</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Replicate_Wild_Do_Table</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Replicate_Wild_Ignore_Table</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Last_Errno</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Last_Error</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Skip_Counter</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Exec_Master_Log_Pos</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Relay_Log_Space</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Until_Condition</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Until_Log_File</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Until_Log_Pos</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Master_SSL_Allowed</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Master_SSL_CA_File</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Master_SSL_CA_Path</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Master_SSL_Cert</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Master_SSL_Cipher</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Master_SSL_Key</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Seconds_Behind_Master</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Master_SSL_Verify_Server_Cert</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Last_IO_Errno</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Last_IO_Error</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Last_SQL_Errno</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Last_SQL_Error</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Replicate_Ignore_Server_Ids</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Master_Server_Id</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Master_UUID</span><span class="w">                          </span><span class="o">|</span><span class="w"> </span><span class="n">Master_Info_File</span><span class="w">           </span><span class="o">|</span><span class="w"> </span><span class="n">SQL_Delay</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">SQL_Remaining_Delay</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Slave_SQL_Running_State</span><span class="w">                                </span><span class="o">|</span><span class="w"> </span><span class="n">Master_Retry_Count</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Master_Bind</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Last_IO_Error_Timestamp</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Last_SQL_Error_Timestamp</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Master_SSL_Crl</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Master_SSL_Crlpath</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Retrieved_Gtid_Set</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Executed_Gtid_Set</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Auto_Position</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Replicate_Rewrite_DB</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Channel_Name</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Master_TLS_Version</span><span class="w"> </span><span class="o">|</span><span class="w">
+</span><span class="w"></span><span class="o">+----------------------------------+-------------+-------------+-------------+---------------+------------------+---------------------+-------------------------------+---------------+-----------------------+------------------+-------------------+-----------------+---------------------+--------------------+------------------------+-------------------------+-----------------------------+------------+------------+--------------+---------------------+-----------------+-----------------+----------------+---------------+--------------------+--------------------+--------------------+-----------------+-------------------+----------------+-----------------------+-------------------------------+---------------+---------------+----------------+----------------+-----------------------------+------------------+--------------------------------------+----------------------------+-----------+---------------------+--------------------------------------------------------+--------------------+-------------+-------------------------+--------------------------+----------------+--------------------+--------------------+-------------------+---------------+----------------------+--------------+--------------------+</span><span class="w">
+</span><span class="w"></span><span class="o">|</span><span class="w"> </span><span class="n">Waiting</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">master</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">send</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">db1</span><span class="w">         </span><span class="o">|</span><span class="w"> </span><span class="n">slave_user2</span><span class="w"> </span><span class="o">|</span><span class="w">        </span><span class="mi">3306</span><span class="w"> </span><span class="o">|</span><span class="w">            </span><span class="mi">60</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">mysql</span><span class="o">-</span><span class="n">bin</span><span class="p">.</span><span class="mi">000004</span><span class="w"> </span><span class="o">|</span><span class="w">            </span><span class="mi">11760423</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">258</span><span class="n">ee9abda4b</span><span class="o">-</span><span class="n">relay</span><span class="o">-</span><span class="n">bin</span><span class="p">.</span><span class="mi">000002</span><span class="w"> </span><span class="o">|</span><span class="w">      </span><span class="mi">11760153</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">mysql</span><span class="o">-</span><span class="n">bin</span><span class="p">.</span><span class="mi">000004</span><span class="w">      </span><span class="o">|</span><span class="w"> </span><span class="n">Yes</span><span class="w">              </span><span class="o">|</span><span class="w"> </span><span class="n">Yes</span><span class="w">               </span><span class="o">|</span><span class="w">                 </span><span class="o">|</span><span class="w">                     </span><span class="o">|</span><span class="w">                    </span><span class="o">|</span><span class="w">                        </span><span class="o">|</span><span class="w">                         </span><span class="o">|</span><span class="w">                             </span><span class="o">|</span><span class="w">          </span><span class="mi">0</span><span class="w"> </span><span class="o">|</span><span class="w">            </span><span class="o">|</span><span class="w">            </span><span class="mi">0</span><span class="w"> </span><span class="o">|</span><span class="w">            </span><span class="mi">11760423</span><span class="w"> </span><span class="o">|</span><span class="w">        </span><span class="mi">11760367</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">None</span><span class="w">            </span><span class="o">|</span><span class="w">                </span><span class="o">|</span><span class="w">             </span><span class="mi">0</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">No</span><span class="w">                 </span><span class="o">|</span><span class="w">                    </span><span class="o">|</span><span class="w">                    </span><span class="o">|</span><span class="w">                 </span><span class="o">|</span><span class="w">                   </span><span class="o">|</span><span class="w">                </span><span class="o">|</span><span class="w">                     </span><span class="mi">0</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">No</span><span class="w">                            </span><span class="o">|</span><span class="w">             </span><span class="mi">0</span><span class="w"> </span><span class="o">|</span><span class="w">               </span><span class="o">|</span><span class="w">              </span><span class="mi">0</span><span class="w"> </span><span class="o">|</span><span class="w">                </span><span class="o">|</span><span class="w">                             </span><span class="o">|</span><span class="w">                </span><span class="mi">1</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">16</span><span class="n">e6b1d7</span><span class="o">-</span><span class="mi">393</span><span class="n">e</span><span class="o">-</span><span class="mi">11</span><span class="n">ec</span><span class="o">-</span><span class="n">a290</span><span class="o">-</span><span class="mi">0242</span><span class="n">ac190003</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">mysql</span><span class="o">/</span><span class="n">master</span><span class="p">.</span><span class="n">info</span><span class="w"> </span><span class="o">|</span><span class="w">         </span><span class="mi">0</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="no">NULL</span><span class="w">                </span><span class="o">|</span><span class="w"> </span><span class="n">Slave</span><span class="w"> </span><span class="n">has</span><span class="w"> </span><span class="k">read</span><span class="w"> </span><span class="k">all</span><span class="w"> </span><span class="n">relay</span><span class="w"> </span><span class="n">log</span><span class="p">;</span><span class="w"> </span><span class="n">waiting</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">more</span><span class="w"> </span><span class="n">updates</span><span class="w"> </span><span class="o">|</span><span class="w">              </span><span class="mi">86400</span><span class="w"> </span><span class="o">|</span><span class="w">             </span><span class="o">|</span><span class="w">                         </span><span class="o">|</span><span class="w">                          </span><span class="o">|</span><span class="w">                </span><span class="o">|</span><span class="w">                    </span><span class="o">|</span><span class="w">                    </span><span class="o">|</span><span class="w">                   </span><span class="o">|</span><span class="w">             </span><span class="mi">0</span><span class="w"> </span><span class="o">|</span><span class="w">                      </span><span class="o">|</span><span class="w">              </span><span class="o">|</span><span class="w">                    </span><span class="o">|</span><span class="w">
+</span><span class="w"></span><span class="o">+----------------------------------+-------------+-------------+-------------+---------------+------------------+---------------------+-------------------------------+---------------+-----------------------+------------------+-------------------+-----------------+---------------------+--------------------+------------------------+-------------------------+-----------------------------+------------+------------+--------------+---------------------+-----------------+-----------------+----------------+---------------+--------------------+--------------------+--------------------+-----------------+-------------------+----------------+-----------------------+-------------------------------+---------------+---------------+----------------+----------------+-----------------------------+------------------+--------------------------------------+----------------------------+-----------+---------------------+--------------------------------------------------------+--------------------+-------------+-------------------------+--------------------------+----------------+--------------------+--------------------+-------------------+---------------+----------------------+--------------+--------------------+</span><span class="w">
+</span></code></pre></div><p>如果<code>Last_IO_Error</code>存在数据 或者 同步不成功等问题可以先查看<code>server_id</code>是否设置, or 手动到从库查看能否连接到主库</p>
+<p>主节点查看所有从节点</p>
+<pre><code>SHOW SLAVE HOSTS;
++-----------+------+------+-----------+--------------------------------------+
+| Server_id | Host | Port | Master_id | Slave_UUID                           |
++-----------+------+------+-----------+--------------------------------------+
+|         2 |      | 3306 |         1 | 16d57f3c-393e-11ec-bbc7-0242ac190002 |
++-----------+------+------+-----------+--------------------------------------+
+1 row in set (0.03 sec)
+</code></pre><h2 id="常见问题">常见问题</h2>
+<p>同步不生效</p>
+<ul>
+<li><code>show variables like 'server_id</code> 查看server_id是否设置成功了</li>
+<li>查看从库能否访问主库</li>
+<li>查看从库信息 <code>Last_IO_Error</code>是否正常</li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-10-30</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/docker/">docker</a>,&nbsp;<a href="/tags/docker-compose/">docker-compose</a>,&nbsp;<a href="/tags/%E9%9B%86%E7%BE%A4/">集群</a>,&nbsp;<a href="/tags/mysql/">mysql</a>,&nbsp;<a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>,&nbsp;<a href="/tags/%E4%B8%BB%E4%BB%8E/">主从</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/%E4%BD%BF%E7%94%A8-redis-geo-hash-%E5%AE%9E%E7%8E%B0%E5%AE%9E%E6%97%B6%E6%9F%A5%E7%9C%8B%E9%99%84%E8%BF%91%E7%9A%84%E4%BA%BA/" class="prev" rel="prev" title="使用 Redis-GEO HASH 实现实时查看附近的人"><i class="fas fa-angle-left fa-fw"></i>使用 Redis-GEO HASH 实现实时查看附近的人</a>
+            <a href="/posts/%E4%BD%BF%E7%94%A8docker-compose-%E6%90%AD%E5%BB%BA-redis-%E9%9B%86%E7%BE%A4/" class="next" rel="next" title="使用Docker-compose 搭建 Redis 集群">使用Docker-compose 搭建 Redis 集群<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.85.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

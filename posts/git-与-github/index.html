@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Git 与 Github - 小仙的博客</title><meta name="Description" content=""><meta property="og:title" content="Git 与 Github" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://cexll.github.cn/posts/git-%E4%B8%8E-github/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-06-24T13:38:27+00:00" />
+<meta property="article:modified_time" content="2021-06-24T13:38:27+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Git 与 Github"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="小仙的博客">
+<meta name="apple-mobile-web-app-title" content="小仙的博客"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://cexll.github.cn/posts/git-%E4%B8%8E-github/" /><link rel="prev" href="http://cexll.github.cn/posts/mysql5.7%E5%8F%8A%E4%BB%A5%E4%B8%8A%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3/" /><link rel="next" href="http://cexll.github.cn/posts/%E8%A7%A3%E5%86%B3%E6%97%A5%E5%B8%B8api%E8%B7%A8%E5%9F%9F%E8%AF%B7%E6%B1%82/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Git 与 Github",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/cexll.github.cn\/posts\/git-%E4%B8%8E-github\/"
+        },"genre": "posts","keywords": "git, github","wordcount":  418 ,
+        "url": "http:\/\/cexll.github.cn\/posts\/git-%E4%B8%8E-github\/","datePublished": "2021-06-24T13:38:27+00:00","dateModified": "2021-06-24T13:38:27+00:00","publisher": {
+            "@type": "Organization",
+            "name": "cexll"},"author": {
+                "@type": "Person",
+                "name": "cexll"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="小仙的博客">小仙的博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="小仙的博客">小仙的博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Git 与 Github</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/git/"><i class="far fa-folder fa-fw"></i>git</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-06-24">2021-06-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 418 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 1 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1open-your-terminal-application">1.Open your Terminal application.</a></li>
+    <li><a href="#2ensure-git-195-or--is-installed-type">2.Ensure Git 1.9.5 or ⬆️ is installed, type:</a></li>
+    <li><a href="#3set-your-name-in-git-by-replacing-with-your-first-and-last-name">3.Set your name in Git by replacing with your first and last name:</a></li>
+    <li><a href="#4set-your-email-in-git-by-replacing-with-the-email-associated-with-your-github-account">4.Set your email in Git by replacing with the email associated with your GitHub account.</a></li>
+    <li><a href="#5set-line-ending-behavior-for-your-operating-system">5.Set line-ending behavior for your operating system:</a></li>
+    <li><a href="#6to-see-your-current-configurations-type">6.To see your current configurations, type:</a></li>
+    <li><a href="#7clone-the-repository-by-replacing-with-clone-url-you-copied-in-the-previous-step-the-repository-will-be-cloned-into-a-new-directory-in-this-location">7.Clone the repository by replacing with clone URL you copied in the previous step. The repository will be cloned into a new directory in this location.</a></li>
+    <li><a href="#8type">8.Type:</a></li>
+    <li><a href="#9create-a-new-branch-replace-with-descriptive-name">9.Create a new branch. Replace with descriptive name:</a></li>
+    <li><a href="#10check-out-to-your-new-branch">10.Check out to your new branch:</a></li>
+    <li><a href="#11将您的文件添加到暂存区域以便它成为下一次提交的一部分">11.将您的文件添加到暂存区域，以便它成为下一次提交的一部分。</a></li>
+    <li><a href="#12查看你的文件的当前状态您的文件现在列在标题下changes-to-be-committed这告诉我们该文件在暂存区域中它也表明这是一个新文件">12.查看你的文件的当前状态。您的文件现在列在标题下Changes to be committed。这告诉我们该文件在暂存区域中。它也表明这是一个新文件。</a></li>
+    <li><a href="#13提交你的文件一个提交告诉git的收集所有的文件的临时区域并将它们存储到版本控制工作的一个单元git将打开默认的文本编辑器您可以在其中输入提交消息">13.提交你的文件。一个提交告诉Git的收集所有的文件的临时区域，并将它们存储到版本控制，工作的一个单元。Git将打开默认的文本编辑器，您可以在其中输入提交消息。</a></li>
+    <li><a href="#14查看提交的历史记录">14.查看提交的历史记录：</a></li>
+    <li><a href="#15将您的提交推送到远程并设置跟踪分支类型">15.将您的提交推送到远程，并设置跟踪分支。类型：</a></li>
+    <li><a href="#16-git记住用户名密码每次pushpull-不用输入用户名密码">16. Git记住用户名密码每次PUSH/PULL 不用输入用户名密码</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1open-your-terminal-application">1.Open your Terminal application.</h2>
+<h2 id="2ensure-git-195-or--is-installed-type">2.Ensure Git 1.9.5 or ⬆️ is installed, type:</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git --version
+</code></pre></div><h2 id="3set-your-name-in-git-by-replacing-with-your-first-and-last-name">3.Set your name in Git by replacing with your first and last name:</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ssh-keygen
+cat ~/.ssh/id_rsa.pub
+git config --global user.name 
+</code></pre></div><h2 id="4set-your-email-in-git-by-replacing-with-the-email-associated-with-your-github-account">4.Set your email in Git by replacing with the email associated with your GitHub account.</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git config --global user.email 
+</code></pre></div><h2 id="5set-line-ending-behavior-for-your-operating-system">5.Set line-ending behavior for your operating system:</h2>
+<p><code>On Windows: git config --global core.autocrlf true</code>
+On Mac and Unix-like systems:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git config --global core.autocrlf input
+</code></pre></div><h2 id="6to-see-your-current-configurations-type">6.To see your current configurations, type:</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git config --list
+</code></pre></div><h2 id="7clone-the-repository-by-replacing-with-clone-url-you-copied-in-the-previous-step-the-repository-will-be-cloned-into-a-new-directory-in-this-location">7.Clone the repository by replacing with clone URL you copied in the previous step. The repository will be cloned into a new directory in this location.</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git clone 
+</code></pre></div><h2 id="8type">8.Type:</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git status
+</code></pre></div><h2 id="9create-a-new-branch-replace-with-descriptive-name">9.Create a new branch. Replace with descriptive name:</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git branch 
+</code></pre></div><h2 id="10check-out-to-your-new-branch">10.Check out to your new branch:</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git checkout 
+</code></pre></div><h2 id="11将您的文件添加到暂存区域以便它成为下一次提交的一部分">11.将您的文件添加到暂存区域，以便它成为下一次提交的一部分。</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git add 
+</code></pre></div><h2 id="12查看你的文件的当前状态您的文件现在列在标题下changes-to-be-committed这告诉我们该文件在暂存区域中它也表明这是一个新文件">12.查看你的文件的当前状态。您的文件现在列在标题下Changes to be committed。这告诉我们该文件在暂存区域中。它也表明这是一个新文件。</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git status
+</code></pre></div><h2 id="13提交你的文件一个提交告诉git的收集所有的文件的临时区域并将它们存储到版本控制工作的一个单元git将打开默认的文本编辑器您可以在其中输入提交消息">13.提交你的文件。一个提交告诉Git的收集所有的文件的临时区域，并将它们存储到版本控制，工作的一个单元。Git将打开默认的文本编辑器，您可以在其中输入提交消息。</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git commit -m <span class="s2">&#34;&#34;</span>
+</code></pre></div><h2 id="14查看提交的历史记录">14.查看提交的历史记录：</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git log
+</code></pre></div><h2 id="15将您的提交推送到远程并设置跟踪分支类型">15.将您的提交推送到远程，并设置跟踪分支。类型：</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git push -u origin
+</code></pre></div><h2 id="16-git记住用户名密码每次pushpull-不用输入用户名密码">16. Git记住用户名密码每次PUSH/PULL 不用输入用户名密码</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># 进入项目目录 输入:</span>
+git config --global credential.helper store
+</code></pre></div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-06-24</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/git/">git</a>,&nbsp;<a href="/tags/github/">github</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/mysql5.7%E5%8F%8A%E4%BB%A5%E4%B8%8A%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3/" class="prev" rel="prev" title="Mysql5.7及以上忘记密码如何解决"><i class="fas fa-angle-left fa-fw"></i>Mysql5.7及以上忘记密码如何解决</a>
+            <a href="/posts/%E8%A7%A3%E5%86%B3%E6%97%A5%E5%B8%B8api%E8%B7%A8%E5%9F%9F%E8%AF%B7%E6%B1%82/" class="next" rel="next" title="解决日常API跨域请求">解决日常API跨域请求<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.85.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

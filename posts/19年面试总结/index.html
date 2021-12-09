@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>19年面试总结 - 小仙的博客</title><meta name="Description" content=""><meta property="og:title" content="19年面试总结" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://cexll.github.cn/posts/19%E5%B9%B4%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-06-24T13:43:30+00:00" />
+<meta property="article:modified_time" content="2021-06-24T13:43:30+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="19年面试总结"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="小仙的博客">
+<meta name="apple-mobile-web-app-title" content="小仙的博客"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://cexll.github.cn/posts/19%E5%B9%B4%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/" /><link rel="prev" href="http://cexll.github.cn/posts/git%E7%9A%84%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/" /><link rel="next" href="http://cexll.github.cn/posts/linux%E6%89%A9%E5%AE%B9%E7%A1%AC%E7%9B%98%E7%A9%BA%E9%97%B4%E4%B8%8D%E8%B6%B3/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "19年面试总结",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/cexll.github.cn\/posts\/19%E5%B9%B4%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93\/"
+        },"genre": "posts","wordcount":  2388 ,
+        "url": "http:\/\/cexll.github.cn\/posts\/19%E5%B9%B4%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93\/","datePublished": "2021-06-24T13:43:30+00:00","dateModified": "2021-06-24T13:43:30+00:00","publisher": {
+            "@type": "Organization",
+            "name": "cexll"},"author": {
+                "@type": "Person",
+                "name": "cexll"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="小仙的博客">小仙的博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="小仙的博客">小仙的博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">19年面试总结</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-06-24">2021-06-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2388 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#java中string可以继承吗-为什么">Java中String可以继承吗? 为什么</a></li>
+    <li><a href="#什么是反射">什么是反射?</a></li>
+    <li><a href="#java如何创建线程">Java如何创建线程?</a></li>
+    <li><a href="#为什么要使用索引">为什么要使用索引</a></li>
+    <li><a href="#索引这么多优点为什么不对表中的每一个列创建一个索引呢">索引这么多优点，为什么不对表中的每一个列创建一个索引呢？</a></li>
+    <li><a href="#索引如何提高查询速度">索引如何提高查询速度?</a></li>
+    <li><a href="#说一下使用索引的注意事项">说一下使用索引的注意事项</a></li>
+    <li><a href="#mysql索引主要使用的哪两种数据结构">Mysql索引主要使用的哪两种数据结构？</a></li>
+    <li><a href="#一般给那些字段加索引">一般给那些字段加索引?</a></li>
+    <li><a href="#什么是事务">什么是事务?</a></li>
+    <li><a href="#事务的特性">事务的特性</a></li>
+    <li><a href="#innodb-和-myisam的区别">InnoDB 和 MyIsam的区别?</a></li>
+    <li><a href="#什么是ioc">什么是IOC?</a></li>
+    <li><a href="#什么是aop">什么是AOP?</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="java中string可以继承吗-为什么">Java中String可以继承吗? 为什么</h2>
+<pre><code>不能, 因为String有 final 修饰符, 而 final修饰的类是不能呗继承的,实现细节不允许改变.
+</code></pre><h2 id="什么是反射">什么是反射?</h2>
+<pre><code>反射就是把Java类中的各自成分映射成一个个Java对象
+</code></pre><p>反射学习资料 <a href="https://blog.csdn.net/sinat_38259539/article/details/71799078">https://blog.csdn.net/sinat_38259539/article/details/71799078</a></p>
+<h2 id="java如何创建线程">Java如何创建线程?</h2>
+<ol>
+<li>继承Thread创建线程类
+<ul>
+<li>定义Thread类的子类,并重写该类run方法</li>
+<li>创建Thread子类的实例 创建线程对象</li>
+<li>调用线程对象start()启动线程</li>
+</ul>
+</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FirstThreadTest</span> <span class="kd">extends</span> <span class="n">Thread</span><span class="o">{</span>
+	<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+	<span class="c1">//重写run方法，run方法的方法体就是现场执行体
+</span><span class="c1"></span>	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">for</span><span class="o">(;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">100</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">getName</span><span class="o">()+</span><span class="s">&#34;  &#34;</span><span class="o">+</span><span class="n">i</span><span class="o">);</span>
+		
+		<span class="o">}</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span> <span class="n">100</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span>
+		<span class="o">{</span>
+			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()+</span><span class="s">&#34;  : &#34;</span><span class="o">+</span><span class="n">i</span><span class="o">);</span>
+			<span class="k">if</span><span class="o">(</span><span class="n">i</span><span class="o">==</span><span class="n">20</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="k">new</span> <span class="n">FirstThreadTest</span><span class="o">().</span><span class="na">start</span><span class="o">();</span>
+				<span class="k">new</span> <span class="n">FirstThreadTest</span><span class="o">().</span><span class="na">start</span><span class="o">();</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+</code></pre></div><ol start="2">
+<li>通过Runnable接口创建线程类
+<ul>
+<li>定义runnable接口实现类,重写run()方法</li>
+<li>创建 Runnable实现类的实例,并依次实例作为Thread的target来创建Thread对象</li>
+<li>调用线程对象start()启动线程</li>
+</ul>
+</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RunnableThreadTest</span> <span class="kd">implements</span> <span class="n">Runnable</span>
+<span class="o">{</span>
+ 
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">i</span><span class="o">;</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">for</span><span class="o">(</span><span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span><span class="n">i</span> <span class="o">&lt;</span><span class="n">100</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span>
+		<span class="o">{</span>
+			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()+</span><span class="s">&#34; &#34;</span><span class="o">+</span><span class="n">i</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">100</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span>
+		<span class="o">{</span>
+			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()+</span><span class="s">&#34; &#34;</span><span class="o">+</span><span class="n">i</span><span class="o">);</span>
+			<span class="k">if</span><span class="o">(</span><span class="n">i</span><span class="o">==</span><span class="n">20</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="n">RunnableThreadTest</span> <span class="n">rtt</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RunnableThreadTest</span><span class="o">();</span>
+				<span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">rtt</span><span class="o">,</span><span class="s">&#34;新线程1&#34;</span><span class="o">).</span><span class="na">start</span><span class="o">();</span>
+				<span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">rtt</span><span class="o">,</span><span class="s">&#34;新线程2&#34;</span><span class="o">).</span><span class="na">start</span><span class="o">();</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+ 
+	<span class="o">}</span>
+</code></pre></div><ol start="3">
+<li>通过Callable和Future创建线程
+<ul>
+<li>创建Callable接口的实现类,并实现call()方法</li>
+<li>创建Callable实现类的实例,使用FutureTask类来包装Callable对象,该FutureTask对象封装了该Callable对象的call()返回值</li>
+<li>使用FutureTask对象作为Thread对象的target创建并启动新线程</li>
+<li>调用FutureTask对象的get()方法来获得子线程执行结束后的返回值</li>
+</ul>
+</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">
+<span class="kn">import</span> <span class="nn">java.util.concurrent.Callable</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.ExecutionException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.FutureTask</span><span class="o">;</span>
+ 
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CallableThreadTest</span> <span class="kd">implements</span> <span class="n">Callable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span>
+<span class="o">{</span>
+ 
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="n">CallableThreadTest</span> <span class="n">ctt</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CallableThreadTest</span><span class="o">();</span>
+		<span class="n">FutureTask</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">ft</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FutureTask</span><span class="o">&lt;&gt;(</span><span class="n">ctt</span><span class="o">);</span>
+		<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">100</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span>
+		<span class="o">{</span>
+			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()+</span><span class="s">&#34; 的循环变量i的值&#34;</span><span class="o">+</span><span class="n">i</span><span class="o">);</span>
+			<span class="k">if</span><span class="o">(</span><span class="n">i</span><span class="o">==</span><span class="n">20</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">ft</span><span class="o">,</span><span class="s">&#34;有返回值的线程&#34;</span><span class="o">).</span><span class="na">start</span><span class="o">();</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">try</span>
+		<span class="o">{</span>
+			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;子线程的返回值：&#34;</span><span class="o">+</span><span class="n">ft</span><span class="o">.</span><span class="na">get</span><span class="o">());</span>
+		<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+		<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">ExecutionException</span> <span class="n">e</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+		<span class="o">}</span>
+ 
+	<span class="o">}</span>
+ 
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="n">Integer</span> <span class="nf">call</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span>
+	<span class="o">{</span>
+		<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+		<span class="k">for</span><span class="o">(;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">100</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span>
+		<span class="o">{</span>
+			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()+</span><span class="s">&#34; &#34;</span><span class="o">+</span><span class="n">i</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="n">i</span><span class="o">;</span>
+	<span class="o">}</span>
+ 
+<span class="o">}</span>
+</code></pre></div><h2 id="为什么要使用索引">为什么要使用索引</h2>
+<pre><code>1. 通过创建唯一性索引，可以保证数据库表中每一行数据的唯一性。
+2. 可以大大加快 数据的检索速度（大大减少的检索的数据量）, 这也是创建索引的最主要的原因。
+3. 帮助服务器避免排序和临时表
+4. 将随机IO变为顺序IO
+5. 可以加速表和表之间的连接，特别是在实现数据的参考完整性方面特别有意义。
+</code></pre><h2 id="索引这么多优点为什么不对表中的每一个列创建一个索引呢">索引这么多优点，为什么不对表中的每一个列创建一个索引呢？</h2>
+<pre><code>1. 当对表中的数据进行增加、删除和修改的时候，索引也要动态的维护，这样就降低了数据的维护速度
+2. 索引需要占物理空间，除了数据表占数据空间之外，每一个索引还要占一定的物理空间，如果要建立聚簇索引，那么需要的空间就会更大
+3. 建索引和维护索引要耗费时间，这种时间随着数据量的增加而增加
+</code></pre><h2 id="索引如何提高查询速度">索引如何提高查询速度?</h2>
+<pre><code>将无序的数据变成相对有序的数据(就像查目录一样)
+</code></pre><h2 id="说一下使用索引的注意事项">说一下使用索引的注意事项</h2>
+<pre><code>1. 避免 where 子句中对字段施加函数，这会造成无法命中索引。
+2. 在使用InnoDB时使用与业务无关的自增主键作为主键，即使用逻辑主键，而不要使用业务主键。
+3. 将打算加索引的列设置为 NOT NULL ，否则将导致引擎放弃使用索引而进行全表扫描
+4. 删除长期未使用的索引，不用的索引的存在会造成不必要的性能损耗 MySQL 5.7 可以通过查询 sys 库的 schema_unused_indexes 视图来查询哪些索引从未被使用
+5. 在使用 limit offset 查询缓慢时，可以借助索引来提高性能
+</code></pre><h2 id="mysql索引主要使用的哪两种数据结构">Mysql索引主要使用的哪两种数据结构？</h2>
+<pre><code> 哈希索引：对于哈希索引来说，底层的数据结构就是哈希表，因此在绝大多数需求为单条记录查询的时候，可以选择哈希索引，查询性能最快；其余大部分场景，建议选择BTree索引。
+ BTree索引：Mysql的BTree索引使用的是B树中的B+Tree。但对于主要的两种存储引擎（MyISAM和InnoDB）的实现方式是不同的。
+</code></pre><h2 id="一般给那些字段加索引">一般给那些字段加索引?</h2>
+<pre><code>经常查询,常用where条件判断的字段
+</code></pre><p>关于索引知识 <code>https://juejin.im/post/5b55b842f265da0f9e589e79</code></p>
+<h2 id="什么是事务">什么是事务?</h2>
+<pre><code>事务是逻辑上的一组操作,要么都执行,要么都不执行
+</code></pre><p>事务最经典也经常被拿出来说例子就是转账了。假如小明要给小红转账1000元，这个转账会涉及到两个关键操作就是：将小明的余额减少1000元，将小红的余额增加1000元。万一在这两个操作之间突然出现错误比如银行系统崩溃，导致小明余额减少而小红的余额没有增加，这样就不对了。事务就是保证这两个关键操作要么都成功，要么都要失败。</p>
+<h2 id="事务的特性">事务的特性</h2>
+<pre><code>原子性： 事务是最小的执行单位，不允许分割。事务的原子性确保动作要么全部完成，要么完全不起作用；
+一致性： 执行事务前后，数据保持一致，多个事务对同一个数据读取的结果是相同的；
+隔离性： 并发访问数据库时，一个用户的事务不被其他事务所干扰，各并发事务之间数据库是独立的；
+持久性： 一个事务被提交之后。它对数据库中数据的改变是持久的，即使数据库发生故障也不应该对其有任何影响。
+</code></pre><h2 id="innodb-和-myisam的区别">InnoDB 和 MyIsam的区别?</h2>
+<pre><code>MyISAM更适合读密集的表，而InnoDB更适合写密集的表
+MyISAM性能更强执行速度必InnoDB快,但不提供事务支持
+InnoDB提供事务支持,外部键等搞基数据库功能
+</code></pre><h2 id="什么是ioc">什么是IOC?</h2>
+<pre><code>控制反转也叫依赖注入.
+将对象交给容器管理，你只需要在spring配置文件中配置对应的bean以及设置相关的属性，让spring容器来生成类的实例对象以及管理对象。在spring容器启动的时候，spring会把你在配置文件中配置的bean都初始化好，然后在你需要调用的时候，就把它已经初始化好的那些bean分配给你需要调用这些bean的类。
+</code></pre><h2 id="什么是aop">什么是AOP?</h2>
+<pre><code>面向切面编程
+一是采用动态代理技术，利用截取消息的方式，对该消息进行装饰，以取代原有对象行为的执行；二是采用静态织入的方式，引入特定的语法创建“方面”，从而使得编译器可以在编译期间织入有关“方面”的代码，属于静态代理。
+```![stock-photo-1010669103.jpg][1]
+
+
+  [1]: http://192.168.1.41/usr/uploads/2020/02/3670047375.jpg#vwid=1050&amp;vhei=840</code></pre></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-06-24</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/git%E7%9A%84%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/" class="prev" rel="prev" title="Git的奇技淫巧"><i class="fas fa-angle-left fa-fw"></i>Git的奇技淫巧</a>
+            <a href="/posts/linux%E6%89%A9%E5%AE%B9%E7%A1%AC%E7%9B%98%E7%A9%BA%E9%97%B4%E4%B8%8D%E8%B6%B3/" class="next" rel="next" title="Linux扩容硬盘空间不足">Linux扩容硬盘空间不足<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.85.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

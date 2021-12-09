@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Nginx突破高并发的性能优化 - 小仙的博客</title><meta name="Description" content=""><meta property="og:title" content="Nginx突破高并发的性能优化" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://cexll.github.cn/posts/nginx%E7%AA%81%E7%A0%B4%E9%AB%98%E5%B9%B6%E5%8F%91%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-06-24T13:40:55+00:00" />
+<meta property="article:modified_time" content="2021-06-24T13:40:55+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Nginx突破高并发的性能优化"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="小仙的博客">
+<meta name="apple-mobile-web-app-title" content="小仙的博客"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://cexll.github.cn/posts/nginx%E7%AA%81%E7%A0%B4%E9%AB%98%E5%B9%B6%E5%8F%91%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" /><link rel="prev" href="http://cexll.github.cn/posts/php%E4%B8%8B%E8%BD%BD%E9%99%90%E9%80%9F%E6%96%AD%E7%82%B9%E7%BB%AD%E4%BC%A0/" /><link rel="next" href="http://cexll.github.cn/posts/linux%E7%B3%BB%E7%BB%9F%E9%AB%98%E5%B9%B6%E5%8F%91socket%E6%9C%80%E5%A4%A7%E8%BF%9E%E6%8E%A5%E6%95%B0%E4%BC%98%E5%8C%96/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Nginx突破高并发的性能优化",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/cexll.github.cn\/posts\/nginx%E7%AA%81%E7%A0%B4%E9%AB%98%E5%B9%B6%E5%8F%91%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96\/"
+        },"genre": "posts","keywords": "nginx, 高并发, 优化","wordcount":  6174 ,
+        "url": "http:\/\/cexll.github.cn\/posts\/nginx%E7%AA%81%E7%A0%B4%E9%AB%98%E5%B9%B6%E5%8F%91%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96\/","datePublished": "2021-06-24T13:40:55+00:00","dateModified": "2021-06-24T13:40:55+00:00","publisher": {
+            "@type": "Organization",
+            "name": "cexll"},"author": {
+                "@type": "Person",
+                "name": "cexll"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="小仙的博客">小仙的博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="小仙的博客">小仙的博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Nginx突破高并发的性能优化</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/nginx/"><i class="far fa-folder fa-fw"></i>nginx</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-06-24">2021-06-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 6174 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 13 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一这里的优化主要是指对nginx的配置优化一般来说nginx配置文件中对优化比较有作用的主要有以下几项">一、这里的优化主要是指对nginx的配置优化，一般来说nginx配置文件中对优化比较有作用的主要有以下几项：</a>
+      <ul>
+        <li><a href="#标准nginx配置文件">标准nginx配置文件</a></li>
+      </ul>
+    </li>
+    <li><a href="#二关于fastcgi的几个指令">二、关于FastCGI的几个指令</a></li>
+    <li><a href="#三关于内核参数的优化在etcsysctlconf文件内">三、关于内核参数的优化，在/etc/sysctl.conf文件内</a>
+      <ul>
+        <li><a href="#分享一次小事故">分享一次小事故</a></li>
+        <li><a href="#nginx安全配置小提示">《Nginx安全配置小提示》</a></li>
+      </ul>
+    </li>
+    <li><a href="#负载均衡">负载均衡</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>参考 <a href="https://www.cnblogs.com/kevingrace/p/6094007.html">https://www.cnblogs.com/kevingrace/p/6094007.html</a></p>
+</blockquote>
+<h2 id="一这里的优化主要是指对nginx的配置优化一般来说nginx配置文件中对优化比较有作用的主要有以下几项">一、这里的优化主要是指对nginx的配置优化，一般来说nginx配置文件中对优化比较有作用的主要有以下几项：</h2>
+<ol>
+<li>
+<p>nginx进程数，建议按照cpu数目来指定，一般跟cpu核数相同或为它的倍数。</p>
+<p><code>worker_processes auto;</code></p>
+</li>
+<li>
+<p>为每个进程分配cpu，上例中将8个进程分配到8个cpu，当然可以写多个，或者将一个进程分配到多个cpu。</p>
+<p><code>worker_cpu_affinity 00000001 00000010 00000100 00001000 00010000 00100000 01000000 10000000;</code></p>
+</li>
+<li>
+<p>下面这个指令是指当一个nginx进程打开的最多文件描述符数目，理论值应该是系统的最多打开文件数（ulimit -n）与nginx进程数相除，但是nginx分配请求并不是那么均匀，所以最好与ulimit -n的值保持一致。</p>
+<p><code>worker_rlimit_nofile 65535;</code></p>
+</li>
+<li>
+<p>使用epoll的I/O模型，用这个模型来高效处理异步事件</p>
+<p><code>use epoll;</code></p>
+</li>
+<li>
+<p>每个进程允许的最多连接数，理论上每台nginx服务器的最大连接数为worker_processes*worker_connections。</p>
+<p><code>worker_connections 65535;</code></p>
+</li>
+<li>
+<p>http连接超时时间，默认是60s，功能是使客户端到服务器端的连接在设定的时间内持续有效，当出现对服务器的后继请求时，该功能避免了建立或者重新建立连接。切记这个参数也不能设置过大！否则会导致许多无效的http连接占据着nginx的连接数，终nginx崩溃！</p>
+<p><code>keepalive_timeout 60;</code></p>
+</li>
+<li>
+<p>客户端请求头部的缓冲区大小，这个可以根据你的系统分页大小来设置，一般一个请求的头部大小不会超过1k，不过由于一般系统分页都要大于1k，所以这里设置为分页大小。分页大小可以用命令getconf PAGESIZE取得。</p>
+<p><code>client_header_buffer_size 4k;</code></p>
+</li>
+<li>
+<p>下面这个参数将为打开文件指定缓存，默认是没有启用的，max指定缓存数量，建议和打开文件数一致，inactive是指经过多长时间文件没被请求后删除缓存。</p>
+<p><code>open_file_cache max=102400 inactive=20s;</code></p>
+</li>
+<li>
+<p>下面这个是指多长时间检查一次缓存的有效信息。</p>
+<p><code>open_file_cache_valid 30s;</code></p>
+</li>
+<li>
+<p>open_file_cache指令中的inactive参数时间内文件的最少使用次数，如果超过这个数字，文件描述符一直是在缓存中打开的，如上例，如果有一个文件在inactive时间内一次没被使用，它将被移除。</p>
+<p><code>open_file_cache_min_uses 1;</code></p>
+</li>
+<li>
+<p>隐藏响应头中的有关操作系统和web server（Nginx）版本号的信息，这样对于安全性是有好处的。
+<code>server_tokens off;</code></p>
+</li>
+<li>
+<p>可以让sendfile()发挥作用。sendfile()可以在磁盘和TCP socket之间互相拷贝数据(或任意两个文件描述符)。Pre-sendfile是传送数据之前在用户空间申请数据缓冲区。之后用read()将数据从文件拷贝到这个缓冲区，write()将缓冲区数据写入网络。sendfile()是立即将数据从磁盘读到OS缓存。因为这种拷贝是在内核完成的，sendfile()要比组合read()和write()以及打开关闭丢弃缓冲更加有效(更多有关于sendfile)。</p>
+<p><code>sendfile on;</code></p>
+</li>
+<li>
+<p>告诉nginx在一个数据包里发送所有头文件，而不一个接一个的发送。就是说数据包不会马上传送出去，等到数据包最大时，一次性的传输出去，这样有助于解决网络堵塞。</p>
+<p><code>tcp_nopush on; </code></p>
+</li>
+<li>
+<p>告诉nginx不要缓存数据，而是一段一段的发送&ndash;当需要及时发送数据时，就应该给应用设置这个属性，这样发送一小块数据信息时就不能立即得到返回值。</p>
+<p><code>tcp_nodelay on;</code></p>
+</li>
+</ol>
+<p>比如：</p>
+<div class="highlight"><pre class="chroma"><code class="language-nginx" data-lang="nginx"><span class="k">http</span> <span class="p">{</span> 
+   <span class="kn">server_tokens</span> <span class="no">off</span><span class="p">;</span> 
+   <span class="kn">sendfile</span> <span class="no">on</span><span class="p">;</span> 
+   <span class="kn">tcp_nopush</span> <span class="no">on</span><span class="p">;</span> 
+   <span class="kn">tcp_nodelay</span> <span class="no">on</span><span class="p">;</span> 
+
+<span class="p">}</span>
+</code></pre></div><p>15）客户端请求头部的缓冲区大小，这个可以根据系统分页大小来设置，一般一个请求头的大小不会超过1k，不过由于一般系统分页都要大于1k，所以这里设置为分页大小。
+<code>client_header_buffer_size 4k;</code>
+客户端请求头部的缓冲区大小，这个可以根据系统分页大小来设置，一般一个请求头的大小不会超过1k，不过由于一般系统分页都要大于1k，所以这里设置为分页大小。
+分页大小可以用命令getconf PAGESIZE取得。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="o">[</span>root@test-huanqiu ~<span class="o">]</span><span class="c1"># getconf PAGESIZE </span>
+<span class="m">4096</span>
+</code></pre></div><p>但也有client_header_buffer_size超过4k的情况，但是client_header_buffer_size该值必须设置为“系统分页大小”的整倍数。</p>
+<ol start="16">
+<li>
+<p>为打开文件指定缓存，默认是没有启用的，max 指定缓存数量，建议和打开文件数一致，inactive 是指经过多长时间文件没被请求后删除缓存。</p>
+<p><code>open_file_cache max=65535 inactive=60s;</code></p>
+</li>
+<li>
+<p>open_file_cache 指令中的inactive 参数时间内文件的最少使用次数，如果超过这个数字，文件描述符一直是在缓存中打开的，如上例，如果有一个文件在inactive 时间内一次没被使用，它将被移除。</p>
+<p><code>open_file_cache_min_uses 1;</code></p>
+</li>
+<li>
+<p>指定多长时间检查一次缓存的有效信息。</p>
+<p><code>open_file_cache_valid 80s;</code></p>
+</li>
+</ol>
+<h3 id="标准nginx配置文件">标准nginx配置文件</h3>
+<div class="highlight"><pre class="chroma"><code class="language-nginx" data-lang="nginx"><span class="k">[root@dev-huanqiu</span> <span class="p">~</span><span class="sr">]#</span> <span class="s">cat</span> <span class="s">/usr/local/nginx/conf/nginx.conf</span>
+<span class="s">user</span>   <span class="s">www</span> <span class="s">www</span><span class="p">;</span>
+<span class="k">worker_processes</span> <span class="mi">8</span><span class="p">;</span>
+<span class="k">worker_cpu_affinity</span> <span class="mi">00000001</span> <span class="mi">00000010</span> <span class="mi">00000100</span> <span class="mi">00001000</span> <span class="mi">00010000</span> <span class="mi">00100000</span> <span class="mi">01000000</span><span class="p">;</span>
+<span class="k">error_log</span>   <span class="s">/www/log/nginx_error.log</span>   <span class="s">crit</span><span class="p">;</span>
+<span class="k">pid</span>         <span class="s">/usr/local/nginx/nginx.pid</span><span class="p">;</span>
+<span class="k">worker_rlimit_nofile</span> <span class="mi">65535</span><span class="p">;</span>
+ 
+<span class="k">events</span>
+<span class="p">{</span>
+   <span class="kn">use</span> <span class="s">epoll</span><span class="p">;</span>
+   <span class="kn">worker_connections</span> <span class="mi">65535</span><span class="p">;</span>
+<span class="p">}</span>
+ 
+<span class="k">http</span>
+<span class="p">{</span>
+   <span class="kn">include</span>       <span class="s">mime.types</span><span class="p">;</span>
+   <span class="kn">default_type</span>   <span class="s">application/octet-stream</span><span class="p">;</span>
+ 
+   <span class="kn">charset</span>   <span class="s">utf-8</span><span class="p">;</span>
+ 
+   <span class="kn">server_names_hash_bucket_size</span> <span class="mi">128</span><span class="p">;</span>
+   <span class="kn">client_header_buffer_size</span> <span class="mi">2k</span><span class="p">;</span>
+   <span class="kn">large_client_header_buffers</span> <span class="mi">4</span> <span class="mi">4k</span><span class="p">;</span>
+   <span class="kn">client_max_body_size</span> <span class="mi">8m</span><span class="p">;</span>
+ 
+   <span class="kn">sendfile</span> <span class="no">on</span><span class="p">;</span>
+   <span class="kn">tcp_nopush</span>     <span class="no">on</span><span class="p">;</span>
+ 
+   <span class="kn">keepalive_timeout</span> <span class="mi">60</span><span class="p">;</span>
+ 
+   <span class="kn">fastcgi_cache_path</span> <span class="s">/usr/local/nginx/fastcgi_cache</span> <span class="s">levels=1:2</span>
+                 <span class="s">keys_zone=TEST:10m</span>
+                 <span class="s">inactive=5m</span><span class="p">;</span>
+   <span class="kn">fastcgi_connect_timeout</span> <span class="mi">300</span><span class="p">;</span>
+   <span class="kn">fastcgi_send_timeout</span> <span class="mi">300</span><span class="p">;</span>
+   <span class="kn">fastcgi_read_timeout</span> <span class="mi">300</span><span class="p">;</span>
+   <span class="kn">fastcgi_buffer_size</span> <span class="mi">16k</span><span class="p">;</span>
+   <span class="kn">fastcgi_buffers</span> <span class="mi">16</span> <span class="mi">16k</span><span class="p">;</span>
+   <span class="kn">fastcgi_busy_buffers_size</span> <span class="mi">16k</span><span class="p">;</span>
+   <span class="kn">fastcgi_temp_file_write_size</span> <span class="mi">16k</span><span class="p">;</span>
+   <span class="kn">fastcgi_cache</span> <span class="s">TEST</span><span class="p">;</span>
+   <span class="kn">fastcgi_cache_valid</span> <span class="mi">200</span> <span class="mi">302</span> <span class="s">1h</span><span class="p">;</span>
+   <span class="kn">fastcgi_cache_valid</span> <span class="mi">301</span> <span class="s">1d</span><span class="p">;</span>
+   <span class="kn">fastcgi_cache_valid</span> <span class="s">any</span> <span class="mi">1m</span><span class="p">;</span>
+   <span class="kn">fastcgi_cache_min_uses</span> <span class="mi">1</span><span class="p">;</span>
+   <span class="kn">fastcgi_cache_use_stale</span> <span class="s">error</span> <span class="s">timeout</span> <span class="s">invalid_header</span> <span class="s">http_500</span><span class="p">;</span> 
+   <span class="kn">open_file_cache</span> <span class="s">max=204800</span> <span class="s">inactive=20s</span><span class="p">;</span>
+   <span class="kn">open_file_cache_min_uses</span> <span class="mi">1</span><span class="p">;</span>
+   <span class="kn">open_file_cache_valid</span> <span class="s">30s</span><span class="p">;</span> 
+ 
+   <span class="kn">tcp_nodelay</span> <span class="no">on</span><span class="p">;</span>
+   
+   <span class="kn">gzip</span> <span class="no">on</span><span class="p">;</span>
+   <span class="kn">gzip_min_length</span>   <span class="mi">1k</span><span class="p">;</span>
+   <span class="kn">gzip_buffers</span>     <span class="mi">4</span> <span class="mi">16k</span><span class="p">;</span>
+   <span class="kn">gzip_http_version</span> <span class="mi">1</span><span class="s">.0</span><span class="p">;</span>
+   <span class="kn">gzip_comp_level</span> <span class="mi">2</span><span class="p">;</span>
+   <span class="kn">gzip_types</span>       <span class="s">text/plain</span> <span class="s">application/x-javascript</span> <span class="s">text/css</span> <span class="s">application/xml</span><span class="p">;</span>
+   <span class="kn">gzip_vary</span> <span class="no">on</span><span class="p">;</span>
+ 
+   <span class="kn">server</span>
+   <span class="p">{</span>
+     <span class="kn">listen</span>       <span class="mi">8080</span><span class="p">;</span>
+     <span class="kn">server_name</span>   <span class="s">localhost</span><span class="p">;</span>
+     <span class="kn">index</span> <span class="s">index.php</span> <span class="s">index.htm</span><span class="p">;</span>
+     <span class="kn">root</span>   <span class="s">/www/html/</span><span class="p">;</span>
+ 
+     <span class="kn">location</span> <span class="s">/status</span>
+     <span class="p">{</span>
+         <span class="kn">stub_status</span> <span class="no">on</span><span class="p">;</span>
+     <span class="p">}</span>
+ 
+     <span class="kn">location</span> <span class="p">~</span> <span class="sr">.*\.(php|php5)?$</span>
+     <span class="p">{</span>
+         <span class="kn">fastcgi_pass</span> <span class="n">127.0.0.1</span><span class="p">:</span><span class="mi">9000</span><span class="p">;</span>
+         <span class="kn">fastcgi_index</span> <span class="s">index.php</span><span class="p">;</span>
+         <span class="kn">include</span> <span class="s">fcgi.conf</span><span class="p">;</span>
+     <span class="p">}</span>
+ 
+     <span class="kn">location</span> <span class="p">~</span> <span class="sr">.*\.(gif|jpg|jpeg|png|bmp|swf|js|css)$</span>
+     <span class="p">{</span>
+       <span class="kn">expires</span>       <span class="s">30d</span><span class="p">;</span>
+     <span class="p">}</span>
+ 
+     <span class="kn">log_format</span>   <span class="s">access</span>   <span class="s">&#39;</span><span class="nv">$remote_addr</span> <span class="s">-</span> <span class="nv">$remote_user</span> <span class="s">[</span><span class="nv">$time_local]</span> <span class="s">&#34;</span><span class="nv">$request&#34;</span> <span class="s">&#39;</span>
+               <span class="s">&#39;</span><span class="nv">$status</span> <span class="nv">$body_bytes_sent</span> <span class="s">&#34;</span><span class="nv">$http_referer&#34;</span> <span class="s">&#39;</span>
+               <span class="s">&#39;&#34;</span><span class="nv">$http_user_agent&#34;</span> <span class="nv">$http_x_forwarded_for&#39;</span><span class="p">;</span>
+     <span class="kn">access_log</span>   <span class="s">/www/log/access.log</span>   <span class="s">access</span><span class="p">;</span>
+       <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><h2 id="二关于fastcgi的几个指令">二、关于FastCGI的几个指令</h2>
+<ol>
+<li>
+<p>这个指令为FastCGI缓存指定一个路径，目录结构等级，关键字区域存储时间和非活动删除时间。</p>
+<p><code>fastcgi_cache_path /usr/local/nginx/fastcgi_cache levels=1:2 keys_zone=TEST:10m inactive=5m;</code></p>
+</li>
+<li>
+<p>指定连接到后端FastCGI的超时时间。</p>
+<p><code>fastcgi_connect_timeout 300;</code></p>
+</li>
+<li>
+<p>向FastCGI传送请求的超时时间，这个值是指已经完成两次握手后向FastCGI传送请求的超时时间。</p>
+<p><code>fastcgi_send_timeout 300;</code></p>
+</li>
+<li>
+<p>接收FastCGI应答的超时时间，这个值是指已经完成两次握手后接收FastCGI应答的超时时间。
+<code>fastcgi_read_timeout 300;</code></p>
+</li>
+<li>
+<p>指定读取FastCGI应答第一部分 需要用多大的缓冲区，这里可以设置为fastcgi_buffers指令指定的缓冲区大小，上面的指令指定它将使用1个 16k的缓冲区去读取应答的第一部分，即应答头，其实这个应答头一般情况下都很小（不会超过1k），但是你如果在fastcgi_buffers指令中指 定了缓冲区的大小，那么它也会分配一个fastcgi_buffers指定的缓冲区大小去缓存。</p>
+<p><code>fastcgi_buffer_size 16k;</code></p>
+</li>
+<li>
+<p>指定本地需要用多少和多大的缓冲区来 缓冲FastCGI的应答，如上所示，如果一个php脚本所产生的页面大小为256k，则会为其分配16个16k的缓冲区来缓存，如果大于256k，增大 于256k的部分会缓存到fastcgi_temp指定的路径中， 当然这对服务器负载来说是不明智的方案，因为内存中处理数据速度要快于硬盘，通常这个值 的设置应该选择一个你的站点中的php脚本所产生的页面大小的中间值，比如你的站点大部分脚本所产生的页面大小为 256k就可以把这个值设置为16 16k，或者4 64k 或者64 4k，但很显然，后两种并不是好的设置方法，因为如果产生的页面只有32k，如果用4 64k它会分配1个64k的缓冲区去缓存，而如果使用64 4k它会分配8个4k的缓冲区去缓存，而如果使用16 16k则它会分配2个16k去缓存页面，这样看起来似乎更加合理。</p>
+<p><code>fastcgi_buffers 16 16k;</code></p>
+</li>
+<li>
+<p>这个指令我也不知道是做什么用，只知道默认值是fastcgi_buffers的两倍。</p>
+<p><code>fastcgi_busy_buffers_size 32k;</code></p>
+</li>
+<li>
+<p>在写入fastcgi_temp_path时将用多大的数据块，默认值是fastcgi_buffers的两倍。</p>
+<p><code>fastcgi_temp_file_write_size 32k;</code></p>
+</li>
+<li>
+<p>开启FastCGI缓存并且为其制定一个名称。个人感觉开启缓存非常有用，可以有效降低CPU负载，并且防止502错误。但是这个缓存会引起很多问题，因为它缓存的是动态页面。具体使用还需根据自己的需求。</p>
+<p><code>fastcgi_cache TEST</code></p>
+</li>
+<li>
+<p>为指定的应答代码指定缓存时间，如上例中将200，302应答缓存一小时，301应答缓存1天，其他为1分钟。</p>
+<pre><code>fastcgi_cache_valid 200 302 1h;
+fastcgi_cache_valid 301 1d;
+fastcgi_cache_valid any 1m;
+</code></pre></li>
+<li>
+<p>缓存在fastcgi_cache_path指令inactive参数值时间内的最少使用次数，如上例，如果在5分钟内某文件1次也没有被使用，那么这个文件将被移除。</p>
+<p><code>fastcgi_cache_min_uses 1;</code></p>
+</li>
+<li>
+<p>不知道这个参数的作用，猜想应该是让nginx知道哪些类型的缓存是没用的。</p>
+<p><code>fastcgi_cache_use_stale error timeout invalid_header http_500;</code></p>
+</li>
+</ol>
+<blockquote>
+<p>另外，FastCGI自身也有一些配置需要进行优化，如果你使用php-fpm来管理FastCGI，可以修改配置文件中的以下值：</p>
+</blockquote>
+<ol>
+<li>
+<p>同时处理的并发请求数，即它将开启最多60个子线程来处理并发连接。</p>
+<div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">value</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;max_children&#34;</span><span class="p">&gt;</span>60<span class="p">&lt;/</span><span class="nt">value</span><span class="p">&gt;</span>
+</code></pre></div></li>
+<li>
+<p>最多打开文件数。</p>
+<div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">value</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;rlimit_files&#34;</span><span class="p">&gt;</span>65535<span class="p">&lt;/</span><span class="nt">value</span><span class="p">&gt;</span>
+</code></pre></div></li>
+<li>
+<p>每个进程在重置之前能够执行的最多请求数。</p>
+<div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">value</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;max_requests&#34;</span><span class="p">&gt;</span>65535<span class="p">&lt;/</span><span class="nt">value</span><span class="p">&gt;</span>
+</code></pre></div></li>
+</ol>
+<h2 id="三关于内核参数的优化在etcsysctlconf文件内">三、关于内核参数的优化，在/etc/sysctl.conf文件内</h2>
+<ol>
+<li>
+<p>timewait的数量，默认是180000。(Deven:因此如果想把timewait降下了就要把tcp_max_tw_buckets值减小)</p>
+<p><code>net.ipv4.tcp_max_tw_buckets = 6000</code></p>
+</li>
+<li>
+<p>允许系统打开的端口范围。</p>
+<p><code>net.ipv4.ip_local_port_range = 1024 65000</code></p>
+</li>
+<li>
+<p>启用TIME-WAIT状态sockets快速回收功能;用于快速减少在TIME-WAIT状态TCP连接数。1表示启用;0表示关闭。但是要特别留意的是：这个选项一般不推荐启用，因为在NAT(Network Address Translation)网络下，会导致大量的TCP连接建立错误，从而引起网站访问故障。</p>
+<p><code>net.ipv4.tcp_tw_recycle = 0</code></p>
+</li>
+</ol>
+<p>实际上，<code>net.ipv4.tcp_tw_recycle</code>功能的开启，一般需要<code>net.ipv4.tcp_timestamps</code>（一般系统默认是开启这个功能的）这个开关开启后才有效果；</p>
+<p>当<code>tcp_tw_recycle</code> 开启时（tcp_timestamps 同时开启，快速回收 socket 的效果达到），对于位于NAT设备后面的 Client来说，是一场灾难！！会导致到NAT设备后面的Client连接Server不稳定（有的 Client 能连接 server，有的 Client 不能连接 server）。</p>
+<p>tcp_tw_recycle这个功能，其实是为内部网络（网络环境自己可控 ” -不存在NAT 的情况）设计的，对于公网环境下，不宜使用。通常来说，回收TIME_WAIT状态的socket是因为“无法主动连接远端”，因为无可用的端口，而不应该是要回收内存（没有必要）。也就是说，需求是Client的需求，Server会有“端口不够用”的问题吗？除非是前端机，需要大量的连接后端服务，也就是充当着Client的角色。</p>
+<p>正确的解决这个总是办法应该是：</p>
+<div class="highlight"><pre class="chroma"><code class="language-nginx" data-lang="nginx"><span class="k">net.ipv4.ip_local_port_range</span> <span class="p">=</span> <span class="mi">9000</span> <span class="mi">6553</span>            <span class="c1">#默认值范围较小
+</span><span class="c1"></span><span class="s">net.ipv4.tcp_max_tw_buckets</span> <span class="p">=</span> <span class="mi">10000</span>                 <span class="c1">#默认值较小，还可适当调小
+</span><span class="c1"></span><span class="s">net.ipv4.tcp_tw_reuse</span> <span class="p">=</span> <span class="mi">1</span> 
+<span class="s">net.ipv4.tcp_fin_timeout</span> <span class="p">=</span> <span class="mi">10</span> 
+</code></pre></div><hr>
+<ol start="4">
+<li>
+<p>开启重用功能，允许将TIME-WAIT状态的sockets重新用于新的TCP连接。这个功能启用是安全的，一般不要去改动！</p>
+<p><code>net.ipv4.tcp_tw_reuse = 1</code></p>
+</li>
+<li>
+<p>开启SYN Cookies，当出现SYN等待队列溢出时，启用cookies来处理。</p>
+<p><code>net.ipv4.tcp_syncookies = 1</code></p>
+</li>
+<li>
+<p>web应用中listen函数的backlog默认会给我们内核参数的net.core.somaxconn限制到128，而nginx定义的NGX_LISTEN_BACKLOG默认为511，所以有必要调整这个值。</p>
+<p><code>net.core.somaxconn = 262144</code></p>
+</li>
+<li>
+<p>每个网络接口接收数据包的速率比内核处理这些包的速率快时，允许送到队列的数据包的最大数目。</p>
+<p><code>net.core.netdev_max_backlog = 262144</code></p>
+</li>
+<li>
+<p>系统中最多有多少个TCP套接字不被关联到任何一个用户文件句柄上。如果超过这个数字，孤儿连接将即刻被复位并打印出警告信息。这个限制仅仅是为了防止简单的DoS攻击，不能过分依靠它或者人为地减小这个值，更应该增加这个值(如果增加了内存之后)。</p>
+<p><code>net.ipv4.tcp_max_orphans = 262144</code></p>
+</li>
+<li>
+<p>记录的那些尚未收到客户端确认信息的连接请求的最大值。对于有128M内存的系统而言，缺省值是1024，小内存的系统则是128。</p>
+<p><code>net.ipv4.tcp_max_syn_backlog = 262144</code></p>
+</li>
+<li>
+<p>时间戳可以避免序列号的卷绕。一个1Gbps的链路肯定会遇到以前用过的序列号。时间戳能够让内核接受这种“异常”的数据包。
+<code>net.ipv4.tcp_timestamps = 1</code></p>
+</li>
+</ol>
+<p>有不少服务器为了提高性能，开启<code>net.ipv4.tcp_tw_recycle</code>选项，在NAT网络环境下，容易导致网站访问出现了一些connect失败的问题。</p>
+<p>个人建议：</p>
+<pre><code>    关闭net.ipv4.tcp_tw_recycle选项，而不是net.ipv4.tcp_timestamps；
+    因为在net.ipv4.tcp_timestamps关闭的条件下，开启net.ipv4.tcp_tw_recycle是不起作用的；而net.ipv4.tcp_timestamps可以独立开启并起作用
+</code></pre><ol start="11">
+<li>
+<p>为了打开对端的连接，内核需要发送一个SYN并附带一个回应前面一个SYN的ACK。也就是所谓三次握手中的第二次握手。这个设置决定了内核放弃连接之前发送SYN+ACK包的数量。</p>
+<p><code>net.ipv4.tcp_synack_retries = 1</code></p>
+</li>
+<li>
+<p>在内核放弃建立连接之前发送SYN包的数量。</p>
+<p><code>net.ipv4.tcp_syn_retries = 1</code></p>
+</li>
+<li>
+<p>如果套接字由本端要求关闭，这个参数 决定了它保持在FIN-WAIT-2状态的时间。对端可以出错并永远不关闭连接，甚至意外当机。缺省值是60秒。2.2 内核的通常值是180秒，你可以按这个设置，但要记住的是，即使你的机器是一个轻载的WEB服务器，也有因为大量的死套接字而内存溢出的风险，FIN- WAIT-2的危险性比FIN-WAIT-1要小，因为它最多只能吃掉1.5K内存，但是它们的生存期长些。</p>
+<p><code>net.ipv4.tcp_fin_timeout = 30</code></p>
+</li>
+<li>
+<p>当keepalive起用的时候，TCP发送keepalive消息的频度。缺省是2小时。</p>
+</li>
+</ol>
+<p><code>net.ipv4.tcp_keepalive_time = 30</code></p>
+<blockquote>
+<p>以下是一个常用的内核参数的标准配置</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="o">[</span>root@dev-huanqiu ~<span class="o">]</span><span class="c1"># cat /etc/sysctl.conf</span>
+net.ipv4.ip_forward <span class="o">=</span> <span class="m">0</span>
+net.ipv4.conf.default.rp_filter <span class="o">=</span> <span class="m">1</span>
+net.ipv4.conf.default.accept_source_route <span class="o">=</span> <span class="m">0</span>
+kernel.sysrq <span class="o">=</span> <span class="m">0</span>
+kernel.core_uses_pid <span class="o">=</span> <span class="m">1</span>
+net.ipv4.tcp_syncookies <span class="o">=</span> <span class="m">1</span>            //这四行标红内容，一般是发现大量TIME_WAIT时的解决办法
+kernel.msgmnb <span class="o">=</span> <span class="m">65536</span>
+kernel.msgmax <span class="o">=</span> <span class="m">65536</span>
+kernel.shmmax <span class="o">=</span> <span class="m">68719476736</span>
+kernel.shmall <span class="o">=</span> <span class="m">4294967296</span>
+net.ipv4.tcp_max_tw_buckets <span class="o">=</span> <span class="m">6000</span>
+net.ipv4.tcp_sack <span class="o">=</span> <span class="m">1</span>
+net.ipv4.tcp_window_scaling <span class="o">=</span> <span class="m">1</span>
+net.ipv4.tcp_rmem <span class="o">=</span> <span class="m">4096</span> <span class="m">87380</span> <span class="m">4194304</span>
+net.ipv4.tcp_wmem <span class="o">=</span> <span class="m">4096</span> <span class="m">16384</span> <span class="m">4194304</span>
+net.core.wmem_default <span class="o">=</span> <span class="m">8388608</span>
+net.core.rmem_default <span class="o">=</span> <span class="m">8388608</span>
+net.core.rmem_max <span class="o">=</span> <span class="m">16777216</span>
+net.core.wmem_max <span class="o">=</span> <span class="m">16777216</span>
+net.core.netdev_max_backlog <span class="o">=</span> <span class="m">262144</span>
+net.core.somaxconn <span class="o">=</span> <span class="m">262144</span>
+net.ipv4.tcp_max_orphans <span class="o">=</span> <span class="m">3276800</span>
+net.ipv4.tcp_max_syn_backlog <span class="o">=</span> <span class="m">262144</span>
+net.ipv4.tcp_timestamps <span class="o">=</span> <span class="m">1</span>            //在net.ipv4.tcp_tw_recycle设置为1的时候，这个选择最好加上
+net.ipv4.tcp_synack_retries <span class="o">=</span> <span class="m">1</span>
+net.ipv4.tcp_syn_retries <span class="o">=</span> <span class="m">1</span>
+net.ipv4.tcp_tw_recycle <span class="o">=</span> <span class="m">1</span>           //开启此功能可以减少TIME-WAIT状态，但是NAT网络模式下打开有可能会导致tcp连接错误，慎重。
+net.ipv4.tcp_tw_reuse <span class="o">=</span> <span class="m">1</span>
+net.ipv4.tcp_mem <span class="o">=</span> <span class="m">94500000</span> <span class="m">915000000</span> <span class="m">927000000</span>
+net.ipv4.tcp_fin_timeout <span class="o">=</span> <span class="m">30</span>
+net.ipv4.tcp_keepalive_time <span class="o">=</span> <span class="m">30</span>
+net.ipv4.ip_local_port_range <span class="o">=</span> <span class="m">1024</span> <span class="m">65000</span>
+net.ipv4.ip_conntrack_max <span class="o">=</span> <span class="m">6553500</span>
+</code></pre></div><h3 id="分享一次小事故">分享一次小事故</h3>
+<p><code>net.ipv4.tcp_tw_recycle = 1 </code>这个功能打开后，确实能减少TIME-WAIT状态，习惯上我都会将这个参数打开。</p>
+<p>但是也因为这个参数踩过一次坑：</p>
+<p>公司的一个发布新闻的CMS后台系统，采用haproxy+keepalived代理架构，后端的real server服务器外网ip全部拿掉。</p>
+<p>现象：在某一天早上发文高峰期，CMS后台出现访问故障，重启php服务后会立刻见效，但持续一段时间后，访问就又出现故障。</p>
+<p>排查nginx和php日志也没有发现什么，后来google了一下，发现就是net.ipv4.tcp_tw_recycle这个参数捣的鬼！</p>
+<p>这种网络架构对于后端的realserver来说是NAT模式，打开这个参数后，会导致大量的TCP连接建立错误，从而引起网站访问故障。</p>
+<p>最后将net.ipv4.tcp_tw_recycle设置为0，关闭这个功能后，后台访问即刻恢复正常</p>
+<h3 id="nginx安全配置小提示">《Nginx安全配置小提示》</h3>
+<p>下面是一个常见安全陷阱和解决方案的列表，它可以辅助来确保你的Nginx部署是安全的。</p>
+<ol>
+<li>
+<p>禁用<code>autoindex</code>模块。这个可能在你使用的Nginx版本中已经更改了，如果没有的话只需在配置文件的location块中增加autoindex off;声明即可。</p>
+</li>
+<li>
+<p>禁用服务器上的ssi (服务器端引用)。这个可以通过在location块中添加<code>ssi off</code>; 。</p>
+</li>
+<li>
+<p>关闭服务器标记。如果开启的话（默认情况下）所有的错误页面都会显示服务器的版本和信息。将<code>server_tokens off</code>;声明添加到Nginx配置文件来解决这个问题。</p>
+</li>
+<li>
+<p>在配置文件中设置自定义缓存以限制缓冲区溢出攻击的可能性。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">client_body_buffer_size  1K<span class="p">;</span>
+client_header_buffer_size 1k<span class="p">;</span>
+client_max_body_size 1k<span class="p">;</span>
+large_client_header_buffers <span class="m">2</span> 1k<span class="p">;</span>
+</code></pre></div></li>
+<li>
+<p>将timeout设低来防止DOS攻击。所有这些声明都可以放到主配置文件中。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">client_body_timeout   10<span class="p">;</span>
+client_header_timeout 10<span class="p">;</span>
+keepalive_timeout     65<span class="p">;</span>
+send_timeout          10<span class="p">;</span>
+</code></pre></div></li>
+<li>
+<p>限制用户连接数来预防DOS攻击。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">limit_zone slimits <span class="nv">$binary_remote_addr</span> 5m<span class="p">;</span>
+limit_conn slimits 5<span class="p">;</span>
+</code></pre></div></li>
+<li>
+<p>试着避免使用HTTP认证。HTTP认证默认使用crypt，它的哈希并不安全。如果你要用的话就用MD5（这也不是个好选择但负载方面比crypt好） 。</p>
+</li>
+</ol>
+<h2 id="负载均衡">负载均衡</h2>
+<p><code>修改nginx.conf</code></p>
+<p>首先添加一个 <code>upstream</code></p>
+<pre><code class="language-conf" data-lang="conf">upstream tomcat_8111_8222{
+    server  127.0.0.1:8111 weight=1;
+    server  127.0.0.1:8222 weight=2;
+}
+</code></pre><p>然后修改location，反向代理到上述配置。</p>
+<pre><code class="language-conf" data-lang="conf">location / {
+    proxy_pass http://tomcat_8111_8222;
+}
+</code></pre><p>weight表示权重，值越大，被分配到的几率越大。</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-06-24</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/nginx/">nginx</a>,&nbsp;<a href="/tags/%E9%AB%98%E5%B9%B6%E5%8F%91/">高并发</a>,&nbsp;<a href="/tags/%E4%BC%98%E5%8C%96/">优化</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/php%E4%B8%8B%E8%BD%BD%E9%99%90%E9%80%9F%E6%96%AD%E7%82%B9%E7%BB%AD%E4%BC%A0/" class="prev" rel="prev" title="PHP下载限速断点续传"><i class="fas fa-angle-left fa-fw"></i>PHP下载限速断点续传</a>
+            <a href="/posts/linux%E7%B3%BB%E7%BB%9F%E9%AB%98%E5%B9%B6%E5%8F%91socket%E6%9C%80%E5%A4%A7%E8%BF%9E%E6%8E%A5%E6%95%B0%E4%BC%98%E5%8C%96/" class="next" rel="next" title="Linux系统高并发socket最大连接数优化">Linux系统高并发socket最大连接数优化<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.85.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

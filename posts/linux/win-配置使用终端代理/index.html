@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Linux/Win 配置使用终端代理 - 小仙的博客</title><meta name="Description" content=""><meta property="og:title" content="Linux/Win 配置使用终端代理" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://cexll.github.cn/posts/linux/win-%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-06-24T13:39:12+00:00" />
+<meta property="article:modified_time" content="2021-06-24T13:39:12+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux/Win 配置使用终端代理"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="小仙的博客">
+<meta name="apple-mobile-web-app-title" content="小仙的博客"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://cexll.github.cn/posts/linux/win-%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86/" /><link rel="prev" href="http://cexll.github.cn/posts/%E8%A7%A3%E5%86%B3%E6%97%A5%E5%B8%B8api%E8%B7%A8%E5%9F%9F%E8%AF%B7%E6%B1%82/" /><link rel="next" href="http://cexll.github.cn/posts/shell%E7%9B%91%E6%8E%A7%E6%96%87%E4%BB%B6%E6%94%B9%E5%8F%98/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Linux/Win 配置使用终端代理",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/cexll.github.cn\/posts\/linux\/win-%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86\/"
+        },"genre": "posts","keywords": "linux, proxy","wordcount":  1248 ,
+        "url": "http:\/\/cexll.github.cn\/posts\/linux\/win-%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86\/","datePublished": "2021-06-24T13:39:12+00:00","dateModified": "2021-06-24T13:39:12+00:00","publisher": {
+            "@type": "Organization",
+            "name": "cexll"},"author": {
+                "@type": "Person",
+                "name": "cexll"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="小仙的博客">小仙的博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="小仙的博客">小仙的博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Linux/Win 配置使用终端代理</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/linux/"><i class="far fa-folder fa-fw"></i>linux</a>&nbsp;<a href="/categories/proxy/"><i class="far fa-folder fa-fw"></i>proxy</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-06-24">2021-06-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1248 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#ssr-代理服务">ssr 代理服务</a>
+      <ul>
+        <li><a href="#下载">下载</a></li>
+        <li><a href="#安装配置">安装配置</a></li>
+        <li><a href="#启动关闭">启动/关闭</a></li>
+        <li><a href="#卸载">卸载</a></li>
+      </ul>
+    </li>
+    <li><a href="#privoxy-配置">Privoxy 配置</a>
+      <ul>
+        <li><a href="#全局模式">全局模式</a></li>
+        <li><a href="#pac模式">PAC模式</a></li>
+        <li><a href="#proxy-环境变量">proxy 环境变量</a></li>
+        <li><a href="#代理测试">代理测试</a></li>
+        <li><a href="#管理脚本">管理脚本</a></li>
+        <li><a href="#使用">使用</a></li>
+        <li><a href="#局域网共享代理">局域网共享代理</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="在linux终端使用ssr服务实现科学上网">在Linux终端使用SSR服务实现科学上网</h1>
+<h2 id="ssr-代理服务">ssr 代理服务</h2>
+<h3 id="下载">下载</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">apt install -y git
+git clone https://github.com/SAMZONG/gfwlist2privoxy.git
+<span class="nb">cd</span> gfwlist2privoxy/
+chmod +x ssr
+mv ssr /usr/local/bin
+</code></pre></div><h3 id="安装配置">安装配置</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="o">[</span>root@localhost ~<span class="o">]</span>$ ssr install
+Cloning into <span class="s1">&#39;/usr/local/share/shadowsocksr&#39;</span>...
+remote: Counting objects: 5490, <span class="k">done</span>.
+remote: Total <span class="m">5490</span> <span class="o">(</span>delta 0<span class="o">)</span>, reused <span class="m">0</span> <span class="o">(</span>delta 0<span class="o">)</span>, pack-reused <span class="m">5490</span>
+Receiving objects: 100% <span class="o">(</span>5490/5490<span class="o">)</span>, 1.71 MiB <span class="p">|</span> 410.00 KiB/s, <span class="k">done</span>.
+Resolving deltas: 100% <span class="o">(</span>3799/3799<span class="o">)</span>, <span class="k">done</span>.
+
+<span class="o">[</span>root@localhost ~<span class="o">]</span>$ ssr config 		<span class="c1"># 配置文件路径 /usr/local/share/shadowsocksr/config.json</span>
+<span class="o">{</span>
+    <span class="s2">&#34;server&#34;</span>: <span class="s2">&#34;0..0.0.0&#34;</span>,	<span class="c1"># ssr服务器ip</span>
+    <span class="s2">&#34;server_ipv6&#34;</span>: <span class="s2">&#34;::&#34;</span>,
+    <span class="s2">&#34;server_port&#34;</span>: 8080,	<span class="c1"># ssr服务器端口</span>
+    <span class="s2">&#34;local_address&#34;</span>: <span class="s2">&#34;127.0.0.1&#34;</span>,
+    <span class="s2">&#34;local_port&#34;</span>: 1080,
+
+    <span class="s2">&#34;password&#34;</span>: <span class="s2">&#34;123456&#34;</span>,		<span class="c1"># 密码</span>
+    <span class="s2">&#34;method&#34;</span>: <span class="s2">&#34;none&#34;</span>,			<span class="c1"># 加密方式</span>
+    <span class="s2">&#34;protocol&#34;</span>: <span class="s2">&#34;auth_chain_a&#34;</span>,		<span class="c1"># 协议</span>
+    <span class="s2">&#34;protocol_param&#34;</span>: <span class="s2">&#34;&#34;</span>,          <span class="c1"># 协议参数</span>
+    <span class="s2">&#34;obfs&#34;</span>: <span class="s2">&#34;http_simple&#34;</span>,		<span class="c1"># 混淆</span>
+    <span class="s2">&#34;obfs_param&#34;</span>: <span class="s2">&#34;hello.world&#34;</span>,	<span class="c1"># 混淆参数</span>
+    <span class="s2">&#34;speed_limit_per_con&#34;</span>: 0,
+    <span class="s2">&#34;speed_limit_per_user&#34;</span>: 0,
+
+    <span class="s2">&#34;additional_ports&#34;</span> : <span class="o">{}</span>, // only works under multi-user mode
+    <span class="s2">&#34;additional_ports_only&#34;</span> : false, // only works under multi-user mode
+    <span class="s2">&#34;timeout&#34;</span>: 120,
+    <span class="s2">&#34;udp_timeout&#34;</span>: 60,
+    <span class="s2">&#34;dns_ipv6&#34;</span>: false,
+    <span class="s2">&#34;connect_verbose_info&#34;</span>: 0,
+    <span class="s2">&#34;redirect&#34;</span>: <span class="s2">&#34;&#34;</span>,
+    <span class="s2">&#34;fast_open&#34;</span>: <span class="nb">false</span>
+<span class="o">}</span>
+</code></pre></div><h3 id="启动关闭">启动/关闭</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ssr start
+ssr stop
+</code></pre></div><h3 id="卸载">卸载</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ssr uninstall <span class="c1"># 这里操作会删除/usr/local/share/shadowsocksr</span>
+</code></pre></div><p>以上，本地监听服务已经配置完成了，在填写的过程中，要注意你的本地监听地址和监听端口，默认是127.0.0.1:1080，如果你修改了设置，那么在后续配置中也要配合修改。</p>
+<h2 id="privoxy-配置">Privoxy 配置</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">apt install -y privoxy
+</code></pre></div><h3 id="全局模式">全局模式</h3>
+<p>代理模式同其他平台上方式，将所有http/https请求走代理服务，如果需要全局代理的话按照如下操作即可，如果要使用PAC模式，请跳过此部分。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># 添加本地ssr服务到配置文件</span>
+<span class="nb">echo</span> <span class="s1">&#39;forward-socks5 / 127.0.0.1:1080 .&#39;</span> &gt;&gt; /etc/privoxy/config
+
+<span class="c1"># Privoxy 默认监听端口是是8118</span>
+<span class="nb">export</span> <span class="nv">http_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+<span class="nb">export</span> <span class="nv">https_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+<span class="nb">export</span> <span class="nv">no_proxy</span><span class="o">=</span>localhost
+
+<span class="c1"># 启动服务</span>
+systemctl start privoxy.service
+</code></pre></div><h3 id="pac模式">PAC模式</h3>
+<p>使用GFWList是由AutoProxy官方维护，由众多网民收集整理的一个中国大陆防火长城的屏蔽列表，这里感谢@Otokaze 为我们提供了转换shell自动转换脚本，为了方便修改，我fork了这个项目，将这篇教程所用到的资源进行了汇总，你可以在最开始git clone的目录中找到执行脚本。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="o">[</span>root@localhost ~<span class="o">]</span>$ <span class="nb">cd</span> gfwlist2privoxy/
+<span class="o">[</span>root@localhost gfwlist2privoxy<span class="o">]</span>$ ls
+gfw.action  gfwlist2privoxy  README.md  ssr
+<span class="o">[</span>root@localhost gfwlist2privoxy<span class="o">]</span>$ bash gfwlist2privoxy
+proxy<span class="o">(</span>socks5<span class="o">)</span>: 127.0.0.1:1080		<span class="c1"># 注意，如果你修改了ssr本地监听端口是需要设置对应的</span>
+<span class="o">{</span>+forward-override<span class="o">{</span>forward-socks5 127.0.0.1:1080 .<span class="o">}}</span>
+
+<span class="o">=================================================================</span>
+
+<span class="s2">&#34;cp -af /root/gfwlist2privoxy/gfw.action /etc/privoxy/&#34;</span>
+
+<span class="o">[</span>root@localhost ~<span class="o">]</span>$ cp -af gfw.action /etc/privoxy/
+<span class="o">[</span>root@localhost ~<span class="o">]</span>$ <span class="nb">echo</span> <span class="s1">&#39;actionsfile gfw.action&#39;</span> &gt;&gt; /etc/privoxy/config
+
+<span class="c1"># Privoxy 默认监听端口是是8118</span>
+<span class="nb">export</span> <span class="nv">http_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+<span class="nb">export</span> <span class="nv">https_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+<span class="nb">export</span> <span class="nv">no_proxy</span><span class="o">=</span>localhost
+
+<span class="c1"># 启动服务</span>
+systemctl start privoxy.service
+</code></pre></div><h3 id="proxy-环境变量">proxy 环境变量</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># privoxy默认监听端口为8118</span>
+<span class="nb">export</span> <span class="nv">http_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+<span class="nb">export</span> <span class="nv">https_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+<span class="nb">export</span> <span class="nv">no_proxy</span><span class="o">=</span>localhost
+
+<span class="c1"># no_proxy是不经过privoxy代理的地址</span>
+<span class="c1"># 只能填写具体的ip、域名后缀，多个条目之间使用&#39;,&#39;逗号隔开</span>
+<span class="c1"># 比如: export no_proxy=&#34;localhost, 192.168.1.1, ip.cn, chinaz.com&#34;</span>
+<span class="c1"># 访问 localhost、192.168.1.1、ip.cn、*.ip.cn、chinaz.com、*.chinaz.com 将不使用代理</span>
+</code></pre></div><h3 id="代理测试">代理测试</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># 访问各大网站，如果都有网页源码输出说明代理没问题</span>
+curl -sL www.baidu.com
+curl -sL www.google.com
+curl -sL www.google.com.hk
+curl -sL www.google.co.jp
+curl -sL www.youtube.com
+curl -sL mail.google.com
+curl -sL facebook.com
+curl -sL twitter.com
+curl -sL www.wikipedia.org
+
+<span class="c1"># 获取当前 IP 地址</span>
+<span class="c1"># 如果使用 privoxy 全局模式，则应该显示 ss 服务器的 IP</span>
+<span class="c1"># 如果使用 privoxy gfwlist模式，则应该显示本地公网 IP</span>
+curl -sL ip.chinaz.com/getip.aspx
+curl https://httpbin.org/get
+</code></pre></div><h3 id="管理脚本">管理脚本</h3>
+<p>在以上部署操作完成后，应该已经可以正常科学上网了，但是如果需要进行管理时，需要分别管理ssr和privoxy，为了方便管理，这里写了一个shell脚本方便管理: ssr_manager</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="c1"># Author Samzong.lu</span>
+
+<span class="k">case</span> <span class="nv">$1</span> in
+	start<span class="o">)</span>
+		ssr start <span class="p">&amp;</span>&gt; /var/log/ssr-local.log
+		systemctl start privoxy.service
+		<span class="nb">export</span> <span class="nv">http_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+		<span class="nb">export</span> <span class="nv">https_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+		<span class="nb">export</span> <span class="nv">no_proxy</span><span class="o">=</span><span class="s2">&#34;localhost, ip.cn, chinaz.com&#34;</span>
+		<span class="p">;;</span>
+	stop<span class="o">)</span>
+		<span class="nb">unset</span> http_proxy https_proxy no_proxy
+		systemctl stop privoxy.service
+		ssr stop <span class="p">&amp;</span>&gt; /var/log/ssr-log.log
+		<span class="p">;;</span>
+	autostart<span class="o">)</span>
+		<span class="nb">echo</span> <span class="s2">&#34;ssr start&#34;</span> &gt;&gt; /etc/rc.local
+		systemctl <span class="nb">enable</span> privoxy.service
+		<span class="nb">echo</span> <span class="s2">&#34;http_proxy=http://127.0.0.1:8118&#34;</span> &gt;&gt; /etc/bashrc
+		<span class="nb">echo</span> <span class="s2">&#34;https_proxy=http://127.0.0.1:8118&#34;</span> &gt;&gt; /etc/bashrc
+		<span class="nb">echo</span> <span class="s2">&#34;no_proxy=&#39;localhost, ip.cn, chinaz.com&#39;&#34;</span> &gt;&gt; /etc/bashrc
+		<span class="p">;;</span>
+	*<span class="o">)</span>
+		<span class="nb">echo</span> <span class="s2">&#34;usage: source </span><span class="nv">$0</span><span class="s2"> start|stop|autostart&#34;</span>
+		<span class="nb">exit</span> <span class="m">1</span>
+		<span class="p">;;</span>
+<span class="k">esac</span>
+</code></pre></div><h3 id="使用">使用</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">mv gfwlist2privoxy/ssr_manager /usr/local/bin
+chmod +x ssr_manager
+
+<span class="c1"># 启动服务</span>
+ssr_manager start
+
+<span class="c1"># 关闭服务</span>
+ssr_manager stop 
+
+<span class="c1"># 添加开机自启动</span>
+ssr_manager autostart
+</code></pre></div><h3 id="局域网共享代理">局域网共享代理</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vim /etc/privoxy/config <span class="c1"># 找到list 8118 </span>
+修改 127.0.0.1:8118 为 0.0.0.0:8118 可实现局域网共享代理
+ssr_manager stop
+ssr_manager start
+</code></pre></div><p>可通过手机代理设置 IP+端口 连接代理, 24小时随连</p>
+<p>参考链接</p>
+<blockquote>
+<p><a href="https://samzong.me/2017/11/17/howto-use-ssr-on-linux-terminal/">https://samzong.me/2017/11/17/howto-use-ssr-on-linux-terminal/</a>
+<a href="https://www.zfl9.com/ss-local.html">https://www.zfl9.com/ss-local.html</a>
+<a href="https://www.djangoz.com/2017/08/16/linux_setup_ssr/">https://www.djangoz.com/2017/08/16/linux_setup_ssr/</a></p>
+</blockquote></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-06-24</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/linux/">linux</a>,&nbsp;<a href="/tags/proxy/">proxy</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/%E8%A7%A3%E5%86%B3%E6%97%A5%E5%B8%B8api%E8%B7%A8%E5%9F%9F%E8%AF%B7%E6%B1%82/" class="prev" rel="prev" title="解决日常API跨域请求"><i class="fas fa-angle-left fa-fw"></i>解决日常API跨域请求</a>
+            <a href="/posts/shell%E7%9B%91%E6%8E%A7%E6%96%87%E4%BB%B6%E6%94%B9%E5%8F%98/" class="next" rel="next" title="Shell监控文件改变">Shell监控文件改变<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.85.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

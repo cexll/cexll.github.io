@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Docker-compose 部署微服务 Hyperf - 小仙的博客</title><meta name="Description" content=""><meta property="og:title" content="Docker-compose 部署微服务 Hyperf" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://cexll.github.cn/posts/docker-compose-%E9%83%A8%E7%BD%B2%E5%BE%AE%E6%9C%8D%E5%8A%A1-hyperf/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-06-23T09:04:30+00:00" />
+<meta property="article:modified_time" content="2021-06-23T09:04:30+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Docker-compose 部署微服务 Hyperf"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="小仙的博客">
+<meta name="apple-mobile-web-app-title" content="小仙的博客"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://cexll.github.cn/posts/docker-compose-%E9%83%A8%E7%BD%B2%E5%BE%AE%E6%9C%8D%E5%8A%A1-hyperf/" /><link rel="next" href="http://cexll.github.cn/posts/hyperf%E5%9C%A8%E7%BA%BF%E4%B8%8A%E6%97%A0%E6%84%9F%E6%9B%B4%E6%96%B0%E4%BB%A3%E7%A0%81/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Docker-compose 部署微服务 Hyperf",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/cexll.github.cn\/posts\/docker-compose-%E9%83%A8%E7%BD%B2%E5%BE%AE%E6%9C%8D%E5%8A%A1-hyperf\/"
+        },"genre": "posts","keywords": "docker, docker-compose, hyperf, 微服务","wordcount":  417 ,
+        "url": "http:\/\/cexll.github.cn\/posts\/docker-compose-%E9%83%A8%E7%BD%B2%E5%BE%AE%E6%9C%8D%E5%8A%A1-hyperf\/","datePublished": "2021-06-23T09:04:30+00:00","dateModified": "2021-06-23T09:04:30+00:00","publisher": {
+            "@type": "Organization",
+            "name": "cexll"},"author": {
+                "@type": "Person",
+                "name": "cexll"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="小仙的博客">小仙的博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="小仙的博客">小仙的博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Docker-compose 部署微服务 Hyperf</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/docker/"><i class="far fa-folder fa-fw"></i>docker</a>&nbsp;<a href="/categories/hyperf/"><i class="far fa-folder fa-fw"></i>hyperf</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-06-23">2021-06-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 417 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 1 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>Hyperf 最近更新了2.2, 对php8做了兼容并且实测性能提升1倍</p>
+</blockquote>
+<h1 id="编写-docker-compose-yml">编写 docker-compose-yml</h1>
+<blockquote>
+<p>对于不熟悉yaml的自己先查阅一下文档</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.7&#39;</span><span class="w">
+</span><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">  </span><span class="l">// 服务, 我这里启动了4个服务 分别用Tab对其</span><span class="w">
+</span><span class="w">    </span><span class="nt">hyclient</span><span class="p">:</span><span class="w"> </span><span class="l">// hyperf-client 即服务消费者</span><span class="w">
+</span><span class="w">        </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l">hyclient</span><span class="w">
+</span><span class="w">        </span><span class="nt">ports</span><span class="p">:</span><span class="w"> 
+</span><span class="w">            </span>- <span class="m">9501</span><span class="p">:</span><span class="m">9501</span><span class="w"> </span><span class="l">// 映射9501端口</span><span class="w">
+</span><span class="w">        </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span>- <span class="l">./hyclient:/opt/www // 目录映射,让容器内和本地同步</span><span class="w">
+</span><span class="w">        </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always // 自动重启规则</span><span class="w">
+</span><span class="w">        </span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span>- <span class="l">backnet</span><span class="w">
+</span><span class="w">    </span><span class="nt">hyserver</span><span class="p">:</span><span class="w"> </span><span class="l">// hyperf-server 即服务提供者</span><span class="w">
+</span><span class="w">        </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l">hyserver</span><span class="w">
+</span><span class="w">        </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span>- <span class="l">./hyserver:/opt/www</span><span class="w">
+</span><span class="w">        </span><span class="nt">ports</span><span class="p">:</span><span class="w"> 
+</span><span class="w">            </span>- <span class="m">9502</span><span class="p">:</span><span class="m">9502</span><span class="w">
+</span><span class="w">        </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span><span class="w">        </span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span>- <span class="l">backnet</span><span class="w">
+</span><span class="w">    </span><span class="nt">consul</span><span class="p">:</span><span class="w"> </span><span class="l">// 这里使用了consul来做服务发现</span><span class="w">
+</span><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">consul</span><span class="w">
+</span><span class="w">        </span><span class="nt">ports</span><span class="p">:</span><span class="w"> 
+</span><span class="w">            </span>- <span class="m">8500</span><span class="p">:</span><span class="m">8500</span><span class="w">
+</span><span class="w">        </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span><span class="w">        </span><span class="nt">networks</span><span class="p">:</span><span class="w"> 
+</span><span class="w">            </span>- <span class="l">backnet</span><span class="w">
+</span><span class="w">    </span><span class="nt">redis</span><span class="p">:</span><span class="w">  </span><span class="l">// 使用了redis</span><span class="w">
+</span><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">redis</span><span class="w">
+</span><span class="w">        </span><span class="nt">ports</span><span class="p">:</span><span class="w"> 
+</span><span class="w">            </span>- <span class="m">6379</span><span class="p">:</span><span class="m">6379</span><span class="w">
+</span><span class="w">        </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span><span class="w">        </span><span class="nt">networks</span><span class="p">:</span><span class="w"> 
+</span><span class="w">            </span>- <span class="l">backnet</span><span class="w">
+</span><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">backnet</span><span class="p">:</span><span class="w">
+</span></code></pre></div><h1 id="run">Run</h1>
+<blockquote>
+<p>运行需要在yml目录</p>
+</blockquote>
+<pre><code>docker-compose up -d
+</code></pre><p>启动之后就可以在docker看见容器启动了, 也可以使用<code>docker-compose ps</code> 查看</p>
+<h1 id="test">Test</h1>
+<p>我这里只需要请求<code>9501</code>端口就可以查看服务是否正常</p>
+<blockquote>
+<p>因为我将端口映射出来了,所以可以直接使用<code>localhost</code>访问</p>
+</blockquote>
+<pre><code class="language-linux" data-lang="linux">curl http://localhost:9501/
+</code></pre><p><del>代码后续开源到<code>Github</code>, 持续关注</del></p>
+<p><a href="https://github.com/cexll/docker-compose-hyperf">https://github.com/cexll/docker-compose-hyperf</a></p>
+<p>项目已开源</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-06-23</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/docker/">docker</a>,&nbsp;<a href="/tags/docker-compose/">docker-compose</a>,&nbsp;<a href="/tags/hyperf/">hyperf</a>,&nbsp;<a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+            <a href="/posts/hyperf%E5%9C%A8%E7%BA%BF%E4%B8%8A%E6%97%A0%E6%84%9F%E6%9B%B4%E6%96%B0%E4%BB%A3%E7%A0%81/" class="next" rel="next" title="Hyperf在线上无感更新代码">Hyperf在线上无感更新代码<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.85.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Linux扩容硬盘空间不足 - 小仙的博客</title><meta name="Description" content=""><meta property="og:title" content="Linux扩容硬盘空间不足" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://cexll.github.cn/posts/linux%E6%89%A9%E5%AE%B9%E7%A1%AC%E7%9B%98%E7%A9%BA%E9%97%B4%E4%B8%8D%E8%B6%B3/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-06-24T13:43:46+00:00" />
+<meta property="article:modified_time" content="2021-06-24T13:43:46+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux扩容硬盘空间不足"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="小仙的博客">
+<meta name="apple-mobile-web-app-title" content="小仙的博客"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://cexll.github.cn/posts/linux%E6%89%A9%E5%AE%B9%E7%A1%AC%E7%9B%98%E7%A9%BA%E9%97%B4%E4%B8%8D%E8%B6%B3/" /><link rel="prev" href="http://cexll.github.cn/posts/19%E5%B9%B4%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/" /><link rel="next" href="http://cexll.github.cn/posts/%E7%BD%91%E9%A1%B5%E6%9A%97%E6%A8%A1%E5%BC%8F%E5%8F%AA%E8%A6%81%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Linux扩容硬盘空间不足",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/cexll.github.cn\/posts\/linux%E6%89%A9%E5%AE%B9%E7%A1%AC%E7%9B%98%E7%A9%BA%E9%97%B4%E4%B8%8D%E8%B6%B3\/"
+        },"genre": "posts","keywords": "linux, 扩容","wordcount":  431 ,
+        "url": "http:\/\/cexll.github.cn\/posts\/linux%E6%89%A9%E5%AE%B9%E7%A1%AC%E7%9B%98%E7%A9%BA%E9%97%B4%E4%B8%8D%E8%B6%B3\/","datePublished": "2021-06-24T13:43:46+00:00","dateModified": "2021-06-24T13:43:46+00:00","publisher": {
+            "@type": "Organization",
+            "name": "cexll"},"author": {
+                "@type": "Person",
+                "name": "cexll"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="小仙的博客">小仙的博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="小仙的博客">小仙的博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Linux扩容硬盘空间不足</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/linux/"><i class="far fa-folder fa-fw"></i>linux</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-06-24">2021-06-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 431 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 1 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#以下操作全部需要root执行-sudo">以下操作全部需要root执行: sudo</a></li>
+    <li><a href="#1查看硬盘信息">1、查看硬盘信息</a></li>
+    <li><a href="#2进入磁盘对磁盘进行分区">2、进入磁盘，对磁盘进行分区</a>
+      <ul>
+        <li><a href="#输入1进入逻辑分区阶段">输入1，进入逻辑分区阶段</a></li>
+        <li><a href="#保存-w">保存 w</a></li>
+      </ul>
+    </li>
+    <li><a href="#3格式化分区挂载">3、格式化分区&amp;挂载</a></li>
+    <li><a href="#4设置开机自动挂载">4、设置开机自动挂载</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#1重启失败命令行界面">1、重启失败(命令行界面)</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p><strong>Linux 在多个小硬盘下非常难受，如2个128G的固态，使用非常难受，今天就让它们组合起来使用，让多个硬盘组合成一个使用而不需要归成一个，我平常喜欢让一个硬盘挂载系统，另一个挂再home目录，组合使用更加舒服</strong></p>
+<h2 id="以下操作全部需要root执行-sudo">以下操作全部需要root执行: sudo</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">su root <span class="p">|</span> sudo
+</code></pre></div><h2 id="1查看硬盘信息">1、查看硬盘信息</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">fdisk -l
+</code></pre></div><h2 id="2进入磁盘对磁盘进行分区">2、进入磁盘，对磁盘进行分区</h2>
+<ul>
+<li>删除旧分区</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">fdisk <span class="o">[</span>磁盘路径<span class="o">]</span> <span class="p">|</span> 例: /dev/sdb
+m   // 帮助
+d   // 删除分区
+n   // 添加分区
+p   // 创建逻辑分区
+</code></pre></div><h3 id="输入1进入逻辑分区阶段">输入1，进入逻辑分区阶段</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">artion number<span class="o">(</span>1-4<span class="o">)</span>：1
+这里需要一点fdisk基础，默认全部分区直接回车就行
+</code></pre></div><h3 id="保存-w">保存 w</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">w
+</code></pre></div><h2 id="3格式化分区挂载">3、格式化分区&amp;挂载</h2>
+<ul>
+<li>手动卸载分区</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">umount <span class="o">[</span>磁盘路径<span class="o">]</span>
+</code></pre></div><ul>
+<li>将 <code>/dev/sdb1</code> 格式化为 <code>ext4</code> 类型</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">mkfs.ext4 /dev/sdb1
+</code></pre></div><ul>
+<li>在根目录下创建一个目录</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">mkdir /<span class="o">[</span>目录名<span class="o">]</span>
+</code></pre></div><ul>
+<li>挂载分区</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">mount /dev/sdb1 /<span class="o">[</span>目录名<span class="o">]</span>
+</code></pre></div><ul>
+<li>查看硬盘和挂载分区等信息</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">df -h
+</code></pre></div><h2 id="4设置开机自动挂载">4、设置开机自动挂载</h2>
+<ul>
+<li>查询磁盘UUID</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ls -al /dev/disk/by-uuid
+</code></pre></div><ul>
+<li>编辑 <code>/dev/fstab</code></li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vim /etc/fstab
+</code></pre></div><ul>
+<li>加入挂载磁盘的信息</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">UUID</span><span class="o">=</span>xxx /<span class="o">[</span>挂载目录<span class="o">]</span> ext4<span class="o">(</span>文件格式<span class="o">)</span> defaults <span class="m">0</span> <span class="m">0</span>
+</code></pre></div><ul>
+<li>重启</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">reboot
+</code></pre></div><h1 id="问题表">问题表</h1>
+<h2 id="1重启失败命令行界面">1、重启失败(命令行界面)</h2>
+<ul>
+<li>输入登录密码</li>
+<li>检查修改磁盘挂载信息</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vim /etc/fstab
+</code></pre></div><p>注释掉之前添加的信息，再次重启</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">reboot
+</code></pre></div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-06-24</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/linux/">linux</a>,&nbsp;<a href="/tags/%E6%89%A9%E5%AE%B9/">扩容</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/19%E5%B9%B4%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/" class="prev" rel="prev" title="19年面试总结"><i class="fas fa-angle-left fa-fw"></i>19年面试总结</a>
+            <a href="/posts/%E7%BD%91%E9%A1%B5%E6%9A%97%E6%A8%A1%E5%BC%8F%E5%8F%AA%E8%A6%81%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81/" class="next" rel="next" title="网页暗模式只要一行代码">网页暗模式只要一行代码<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.85.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>使用 Redis-GEO HASH 实现实时查看附近的人 - 小仙的博客</title><meta name="Description" content=""><meta property="og:title" content="使用 Redis-GEO HASH 实现实时查看附近的人" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://cexll.github.cn/posts/%E4%BD%BF%E7%94%A8-redis-geo-hash-%E5%AE%9E%E7%8E%B0%E5%AE%9E%E6%97%B6%E6%9F%A5%E7%9C%8B%E9%99%84%E8%BF%91%E7%9A%84%E4%BA%BA/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-09-22T21:56:19+00:00" />
+<meta property="article:modified_time" content="2021-09-22T21:56:19+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用 Redis-GEO HASH 实现实时查看附近的人"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="小仙的博客">
+<meta name="apple-mobile-web-app-title" content="小仙的博客"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://cexll.github.cn/posts/%E4%BD%BF%E7%94%A8-redis-geo-hash-%E5%AE%9E%E7%8E%B0%E5%AE%9E%E6%97%B6%E6%9F%A5%E7%9C%8B%E9%99%84%E8%BF%91%E7%9A%84%E4%BA%BA/" /><link rel="prev" href="http://cexll.github.cn/posts/%E4%BD%BF%E7%94%A8docker-swarm%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86/" /><link rel="next" href="http://cexll.github.cn/posts/%E4%BD%BF%E7%94%A8docker-compose-%E6%90%AD%E5%BB%BA-mysql-%E4%B8%BB%E4%BB%8E-%E9%9B%86%E7%BE%A4/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "使用 Redis-GEO HASH 实现实时查看附近的人",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/cexll.github.cn\/posts\/%E4%BD%BF%E7%94%A8-redis-geo-hash-%E5%AE%9E%E7%8E%B0%E5%AE%9E%E6%97%B6%E6%9F%A5%E7%9C%8B%E9%99%84%E8%BF%91%E7%9A%84%E4%BA%BA\/"
+        },"genre": "posts","keywords": "redis, geo","wordcount":  1880 ,
+        "url": "http:\/\/cexll.github.cn\/posts\/%E4%BD%BF%E7%94%A8-redis-geo-hash-%E5%AE%9E%E7%8E%B0%E5%AE%9E%E6%97%B6%E6%9F%A5%E7%9C%8B%E9%99%84%E8%BF%91%E7%9A%84%E4%BA%BA\/","datePublished": "2021-09-22T21:56:19+00:00","dateModified": "2021-09-22T21:56:19+00:00","publisher": {
+            "@type": "Organization",
+            "name": "cexll"},"author": {
+                "@type": "Person",
+                "name": "cexll"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="小仙的博客">小仙的博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="小仙的博客">小仙的博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">使用 Redis-GEO HASH 实现实时查看附近的人</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/redis/"><i class="far fa-folder fa-fw"></i>redis</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-09-22">2021-09-22</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1880 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#合并经纬度编码">合并经纬度编码</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#geoadd">GEOADD</a></li>
+        <li><a href="#georadius">GEORADIUS</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Geohash">https://en.wikipedia.org/wiki/Geohash</a></p>
+</blockquote>
+<p><code>GeoHash</code>算法将二维的经纬度数据映射到一维的整数，这样所有的元素都将在挂载到一条线上，距离靠近的二维坐标映射到一维后的点之间距离也会很接近。</p>
+<p>当我们想要计算「附近的人时」，首先将目标位置映射到这条线上，然后在这个一维的线上获取附近的点就行了。</p>
+<p>GeoHash 编码会把一个经度值编码成一个 N 位的二进制值，我们来对经度范围[-180,180]做 N 次的二分区操作，其中 N 可以自定义。</p>
+<p>在进行第一次二分区时，经度范围[-180,180]会被分成两个子区间：[-180,0) 和[0,180]（我称之为左、右分区）。</p>
+<p>此时，我们可以查看一下要编码的经度值落在了左分区还是右分区。<code>如果是落在左分区，我们就用 0 表示；如果落在右分区，就用 1 表示。</code></p>
+<p>这样一来，<code>每做完一次二分区，我们就可以得到 1 位编码值（不是0 就是 1）</code>。</p>
+<p>再对经度值所属的分区再做一次二分区，同时再次查看经度值落在了二分区后的左分区还是右分区，按照刚才的规则再做 1 位编码。当做完 N 次的二分区后，经度值就可以用一个 N bit 的数来表示了。</p>
+<p><code>所有的地图元素坐标都将放置于唯一的方格中。方格越小，坐标越精确。然后对这些方格进行整数编码，越是靠近的方格编码越是接近。</code></p>
+<p>编码之后，每个地图元素的坐标都将变成一个整数，通过这个整数可以还原出元素的坐标，整数越长，还原出来的坐标值的损失程度就越小。对于「附近的人」这个功能而言，损失的一点精确度可以忽略不计。</p>
+<p>比如对经度值等于 <code>169.99</code> 进行 4 位编码（N = 4，做 4 次分区）,把经度区间[-180,180]分成了左分区[-180,0) 和右分区[0,180]。</p>
+<ol>
+<li>169.99 属于右分区，使用 <code>1</code> 表示第一次分区编码；</li>
+<li>再将 169.99 经过第一次划分所属的 [0, 180] 区间继续分成 [0, 90) 和 [90, 180]，169.99 依然在右区间，编码 ‘1’。</li>
+<li>将[90, 180] 分为[90, 135) 和 [135, 180]，这次落在左分区，编码 ‘0’。</li>
+</ol>
+<p>如此，最后我们就得到一个 4 位的编码。</p>
+<p>而纬度的编码思路跟经度也是一样的，不再赘述。</p>
+<h3 id="合并经纬度编码">合并经纬度编码</h3>
+<p>假如计算的经纬度编码分别是 <code>11011</code> 和 <code>00101</code>，目标编码第 0 位则从经度第 0 位的值 1 作为目标值，目标编码的第 1 位则从纬度第 0 位值 0 作为目标值，以此类推：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cexll.cn/upload/2021/09/640-84baa7b2f9d4499f80e812717d20bf8e.webp"
+        data-srcset="https://cexll.cn/upload/2021/09/640-84baa7b2f9d4499f80e812717d20bf8e.webp, https://cexll.cn/upload/2021/09/640-84baa7b2f9d4499f80e812717d20bf8e.webp 1.5x, https://cexll.cn/upload/2021/09/640-84baa7b2f9d4499f80e812717d20bf8e.webp 2x"
+        data-sizes="auto"
+        alt="https://cexll.cn/upload/2021/09/640-84baa7b2f9d4499f80e812717d20bf8e.webp"
+        title="640" /></p>
+<p>就这样，经纬度（35.679，114.020）就可以使用 <code>1010011011</code> 表示，而这个值就可以作为 <code>SortedSet</code> 的权重值实现排序。</p>
+<h1 id="redis-geo-实现">Redis GEO 实现</h1>
+<blockquote>
+<p>GEO 类型是将经纬度的经过 GeoHash 编码的合并值作为 Sorted Set 元素的 score 权重，Redis 的 GEO 有哪些指令呢？</p>
+</blockquote>
+<p>我们需要把登陆 app 的女生 ID 和对应的经纬度存到 Sorted Set 里面。</p>
+<p>更多 GEO 类型指令可参考：https://redis.io/commands#geo</p>
+<h3 id="geoadd">GEOADD</h3>
+<p>Redis 提供了 <code>GEOADD key longitude latitude member</code> 命令，将一组经纬度信息和对应的「女神 ID」记录到 GEO 类型的集合中，如下：一次记录多个用户（苍井空、波多野结衣）的经纬度信息。</p>
+<pre><code class="language-redis" data-lang="redis">GEOADD girl:localtion 13.361389 38.115556 &quot;三上悠亚&quot; 15.087269 37.502669 &quot;樱空桃&quot;
+
+</code></pre><h3 id="georadius">GEORADIUS</h3>
+<blockquote>
+<p>我登陆了 app，获取自己的经纬度信息，如何查找以这个经纬度为中心的一定范围内的其他用用户呢？</p>
+</blockquote>
+<p>Redis GEO类型提供了 <code>GEORADIUS</code> 指令：会根据输入的经纬度位置，查找以这个经纬度为中心的一定范围内的其他元素。</p>
+<p>假设自己的经纬度是（15.087269 37.502669），需要获取附近 10 km 的「女神」并返回给 LBS 应用：</p>
+<pre><code class="language-redis" data-lang="redis">GEORADIUS girl:locations 15.087269 37.502669 km ASC COUNT 10
+</code></pre><p><code>ASC</code>可以实现让「女神」信息按照这个距离自己的经纬度由近到远排序。</p>
+<p><code>COUNT</code>选项表示指定返回的「女神」数量，防止附近太多「女神」，节省带宽资源。</p>
+<p><del>如果觉得自己需要更多女神，那么可以无限制，但是需要注意身体，多吃鸡蛋补一补</del></p>
+<blockquote>
+<p>用户下线后，如删除下线的「女神」经纬度呢？</p>
+</blockquote>
+<p>GEO 类型是基于 <code>Sorted Set</code> 实现的，所以可以借用 <code>ZREM</code> 命令实现对地理位置信息的删除。</p>
+<pre><code class="language-redis" data-lang="redis">ZREM girl:localtion &quot;樱空桃&quot;
+</code></pre><h1 id="结尾">结尾</h1>
+<p>GEO 本身并没有设计新的底层数据结构，而是直接使用了 Sorted Set 集合类型。</p>
+<p>GEO 类型使用 GeoHash 编码方法实现了经纬度到 Sorted Set 中元素权重分数的转换，这其中的两个关键机制就是对二维地图做区间划分，以及对区间进行编码。</p>
+<p>一组经纬度落在某个区间后，就用区间的编码值来表示，并把编码值作为 Sorted Set 元素的权重分数。</p>
+<p>在一个地图应用中，车的数据、餐馆的数据、人的数据可能会有百万千万条，如果使用 Redis 的 Geo 数据结构，它们将全部放在一个 zset 集合中。</p>
+<p>在 Redis 的集群环境中，集合可能会从一个节点迁移到另一个节点，如果单个 key 的数据过大，会对集群的迁移工作造成较大的影响，在集群环境中单个 key 对应的数据量不宜超过 1M，否则会导致集群迁移出现卡顿现象，影响线上服务的正常运行。</p>
+<p>所以，这里建议 Geo 的数据使用单独的 Redis 集群实例部署。</p>
+<p>如果数据量过亿甚至更大，就需要对 Geo 数据进行拆分，按国家拆分、按省拆分，按市拆分，在人口特大城市甚至可以按区拆分。</p>
+<p>这样就可以显著降低单个 zset 集合的大小。</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-09-22</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/redis/">redis</a>,&nbsp;<a href="/tags/geo/">geo</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/%E4%BD%BF%E7%94%A8docker-swarm%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86/" class="prev" rel="prev" title="使用docker-swarm集群管理"><i class="fas fa-angle-left fa-fw"></i>使用docker-swarm集群管理</a>
+            <a href="/posts/%E4%BD%BF%E7%94%A8docker-compose-%E6%90%AD%E5%BB%BA-mysql-%E4%B8%BB%E4%BB%8E-%E9%9B%86%E7%BE%A4/" class="next" rel="next" title="使用Docker-compose 搭建 MySQL 主从 集群">使用Docker-compose 搭建 MySQL 主从 集群<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.85.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
