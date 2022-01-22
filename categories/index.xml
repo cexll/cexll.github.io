@@ -1,77 +1,77 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>Categories - 分类 - 小仙的博客</title>
-        <link>http://cexll.github.cn/categories/</link>
+        <link>https://cexll.cn/categories/</link>
         <description>Categories - 分类 - 小仙的博客</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 04 Dec 2021 16:45:37 &#43;0800</lastBuildDate><atom:link href="http://cexll.github.cn/categories/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 04 Dec 2021 16:45:37 &#43;0800</lastBuildDate><atom:link href="https://cexll.cn/categories/" rel="self" type="application/rss+xml" /><item>
     <title>blog</title>
-    <link>http://cexll.github.cn/categories/blog/</link>
+    <link>https://cexll.cn/categories/blog/</link>
     <pubDate>Sat, 04 Dec 2021 16:45:37 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>http://cexll.github.cn/categories/blog/</guid>
+    <guid>https://cexll.cn/categories/blog/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>nginx</title>
-    <link>http://cexll.github.cn/categories/nginx/</link>
+    <link>https://cexll.cn/categories/nginx/</link>
     <pubDate>Thu, 18 Nov 2021 11:14:17 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://cexll.github.cn/categories/nginx/</guid>
+    <guid>https://cexll.cn/categories/nginx/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>openresty</title>
-    <link>http://cexll.github.cn/categories/openresty/</link>
+    <link>https://cexll.cn/categories/openresty/</link>
     <pubDate>Thu, 18 Nov 2021 11:14:17 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://cexll.github.cn/categories/openresty/</guid>
+    <guid>https://cexll.cn/categories/openresty/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>git</title>
-    <link>http://cexll.github.cn/categories/git/</link>
+    <link>https://cexll.cn/categories/git/</link>
     <pubDate>Thu, 18 Nov 2021 09:58:49 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://cexll.github.cn/categories/git/</guid>
+    <guid>https://cexll.cn/categories/git/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>docker</title>
-    <link>http://cexll.github.cn/categories/docker/</link>
+    <link>https://cexll.cn/categories/docker/</link>
     <pubDate>Wed, 03 Nov 2021 13:49:44 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://cexll.github.cn/categories/docker/</guid>
+    <guid>https://cexll.cn/categories/docker/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>redis</title>
-    <link>http://cexll.github.cn/categories/redis/</link>
+    <link>https://cexll.cn/categories/redis/</link>
     <pubDate>Sat, 30 Oct 2021 16:23:08 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://cexll.github.cn/categories/redis/</guid>
+    <guid>https://cexll.cn/categories/redis/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>集群</title>
-    <link>http://cexll.github.cn/categories/%E9%9B%86%E7%BE%A4/</link>
+    <link>https://cexll.cn/categories/%E9%9B%86%E7%BE%A4/</link>
     <pubDate>Sat, 30 Oct 2021 16:23:08 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://cexll.github.cn/categories/%E9%9B%86%E7%BE%A4/</guid>
+    <guid>https://cexll.cn/categories/%E9%9B%86%E7%BE%A4/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>mysql</title>
-    <link>http://cexll.github.cn/categories/mysql/</link>
+    <link>https://cexll.cn/categories/mysql/</link>
     <pubDate>Sat, 30 Oct 2021 13:58:56 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://cexll.github.cn/categories/mysql/</guid>
+    <guid>https://cexll.cn/categories/mysql/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>swarm</title>
-    <link>http://cexll.github.cn/categories/swarm/</link>
+    <link>https://cexll.cn/categories/swarm/</link>
     <pubDate>Wed, 22 Sep 2021 21:43:58 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://cexll.github.cn/categories/swarm/</guid>
+    <guid>https://cexll.cn/categories/swarm/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>php</title>
-    <link>http://cexll.github.cn/categories/php/</link>
+    <link>https://cexll.cn/categories/php/</link>
     <pubDate>Mon, 20 Sep 2021 18:49:51 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://cexll.github.cn/categories/php/</guid>
+    <guid>https://cexll.cn/categories/php/</guid>
     <description><![CDATA[]]></description>
 </item></channel>
 </rss>

@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>proxy - 分类 - 小仙的博客</title>
-        <link>http://cexll.github.cn/categories/proxy/</link>
+        <link>https://cexll.cn/categories/proxy/</link>
         <description>proxy - 分类 - 小仙的博客</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 24 Jun 2021 13:39:12 &#43;0000</lastBuildDate><atom:link href="http://cexll.github.cn/categories/proxy/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 24 Jun 2021 13:39:12 &#43;0000</lastBuildDate><atom:link href="https://cexll.cn/categories/proxy/" rel="self" type="application/rss+xml" /><item>
     <title>Linux/Win 配置使用终端代理</title>
-    <link>http://cexll.github.cn/posts/linux/win-%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86/</link>
+    <link>https://cexll.cn/posts/linux/win-%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86/</link>
     <pubDate>Thu, 24 Jun 2021 13:39:12 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://cexll.github.cn/posts/linux/win-%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86/</guid>
+    <guid>https://cexll.cn/posts/linux/win-%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86/</guid>
     <description><![CDATA[]]></description>
 </item></channel>
 </rss>

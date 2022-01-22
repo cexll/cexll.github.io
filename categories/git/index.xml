@@ -1,42 +1,42 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>git - 分类 - 小仙的博客</title>
-        <link>http://cexll.github.cn/categories/git/</link>
+        <link>https://cexll.cn/categories/git/</link>
         <description>git - 分类 - 小仙的博客</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 18 Nov 2021 09:58:49 &#43;0000</lastBuildDate><atom:link href="http://cexll.github.cn/categories/git/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 18 Nov 2021 09:58:49 &#43;0000</lastBuildDate><atom:link href="https://cexll.cn/categories/git/" rel="self" type="application/rss+xml" /><item>
     <title>Git常用命令</title>
-    <link>http://cexll.github.cn/posts/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
+    <link>https://cexll.cn/posts/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
     <pubDate>Thu, 18 Nov 2021 09:58:49 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://cexll.github.cn/posts/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
+    <guid>https://cexll.cn/posts/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>记录删除.git记录大文件的过程</title>
-    <link>http://cexll.github.cn/posts/%E8%AE%B0%E5%BD%95%E5%88%A0%E9%99%A4.git%E8%AE%B0%E5%BD%95%E5%A4%A7%E6%96%87%E4%BB%B6%E7%9A%84%E8%BF%87%E7%A8%8B/</link>
+    <link>https://cexll.cn/posts/%E8%AE%B0%E5%BD%95%E5%88%A0%E9%99%A4.git%E8%AE%B0%E5%BD%95%E5%A4%A7%E6%96%87%E4%BB%B6%E7%9A%84%E8%BF%87%E7%A8%8B/</link>
     <pubDate>Wed, 22 Sep 2021 21:18:14 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://cexll.github.cn/posts/%E8%AE%B0%E5%BD%95%E5%88%A0%E9%99%A4.git%E8%AE%B0%E5%BD%95%E5%A4%A7%E6%96%87%E4%BB%B6%E7%9A%84%E8%BF%87%E7%A8%8B/</guid>
+    <guid>https://cexll.cn/posts/%E8%AE%B0%E5%BD%95%E5%88%A0%E9%99%A4.git%E8%AE%B0%E5%BD%95%E5%A4%A7%E6%96%87%E4%BB%B6%E7%9A%84%E8%BF%87%E7%A8%8B/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>Git的奇技淫巧</title>
-    <link>http://cexll.github.cn/posts/git%E7%9A%84%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/</link>
+    <link>https://cexll.cn/posts/git%E7%9A%84%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/</link>
     <pubDate>Thu, 24 Jun 2021 13:43:02 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://cexll.github.cn/posts/git%E7%9A%84%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/</guid>
+    <guid>https://cexll.cn/posts/git%E7%9A%84%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>Github上fork项目与源项目同步</title>
-    <link>http://cexll.github.cn/posts/github%E4%B8%8Afork%E9%A1%B9%E7%9B%AE%E4%B8%8E%E6%BA%90%E9%A1%B9%E7%9B%AE%E5%90%8C%E6%AD%A5/</link>
+    <link>https://cexll.cn/posts/github%E4%B8%8Afork%E9%A1%B9%E7%9B%AE%E4%B8%8E%E6%BA%90%E9%A1%B9%E7%9B%AE%E5%90%8C%E6%AD%A5/</link>
     <pubDate>Thu, 24 Jun 2021 13:42:04 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://cexll.github.cn/posts/github%E4%B8%8Afork%E9%A1%B9%E7%9B%AE%E4%B8%8E%E6%BA%90%E9%A1%B9%E7%9B%AE%E5%90%8C%E6%AD%A5/</guid>
+    <guid>https://cexll.cn/posts/github%E4%B8%8Afork%E9%A1%B9%E7%9B%AE%E4%B8%8E%E6%BA%90%E9%A1%B9%E7%9B%AE%E5%90%8C%E6%AD%A5/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>Git 与 Github</title>
-    <link>http://cexll.github.cn/posts/git-%E4%B8%8E-github/</link>
+    <link>https://cexll.cn/posts/git-%E4%B8%8E-github/</link>
     <pubDate>Thu, 24 Jun 2021 13:38:27 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://cexll.github.cn/posts/git-%E4%B8%8E-github/</guid>
+    <guid>https://cexll.cn/posts/git-%E4%B8%8E-github/</guid>
     <description><![CDATA[]]></description>
 </item></channel>
 </rss>

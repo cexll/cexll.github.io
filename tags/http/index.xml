@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>http - 标签 - 小仙的博客</title>
-        <link>http://cexll.github.cn/tags/http/</link>
+        <link>https://cexll.cn/tags/http/</link>
         <description>http - 标签 - 小仙的博客</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 24 Jun 2021 13:34:10 &#43;0000</lastBuildDate><atom:link href="http://cexll.github.cn/tags/http/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 24 Jun 2021 13:34:10 &#43;0000</lastBuildDate><atom:link href="https://cexll.cn/tags/http/" rel="self" type="application/rss+xml" /><item>
     <title>使用PHP内置HTTP服务器启动网站</title>
-    <link>http://cexll.github.cn/posts/%E4%BD%BF%E7%94%A8php%E5%86%85%E7%BD%AEhttp%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%AF%E5%8A%A8%E7%BD%91%E7%AB%99/</link>
+    <link>https://cexll.cn/posts/%E4%BD%BF%E7%94%A8php%E5%86%85%E7%BD%AEhttp%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%AF%E5%8A%A8%E7%BD%91%E7%AB%99/</link>
     <pubDate>Thu, 24 Jun 2021 13:34:10 &#43;0000</pubDate>
     <author>作者</author>
-    <guid>http://cexll.github.cn/posts/%E4%BD%BF%E7%94%A8php%E5%86%85%E7%BD%AEhttp%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%AF%E5%8A%A8%E7%BD%91%E7%AB%99/</guid>
+    <guid>https://cexll.cn/posts/%E4%BD%BF%E7%94%A8php%E5%86%85%E7%BD%AEhttp%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%AF%E5%8A%A8%E7%BD%91%E7%AB%99/</guid>
     <description><![CDATA[]]></description>
 </item></channel>
 </rss>
