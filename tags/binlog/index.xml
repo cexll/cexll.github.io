@@ -1,0 +1,14 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>binlog - 标签 - 小仙的博客</title>
+        <link>https://cexll.cn/tags/binlog/</link>
+        <description>binlog - 标签 - 小仙的博客</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 26 Jan 2022 11:02:55 &#43;0800</lastBuildDate><atom:link href="https://cexll.cn/tags/binlog/" rel="self" type="application/rss+xml" /><item>
+    <title>通过binlog获取Mysql数据进行恢复同步</title>
+    <link>https://cexll.cn/posts/%E9%80%9A%E8%BF%87binlog%E8%8E%B7%E5%8F%96mysql%E6%95%B0%E6%8D%AE%E8%BF%9B%E8%A1%8C%E6%81%A2%E5%A4%8D%E5%90%8C%E6%AD%A5/</link>
+    <pubDate>Wed, 26 Jan 2022 11:02:55 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://cexll.cn/posts/%E9%80%9A%E8%BF%87binlog%E8%8E%B7%E5%8F%96mysql%E6%95%B0%E6%8D%AE%E8%BF%9B%E8%A1%8C%E6%81%A2%E5%A4%8D%E5%90%8C%E6%AD%A5/</guid>
+    <description><![CDATA[]]></description>
+</item></channel>
+</rss>

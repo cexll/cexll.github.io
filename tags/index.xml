@@ -3,7 +3,21 @@
         <title>Tags - 标签 - 小仙的博客</title>
         <link>https://cexll.cn/tags/</link>
         <description>Tags - 标签 - 小仙的博客</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 04 Dec 2021 16:45:37 &#43;0800</lastBuildDate><atom:link href="https://cexll.cn/tags/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 26 Jan 2022 11:02:55 &#43;0800</lastBuildDate><atom:link href="https://cexll.cn/tags/" rel="self" type="application/rss+xml" /><item>
+    <title>binlog</title>
+    <link>https://cexll.cn/tags/binlog/</link>
+    <pubDate>Wed, 26 Jan 2022 11:02:55 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://cexll.cn/tags/binlog/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>mysql</title>
+    <link>https://cexll.cn/tags/mysql/</link>
+    <pubDate>Wed, 26 Jan 2022 11:02:55 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://cexll.cn/tags/mysql/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
     <title>action</title>
     <link>https://cexll.cn/tags/action/</link>
     <pubDate>Sat, 04 Dec 2021 16:45:37 &#43;0800</pubDate>
@@ -58,20 +72,6 @@
     <pubDate>Thu, 18 Nov 2021 11:14:17 &#43;0000</pubDate>
     <author>作者</author>
     <guid>https://cexll.cn/tags/redis/</guid>
-    <description><![CDATA[]]></description>
-</item><item>
-    <title>灰度测试</title>
-    <link>https://cexll.cn/tags/%E7%81%B0%E5%BA%A6%E6%B5%8B%E8%AF%95/</link>
-    <pubDate>Thu, 18 Nov 2021 11:14:17 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>https://cexll.cn/tags/%E7%81%B0%E5%BA%A6%E6%B5%8B%E8%AF%95/</guid>
-    <description><![CDATA[]]></description>
-</item><item>
-    <title>git</title>
-    <link>https://cexll.cn/tags/git/</link>
-    <pubDate>Thu, 18 Nov 2021 09:58:49 &#43;0000</pubDate>
-    <author>作者</author>
-    <guid>https://cexll.cn/tags/git/</guid>
     <description><![CDATA[]]></description>
 </item></channel>
 </rss>
