@@ -118,7 +118,7 @@ public function onClose($server, int $fd, int $reactorId): void
   $channel = $request->get['channel'] ?? null;
   if (!empty($channel)) {
       $sub = new Subscriber('127.0.0.1', 6379, '', 5);
-      $sub->unsubscribe($channel);
+      $sub->unsubscribe($channel); // 断开订阅
   }
 }
 ```
