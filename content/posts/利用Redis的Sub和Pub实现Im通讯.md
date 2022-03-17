@@ -114,8 +114,12 @@ public function onMessage($server, Frame $frame): void
 ```php
 public function onClose($server, int $fd, int $reactorId): void
 {
-    $sub = new Subscriber('127.0.0.1', 6379, '', 5);
-    $sub->unsubscribe('1');
+  // 这里演示代码 断开链接之后取消订阅
+  $channel = $request->get['channel'] ?? null;
+  if (!empty($channel)) {
+      $sub = new Subscriber('127.0.0.1', 6379, '', 5);
+      $sub->unsubscribe($channel);
+  }
 }
 ```
 
