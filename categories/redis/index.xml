@@ -3,7 +3,14 @@
         <title>redis - 分类 - 小仙的博客</title>
         <link>https://cexll.cn/categories/redis/</link>
         <description>redis - 分类 - 小仙的博客</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 30 Oct 2021 16:23:08 &#43;0000</lastBuildDate><atom:link href="https://cexll.cn/categories/redis/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 17 Mar 2022 13:53:28 &#43;0800</lastBuildDate><atom:link href="https://cexll.cn/categories/redis/" rel="self" type="application/rss+xml" /><item>
+    <title>利用Redis的Sub和Pub实现Im通讯</title>
+    <link>https://cexll.cn/posts/%E5%88%A9%E7%94%A8redis%E7%9A%84sub%E5%92%8Cpub%E5%AE%9E%E7%8E%B0im%E9%80%9A%E8%AE%AF/</link>
+    <pubDate>Thu, 17 Mar 2022 13:53:28 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://cexll.cn/posts/%E5%88%A9%E7%94%A8redis%E7%9A%84sub%E5%92%8Cpub%E5%AE%9E%E7%8E%B0im%E9%80%9A%E8%AE%AF/</guid>
+    <description><![CDATA[Redis的Pub/Sub作为核心,WebSocket作为通讯实现分布式Im通讯]]></description>
+</item><item>
     <title>使用Docker-compose 搭建 Redis 集群</title>
     <link>https://cexll.cn/posts/%E4%BD%BF%E7%94%A8docker-compose-%E6%90%AD%E5%BB%BA-redis-%E9%9B%86%E7%BE%A4/</link>
     <pubDate>Sat, 30 Oct 2021 16:23:08 &#43;0000</pubDate>

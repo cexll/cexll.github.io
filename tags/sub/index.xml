@@ -1,0 +1,14 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>sub - 标签 - 小仙的博客</title>
+        <link>https://cexll.cn/tags/sub/</link>
+        <description>sub - 标签 - 小仙的博客</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 17 Mar 2022 13:53:28 &#43;0800</lastBuildDate><atom:link href="https://cexll.cn/tags/sub/" rel="self" type="application/rss+xml" /><item>
+    <title>利用Redis的Sub和Pub实现Im通讯</title>
+    <link>https://cexll.cn/posts/%E5%88%A9%E7%94%A8redis%E7%9A%84sub%E5%92%8Cpub%E5%AE%9E%E7%8E%B0im%E9%80%9A%E8%AE%AF/</link>
+    <pubDate>Thu, 17 Mar 2022 13:53:28 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://cexll.cn/posts/%E5%88%A9%E7%94%A8redis%E7%9A%84sub%E5%92%8Cpub%E5%AE%9E%E7%8E%B0im%E9%80%9A%E8%AE%AF/</guid>
+    <description><![CDATA[Redis的Pub/Sub作为核心,WebSocket作为通讯实现分布式Im通讯]]></description>
+</item></channel>
+</rss>

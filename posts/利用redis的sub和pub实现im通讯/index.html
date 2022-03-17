@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>利用Redis的Sub和Pub实现Im通讯 - 小仙的博客</title><meta name="Description" content="Redis的Pub/Sub作为核心,WebSocket作为通讯实现分布式Im通讯"><meta property="og:title" content="利用Redis的Sub和Pub实现Im通讯" />
+<meta property="og:description" content="Redis的Pub/Sub作为核心,WebSocket作为通讯实现分布式Im通讯" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://cexll.cn/posts/%E5%88%A9%E7%94%A8redis%E7%9A%84sub%E5%92%8Cpub%E5%AE%9E%E7%8E%B0im%E9%80%9A%E8%AE%AF/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-03-17T13:53:28+08:00" />
+<meta property="article:modified_time" content="2022-03-17T13:53:28+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="利用Redis的Sub和Pub实现Im通讯"/>
+<meta name="twitter:description" content="Redis的Pub/Sub作为核心,WebSocket作为通讯实现分布式Im通讯"/>
+<meta name="application-name" content="小仙的博客">
+<meta name="apple-mobile-web-app-title" content="小仙的博客"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://cexll.cn/posts/%E5%88%A9%E7%94%A8redis%E7%9A%84sub%E5%92%8Cpub%E5%AE%9E%E7%8E%B0im%E9%80%9A%E8%AE%AF/" /><link rel="prev" href="https://cexll.cn/posts/%E9%80%9A%E8%BF%87binlog%E8%8E%B7%E5%8F%96mysql%E6%95%B0%E6%8D%AE%E8%BF%9B%E8%A1%8C%E6%81%A2%E5%A4%8D%E5%90%8C%E6%AD%A5/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "利用Redis的Sub和Pub实现Im通讯",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/cexll.cn\/posts\/%E5%88%A9%E7%94%A8redis%E7%9A%84sub%E5%92%8Cpub%E5%AE%9E%E7%8E%B0im%E9%80%9A%E8%AE%AF\/"
+        },"genre": "posts","keywords": "分布式, redis, pub, sub","wordcount":  530 ,
+        "url": "https:\/\/cexll.cn\/posts\/%E5%88%A9%E7%94%A8redis%E7%9A%84sub%E5%92%8Cpub%E5%AE%9E%E7%8E%B0im%E9%80%9A%E8%AE%AF\/","datePublished": "2022-03-17T13:53:28+08:00","dateModified": "2022-03-17T13:53:28+08:00","publisher": {
+            "@type": "Organization",
+            "name": "cexll"},"author": {
+                "@type": "Person",
+                "name": "cexll"
+            },"description": "Redis的Pub/Sub作为核心,WebSocket作为通讯实现分布式Im通讯"
+    }
+    </script></head>
+    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="小仙的博客">小仙的博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/about/index.html"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="小仙的博客">小仙的博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/about/index.html" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">利用Redis的Sub和Pub实现Im通讯</h1><h2 class="single-subtitle">利用sub/pub实现分布式im通讯,只需要增加redis集群数量和服务数量即可</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/php/"><i class="far fa-folder fa-fw"></i>php</a>&nbsp;<a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/"><i class="far fa-folder fa-fw"></i>分布式</a>&nbsp;<a href="/categories/redis/"><i class="far fa-folder fa-fw"></i>redis</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-03-17">2022-03-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 530 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><p>使用WebSocket进行通讯(发送/接受)信息, Redis作为信息传递, Redis集群可参考之前的文章</p>
+<p>理论上可无限扩容, 机器扛不住了直接加机器,Redis使用集群</p>
+<p>这里讲解一下核心的功能</p>
+<ul>
+<li>创建链接</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://github.com/cexll/cexll.github.io/raw/main/images/2022/03/1.png"
+        data-srcset="https://github.com/cexll/cexll.github.io/raw/main/images/2022/03/1.png, https://github.com/cexll/cexll.github.io/raw/main/images/2022/03/1.png 1.5x, https://github.com/cexll/cexll.github.io/raw/main/images/2022/03/1.png 2x"
+        data-sizes="auto"
+        alt="https://github.com/cexll/cexll.github.io/raw/main/images/2022/03/1.png"
+        title="image.png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="k">public</span> <span class="k">function</span> <span class="nf">onOpen</span><span class="p">(</span><span class="nv">$server</span><span class="p">,</span> <span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span><span class="o">:</span> <span class="nx">void</span>
+<span class="p">{</span>
+    <span class="nv">$server</span><span class="o">-&gt;</span><span class="na">push</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="na">fd</span><span class="p">,</span> <span class="s1">&#39;OpenSuccess&#39;</span><span class="p">);</span>
+    <span class="c1">// 这里可鉴权 也可在基类进行操作, 我这里只作为演示
+</span><span class="c1"></span>    <span class="nv">$channel</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">[</span><span class="s1">&#39;channel&#39;</span><span class="p">]</span> <span class="o">??</span> <span class="k">null</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="k">empty</span><span class="p">(</span><span class="nv">$channel</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nx">var_dump</span><span class="p">(</span><span class="s1">&#39;fd:&#39;</span> <span class="o">.</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">fd</span> <span class="o">.</span> <span class="s1">&#39; channel: &#39;</span> <span class="o">.</span> <span class="nv">$channel</span><span class="p">);</span>
+        <span class="c1">// 创建链接 订阅传入的订阅名称 正式环境可使用用户ID作为唯一Id 群聊可使用hashId 也可以直接使用群聊唯一ID 
+</span><span class="c1"></span>        <span class="nv">$sub</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Subscriber</span><span class="p">(</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="mi">6379</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+        <span class="nv">$sub</span><span class="o">-&gt;</span><span class="na">subscribe</span><span class="p">(</span><span class="nv">$channel</span><span class="p">);</span>
+        <span class="nv">$chan</span> <span class="o">=</span> <span class="nv">$sub</span><span class="o">-&gt;</span><span class="na">channel</span><span class="p">();</span>
+        <span class="c1">// 订阅直接循环读取内容
+</span><span class="c1"></span>        <span class="k">while</span> <span class="p">(</span><span class="k">true</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$chan</span><span class="o">-&gt;</span><span class="na">pop</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="k">empty</span><span class="p">(</span><span class="nv">$data</span><span class="p">))</span> <span class="p">{</span> <span class="c1">// 手动close与redis异常断开都会导致返回false
+</span><span class="c1"></span>                <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="nv">$sub</span><span class="o">-&gt;</span><span class="na">closed</span><span class="p">)</span> <span class="p">{</span>
+                  <span class="c1">// redis异常断开处理
+</span><span class="c1"></span>                    <span class="nx">var_dump</span><span class="p">(</span><span class="s1">&#39;Redis connection is disconnected abnormally&#39;</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">try</span> <span class="p">{</span>
+              <span class="c1">// 拿到数据之后正常数据需要进行Json处理
+</span><span class="c1"></span>                <span class="nv">$payload</span> <span class="o">=</span> <span class="nx">Json</span><span class="o">::</span><span class="na">decode</span><span class="p">(</span><span class="nv">$data</span><span class="o">-&gt;</span><span class="na">payload</span><span class="p">);</span>
+            <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">\Throwable</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nv">$payload</span> <span class="o">=</span> <span class="nv">$data</span><span class="o">-&gt;</span><span class="na">payload</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="c1">// 有fd数据的直接通过Ws发送
+</span><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="k">empty</span><span class="p">(</span><span class="nv">$payload</span><span class="p">[</span><span class="s1">&#39;fd&#39;</span><span class="p">]))</span> <span class="p">{</span>
+                <span class="nv">$server</span><span class="o">-&gt;</span><span class="na">push</span><span class="p">((</span><span class="nx">int</span><span class="p">)</span> <span class="nv">$payload</span><span class="p">[</span><span class="s1">&#39;fd&#39;</span><span class="p">],</span> <span class="nv">$payload</span><span class="p">[</span><span class="s1">&#39;payload&#39;</span><span class="p">]);</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+              <span class="c1">// 没有fd则通过WebSocketClient走一遍
+</span><span class="c1"></span>                <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">wsClient</span><span class="o">-&gt;</span><span class="na">push</span><span class="p">(</span><span class="nx">Json</span><span class="o">::</span><span class="na">encode</span><span class="p">([</span>
+                    <span class="s1">&#39;channel&#39;</span> <span class="o">=&gt;</span> <span class="nv">$channel</span><span class="p">,</span>
+                    <span class="s1">&#39;payload&#39;</span> <span class="o">=&gt;</span> <span class="nx">mb_convert_encoding</span><span class="p">(</span><span class="nv">$data</span><span class="o">-&gt;</span><span class="na">payload</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">),</span>
+                    <span class="s1">&#39;fd&#39;</span> <span class="o">=&gt;</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">fd</span><span class="p">,</span>
+                <span class="p">]));</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><ul>
+<li>发送消息</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://github.com/cexll/cexll.github.io/raw/main/images/2022/03/220220317141458.png"
+        data-srcset="https://github.com/cexll/cexll.github.io/raw/main/images/2022/03/220220317141458.png, https://github.com/cexll/cexll.github.io/raw/main/images/2022/03/220220317141458.png 1.5x, https://github.com/cexll/cexll.github.io/raw/main/images/2022/03/220220317141458.png 2x"
+        data-sizes="auto"
+        alt="https://github.com/cexll/cexll.github.io/raw/main/images/2022/03/220220317141458.png"
+        title="image.png" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://github.com/cexll/cexll.github.io/raw/main/images/2022/03/320220317141544.png"
+        data-srcset="https://github.com/cexll/cexll.github.io/raw/main/images/2022/03/320220317141544.png, https://github.com/cexll/cexll.github.io/raw/main/images/2022/03/320220317141544.png 1.5x, https://github.com/cexll/cexll.github.io/raw/main/images/2022/03/320220317141544.png 2x"
+        data-sizes="auto"
+        alt="https://github.com/cexll/cexll.github.io/raw/main/images/2022/03/320220317141544.png"
+        title="image.png" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="k">public</span> <span class="k">function</span> <span class="nf">onMessage</span><span class="p">(</span><span class="nv">$server</span><span class="p">,</span> <span class="nx">Frame</span> <span class="nv">$frame</span><span class="p">)</span><span class="o">:</span> <span class="nx">void</span>
+<span class="p">{</span>
+    <span class="c1">// 接收到消息Json处理一下
+</span><span class="c1"></span>    <span class="k">try</span> <span class="p">{</span>
+        <span class="nv">$data</span> <span class="o">=</span> <span class="nx">Json</span><span class="o">::</span><span class="na">decode</span><span class="p">(</span><span class="nv">$frame</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">\Throwable</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$frame</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">// 正常的数据会走这里
+</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="nx">is_array</span><span class="p">(</span><span class="nv">$data</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="k">empty</span><span class="p">(</span><span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;fd&#39;</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nv">$frame</span><span class="o">-&gt;</span><span class="na">fd</span> <span class="o">===</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;fd&#39;</span><span class="p">])</span> <span class="p">{</span>
+            <span class="c1">// 有fd直接发送
+</span><span class="c1"></span>            <span class="nv">$server</span><span class="o">-&gt;</span><span class="na">push</span><span class="p">(</span><span class="nv">$frame</span><span class="o">-&gt;</span><span class="na">fd</span><span class="p">,</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;payload&#39;</span><span class="p">]);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// 没有fd通过redis走一遍
+</span><span class="c1"></span>            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redis</span><span class="o">-&gt;</span><span class="na">publish</span><span class="p">(</span><span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;channel&#39;</span><span class="p">],</span> <span class="nv">$frame</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="c1">// 可能是其他或者测试就走这里
+</span><span class="c1"></span>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nv">$server</span><span class="o">-&gt;</span><span class="na">push</span><span class="p">(</span><span class="nv">$frame</span><span class="o">-&gt;</span><span class="na">fd</span><span class="p">,</span> <span class="nv">$frame</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><ul>
+<li>断开链接</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="k">public</span> <span class="k">function</span> <span class="nf">onClose</span><span class="p">(</span><span class="nv">$server</span><span class="p">,</span> <span class="nx">int</span> <span class="nv">$fd</span><span class="p">,</span> <span class="nx">int</span> <span class="nv">$reactorId</span><span class="p">)</span><span class="o">:</span> <span class="nx">void</span>
+<span class="p">{</span>
+    <span class="nv">$sub</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Subscriber</span><span class="p">(</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="mi">6379</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+    <span class="nv">$sub</span><span class="o">-&gt;</span><span class="na">unsubscribe</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div><p>使用组件</p>
+<ul>
+<li>Mix/Subscriber</li>
+<li>Hyperf/WebSocket</li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2022-03-17</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>,&nbsp;<a href="/tags/redis/">redis</a>,&nbsp;<a href="/tags/pub/">pub</a>,&nbsp;<a href="/tags/sub/">sub</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/%E9%80%9A%E8%BF%87binlog%E8%8E%B7%E5%8F%96mysql%E6%95%B0%E6%8D%AE%E8%BF%9B%E8%A1%8C%E6%81%A2%E5%A4%8D%E5%90%8C%E6%AD%A5/" class="prev" rel="prev" title="通过binlog获取Mysql数据进行恢复同步"><i class="fas fa-angle-left fa-fw"></i>通过binlog获取Mysql数据进行恢复同步</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.85.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
