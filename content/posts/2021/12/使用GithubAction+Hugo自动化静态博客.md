@@ -147,7 +147,7 @@ with:
   github_token: ${{ secrets.GITHUB_TOKEN }} //在个人设置SSH里面添加一个名称为GITHUB_TOKEN的密钥
   publish_dir: ./public
 ```
-![演示](https://github.com/cexll/cexll.github.io/raw/main/images/2021/12/20211209104835.png)
+![演示](https://cdn.jsdelivr.net/gh/cexll/cexll.github.io/images/2021/12/20211209104835.png)
 
 # 完成
 配置完成后 后面每次推送都会通过GithubAction编译好静态文件到分支下 `gh-pages`, 在将仓库设置静态访问分支

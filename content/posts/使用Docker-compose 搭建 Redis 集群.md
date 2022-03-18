@@ -32,7 +32,7 @@ license: ""
 <!--more-->
 
 
-![image.png](https://github.com/cexll/cexll.github.io/raw/main/images/2021/10/image-705f48bc5984487f8e6ab94a0b022470.png)
+![image.png](https://cdn.jsdelivr.net/gh/cexll/cexll.github.io/images/2021/10/image-705f48bc5984487f8e6ab94a0b022470.png)
 # 准备工作
 ### 编写`docker-compose.yml`
 
@@ -122,8 +122,8 @@ networks:
 ```
 
 准备目录`conf` 新建多个service的配置文件
-![image.png](https://github.com/cexll/cexll.github.io/raw/main/images/2021/10/image-2df0b784b48e487e9bbe5930e28c0145.png)
-配置文件 https://github.com/cexll/cexll.github.io/raw/main/images/2021/10/redis-bb8a2ebddd77486fa7084248b9993953.conf 自行下载
+![image.png](https://cdn.jsdelivr.net/gh/cexll/cexll.github.io/images/2021/10/image-2df0b784b48e487e9bbe5930e28c0145.png)
+配置文件 https://cdn.jsdelivr.net/gh/cexll/cexll.github.io/images/2021/10/redis-bb8a2ebddd77486fa7084248b9993953.conf 自行下载
 
 核心地方在port更改
 ```conf
@@ -236,4 +236,4 @@ OK
 127.0.0.1:16371>
 ```
 图形化连接效果
-![image.png](https://github.com/cexll/cexll.github.io/raw/main/images/2021/10/image-941a3039882945f99399a5695529e391.png)
+![image.png](https://cdn.jsdelivr.net/gh/cexll/cexll.github.io/images/2021/10/image-941a3039882945f99399a5695529e391.png)
