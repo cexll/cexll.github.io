@@ -27,7 +27,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/cexll.cn\/posts\/%E4%BD%BF%E7%94%A8docker-swarm%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86\/"
-        },"genre": "posts","keywords": "docker, swarm, 集群","wordcount":  1472 ,
+        },"genre": "posts","keywords": "docker, swarm, 集群","wordcount":  1618 ,
         "url": "https:\/\/cexll.cn\/posts\/%E4%BD%BF%E7%94%A8docker-swarm%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86\/","datePublished": "2021-09-22T21:43:58+00:00","dateModified": "2021-09-22T21:43:58+00:00","publisher": {
             "@type": "Organization",
             "name": "cexll"},"author": {
@@ -77,8 +77,8 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">使用docker-swarm集群管理</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/docker/"><i class="far fa-folder fa-fw"></i>docker</a>&nbsp;<a href="/categories/swarm/"><i class="far fa-folder fa-fw"></i>swarm</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-09-22">2021-09-22</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1472 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-09-22">2021-09-22</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1618 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>目录</span>
@@ -310,7 +310,42 @@ $ docker-machine create -d virtualbox swarm-worker2
         data-sizes="auto"
         alt="https://cdn.jsdelivr.net/gh/cexll/cexll.github.io/images/2021/09/swarm6-a831a842068f4a38ac4d67ebb963c19b.png"
         title="swarm6" /></p>
-<h2 id="5-查看服务部署情况">5. 查看服务部署情况</h2>
+<blockquote>
+<p>这里部署一个Nginx服务然后开放端口使外部可以访问</p>
+</blockquote>
+<pre><code>docker service create --name ng1  --replicas 2  --publish published=8080,target=80 nginx
+sfg9566260n0z4admi09ic0z0
+overall progress: 2 out of 2 tasks
+1/2: running   [==================================================&gt;]
+2/2: running   [==================================================&gt;]
+verify: Service converged
+</code></pre><p>部署之后直接本地访问8080端口</p>
+<pre><code>curl http://localhost:8080
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Welcome to nginx!&lt;/title&gt;
+&lt;style&gt;
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Welcome to nginx!&lt;/h1&gt;
+&lt;p&gt;If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.&lt;/p&gt;
+
+&lt;p&gt;For online documentation and support please refer to
+&lt;a href=&quot;http://nginx.org/&quot;&gt;nginx.org&lt;/a&gt;.&lt;br/&gt;
+Commercial support is available at
+&lt;a href=&quot;http://nginx.com/&quot;&gt;nginx.com&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Thank you for using nginx.&lt;/em&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h2 id="5-查看服务部署情况">5. 查看服务部署情况</h2>
 <p>查看 helloworld 服务运行在哪个节点上，可以看到目前是在 swarm-worker1 节点：</p>
 <pre><code>docker@swarm-manager:~$ docker service ps helloworld
 </code></pre><p><img
