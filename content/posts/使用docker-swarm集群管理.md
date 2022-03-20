@@ -195,6 +195,45 @@ docker@swarm-manager:~$ docker service create --replicas 1 --name helloworld alp
 
 ![swarm6](https://cdn.jsdelivr.net/gh/cexll/cexll.github.io/images/2021/09/swarm6-a831a842068f4a38ac4d67ebb963c19b.png)
 
+> 这里部署一个Nginx服务然后开放端口使外部可以访问
+
+```
+docker service create --name ng1  --replicas 2  --publish published=8080,target=80 nginx
+sfg9566260n0z4admi09ic0z0
+overall progress: 2 out of 2 tasks
+1/2: running   [==================================================>]
+2/2: running   [==================================================>]
+verify: Service converged
+```
+部署之后直接本地访问8080端口
+
+```
+curl http://localhost:8080
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+```
 
 ## 5. 查看服务部署情况
 查看 helloworld 服务运行在哪个节点上，可以看到目前是在 swarm-worker1 节点：
