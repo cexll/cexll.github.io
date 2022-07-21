@@ -27,7 +27,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/cexll.cn\/posts\/go-pubsub\/"
-        },"genre": "posts","keywords": "golang, channel, pubsub","wordcount":  1586 ,
+        },"genre": "posts","keywords": "golang, channel, pubsub","wordcount":  1282 ,
         "url": "https:\/\/cexll.cn\/posts\/go-pubsub\/","datePublished": "2022-07-21T11:15:53+08:00","dateModified": "2022-07-21T11:15:53+08:00","publisher": {
             "@type": "Organization",
             "name": "cexll"},"author": {
@@ -77,8 +77,8 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">使用Golang的Channel实现PubSub</h1><h2 class="single-subtitle">利用Go管道实现订阅</h2><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="github.com/cexll" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-07-21">2022-07-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1586 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-07-21">2022-07-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1282 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>目录</span>
@@ -283,138 +283,158 @@
 	<span class="p">}</span>
 	<span class="k">return</span> <span class="nx">p</span>
 <span class="p">}</span>
-</code></pre></div><p><code>Main.go</code></p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="c1">// 获取订阅服务
-</span><span class="c1"></span>    <span class="nx">s</span> <span class="o">:=</span> <span class="nf">NewServer</span><span class="p">()</span>
+</code></pre></div><p>测试代码</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">TestRunPubSub</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">s</span> <span class="o">:=</span> <span class="nf">NewPublisherServer</span><span class="p">()</span>
 
 	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;server running...&#34;</span><span class="p">)</span>
-  <span class="c1">// 订阅hello
+	<span class="c1">// 多个订阅者
 </span><span class="c1"></span>	<span class="k">go</span> <span class="nx">s</span><span class="p">.</span><span class="nf">Sub</span><span class="p">(</span><span class="s">&#34;hello&#34;</span><span class="p">)</span>
-  <span class="c1">// 等待订阅完成
-</span><span class="c1"></span>	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span>
+	<span class="k">go</span> <span class="nx">s</span><span class="p">.</span><span class="nf">Sub</span><span class="p">(</span><span class="s">&#34;golang&#34;</span><span class="p">)</span>
+	<span class="k">go</span> <span class="nx">s</span><span class="p">.</span><span class="nf">Sub</span><span class="p">(</span><span class="s">&#34;php&#34;</span><span class="p">)</span>
 
-	<span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span>
+	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span>
+
+	<span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+		<span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span>
+		<span class="k">for</span> <span class="p">{</span>
+			<span class="nx">i</span><span class="o">++</span>
+			<span class="nx">s</span><span class="p">.</span><span class="nf">Pub</span><span class="p">(</span><span class="s">&#34;hello&#34;</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;hello channel %d&#34;</span><span class="p">,</span> <span class="nx">i</span><span class="p">))</span>
+			<span class="k">if</span> <span class="nx">i</span> <span class="p">&gt;</span> <span class="mi">10</span> <span class="p">{</span>
+				<span class="k">break</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}()</span>
+
+	<span class="k">go</span> <span class="nx">s</span><span class="p">.</span><span class="nf">Pub</span><span class="p">(</span><span class="s">&#34;golang&#34;</span><span class="p">,</span> <span class="s">&#34;golang 123&#34;</span><span class="p">)</span>
+	<span class="k">go</span> <span class="nx">s</span><span class="p">.</span><span class="nf">Pub</span><span class="p">(</span><span class="s">&#34;php&#34;</span><span class="p">,</span> <span class="s">&#34;php 123&#34;</span><span class="p">)</span>
+	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+	<span class="nx">s</span><span class="p">.</span><span class="nf">Close</span><span class="p">(</span><span class="s">&#34;hello&#34;</span><span class="p">)</span>
+	<span class="nx">s</span><span class="p">.</span><span class="nf">Close</span><span class="p">(</span><span class="s">&#34;golang&#34;</span><span class="p">)</span>
+	<span class="nx">s</span><span class="p">.</span><span class="nf">Close</span><span class="p">(</span><span class="s">&#34;php&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><p>测试结果</p>
+<pre><code>=== RUN   TestRunPubSub
+server running...
+golang 123
+hello channel 1
+hello channel 2
+hello channel 3
+hello channel 4
+hello channel 5
+hello channel 6
+hello channel 7
+hello channel 8
+hello channel 9
+hello channel 10
+hello channel 11
+php 123
+--- PASS: TestRunPubSub (0.13s)
+PASS
+
+
+进程 已完成，退出代码为 0
+
+</code></pre><p>测试代码2 启动一个TCP监听9898端口 使用终端命令telnet链接测试</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">TestTCPPubSub</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">listen</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">net</span><span class="p">.</span><span class="nf">Listen</span><span class="p">(</span><span class="s">&#34;tcp&#34;</span><span class="p">,</span> <span class="s">&#34;0.0.0.0:9898&#34;</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;server running...&#34;</span><span class="p">)</span>
+	<span class="nx">p</span> <span class="o">:=</span> <span class="nf">GetPublisherInstance</span><span class="p">()</span>
 	<span class="k">for</span> <span class="p">{</span>
-		<span class="nx">i</span><span class="o">++</span>
-    <span class="c1">// 循环向hello发送
-</span><span class="c1"></span>		<span class="nx">s</span><span class="p">.</span><span class="nf">Pub</span><span class="p">(</span><span class="s">&#34;hello&#34;</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;啊哈哈哈 golang channel %d&#34;</span><span class="p">,</span> <span class="nx">i</span><span class="p">))</span>
-		<span class="k">if</span> <span class="nx">i</span> <span class="p">&gt;</span> <span class="mi">100</span> <span class="p">{</span>
+		<span class="nx">conn</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">listen</span><span class="p">.</span><span class="nf">Accept</span><span class="p">()</span>
+		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="k">continue</span>
+		<span class="p">}</span>
+		<span class="k">go</span> <span class="nf">handleRequest</span><span class="p">(</span><span class="nx">conn</span><span class="p">,</span> <span class="nx">p</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">Conns</span> <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="nx">net</span><span class="p">.</span><span class="nx">Conn</span><span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">handleRequest</span><span class="p">(</span><span class="nx">conn</span> <span class="nx">net</span><span class="p">.</span><span class="nx">Conn</span><span class="p">,</span> <span class="nx">p</span> <span class="o">*</span><span class="nx">Publisher</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">for</span> <span class="p">{</span>
+		<span class="nx">bytes</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">bufio</span><span class="p">.</span><span class="nf">NewReader</span><span class="p">(</span><span class="nx">conn</span><span class="p">).</span><span class="nf">ReadLine</span><span class="p">()</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;request string: [%s]&#34;</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">bytes</span><span class="p">)))</span>
+		<span class="nx">content</span> <span class="o">:=</span> <span class="nx">strings</span><span class="p">.</span><span class="nf">Split</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">bytes</span><span class="p">),</span> <span class="s">&#34; &#34;</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nx">content</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#34;subscribe&#34;</span> <span class="p">{</span>
+			<span class="nx">Conns</span><span class="p">[</span><span class="nx">conn</span><span class="p">.</span><span class="nf">RemoteAddr</span><span class="p">().</span><span class="nf">String</span><span class="p">()]</span> <span class="p">=</span> <span class="nx">conn</span>
+			<span class="nx">topic</span> <span class="o">:=</span> <span class="nx">content</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+			<span class="nx">Conns</span><span class="p">[</span><span class="nx">topic</span><span class="p">]</span> <span class="p">=</span> <span class="nx">conn</span>
+			<span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+				<span class="nx">c</span> <span class="o">:=</span> <span class="nx">p</span><span class="p">.</span><span class="nf">SubscribeTopic</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">v</span> <span class="kd">interface</span><span class="p">{})</span> <span class="kt">bool</span> <span class="p">{</span>
+					<span class="k">if</span> <span class="nx">s</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">v</span><span class="p">.(</span><span class="kt">string</span><span class="p">);</span> <span class="nx">ok</span> <span class="o">&amp;&amp;</span> <span class="nx">strings</span><span class="p">.</span><span class="nf">Contains</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="nx">topic</span><span class="p">)</span> <span class="p">{</span>
+						<span class="k">return</span> <span class="kc">true</span>
+					<span class="p">}</span>
+					<span class="k">return</span> <span class="kc">false</span>
+				<span class="p">})</span>
+				<span class="k">for</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">c</span> <span class="p">{</span>
+					<span class="k">for</span> <span class="nx">k</span><span class="p">,</span> <span class="nx">conn2</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">Conns</span> <span class="p">{</span>
+						<span class="k">if</span> <span class="nx">k</span> <span class="o">==</span> <span class="nx">topic</span> <span class="p">{</span>
+							<span class="nx">conn2</span><span class="p">.</span><span class="nf">Write</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;%s topic: %v&#34;</span><span class="p">,</span> <span class="nx">topic</span><span class="p">,</span> <span class="nx">v</span><span class="p">)))</span>
+						<span class="p">}</span>
+					<span class="p">}</span>
+				<span class="p">}</span>
+			<span class="p">}()</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">content</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#34;publish&#34;</span> <span class="p">{</span>
+			<span class="nx">topic</span> <span class="o">:=</span> <span class="nx">content</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+			<span class="k">go</span> <span class="nx">p</span><span class="p">.</span><span class="nf">Publish</span><span class="p">(</span><span class="nx">topic</span> <span class="o">+</span> <span class="nx">content</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#34;\n&#34;</span><span class="p">)</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">content</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#34;quit&#34;</span> <span class="p">{</span>
+			<span class="nx">topic</span> <span class="o">:=</span> <span class="nx">content</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+			<span class="nx">c</span> <span class="o">:=</span> <span class="nx">p</span><span class="p">.</span><span class="nf">SubscribeTopic</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">v</span> <span class="kd">interface</span><span class="p">{})</span> <span class="kt">bool</span> <span class="p">{</span>
+				<span class="k">if</span> <span class="nx">s</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">v</span><span class="p">.(</span><span class="kt">string</span><span class="p">);</span> <span class="nx">ok</span> <span class="o">&amp;&amp;</span> <span class="nx">strings</span><span class="p">.</span><span class="nf">Contains</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="nx">topic</span><span class="p">)</span> <span class="p">{</span>
+					<span class="k">return</span> <span class="kc">true</span>
+				<span class="p">}</span>
+				<span class="k">return</span> <span class="kc">false</span>
+			<span class="p">})</span>
+			<span class="nx">p</span><span class="p">.</span><span class="nf">Evict</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span>
+			<span class="k">break</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;common chat &#34;</span> <span class="o">+</span> <span class="nb">string</span><span class="p">(</span><span class="nx">bytes</span><span class="p">))</span>
 			<span class="k">break</span>
 		<span class="p">}</span>
 	<span class="p">}</span>
-  <span class="c1">// 等待订阅消费完
-</span><span class="c1"></span>  <span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
-  <span class="c1">// 关闭队列
-</span><span class="c1"></span>	<span class="nx">s</span><span class="p">.</span><span class="nf">Close</span><span class="p">(</span><span class="s">&#34;hello&#34;</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div><p>测试结果</p>
-<pre><code>server running...
-啊哈哈哈 golang channel 1
-啊哈哈哈 golang channel 2
-啊哈哈哈 golang channel 3
-啊哈哈哈 golang channel 4
-啊哈哈哈 golang channel 5
-啊哈哈哈 golang channel 6
-啊哈哈哈 golang channel 7
-啊哈哈哈 golang channel 8
-啊哈哈哈 golang channel 9
-啊哈哈哈 golang channel 10
-啊哈哈哈 golang channel 11
-啊哈哈哈 golang channel 12
-啊哈哈哈 golang channel 13
-啊哈哈哈 golang channel 14
-啊哈哈哈 golang channel 15
-啊哈哈哈 golang channel 16
-啊哈哈哈 golang channel 17
-啊哈哈哈 golang channel 18
-啊哈哈哈 golang channel 19
-啊哈哈哈 golang channel 20
-啊哈哈哈 golang channel 21
-啊哈哈哈 golang channel 22
-啊哈哈哈 golang channel 23
-啊哈哈哈 golang channel 24
-啊哈哈哈 golang channel 25
-啊哈哈哈 golang channel 26
-啊哈哈哈 golang channel 27
-啊哈哈哈 golang channel 28
-啊哈哈哈 golang channel 29
-啊哈哈哈 golang channel 30
-啊哈哈哈 golang channel 31
-啊哈哈哈 golang channel 32
-啊哈哈哈 golang channel 33
-啊哈哈哈 golang channel 34
-啊哈哈哈 golang channel 35
-啊哈哈哈 golang channel 36
-啊哈哈哈 golang channel 37
-啊哈哈哈 golang channel 38
-啊哈哈哈 golang channel 39
-啊哈哈哈 golang channel 40
-啊哈哈哈 golang channel 41
-啊哈哈哈 golang channel 42
-啊哈哈哈 golang channel 43
-啊哈哈哈 golang channel 44
-啊哈哈哈 golang channel 45
-啊哈哈哈 golang channel 46
-啊哈哈哈 golang channel 47
-啊哈哈哈 golang channel 48
-啊哈哈哈 golang channel 49
-啊哈哈哈 golang channel 50
-啊哈哈哈 golang channel 51
-啊哈哈哈 golang channel 52
-啊哈哈哈 golang channel 53
-啊哈哈哈 golang channel 54
-啊哈哈哈 golang channel 55
-啊哈哈哈 golang channel 56
-啊哈哈哈 golang channel 57
-啊哈哈哈 golang channel 58
-啊哈哈哈 golang channel 59
-啊哈哈哈 golang channel 60
-啊哈哈哈 golang channel 61
-啊哈哈哈 golang channel 62
-啊哈哈哈 golang channel 63
-啊哈哈哈 golang channel 64
-啊哈哈哈 golang channel 65
-啊哈哈哈 golang channel 66
-啊哈哈哈 golang channel 67
-啊哈哈哈 golang channel 68
-啊哈哈哈 golang channel 69
-啊哈哈哈 golang channel 70
-啊哈哈哈 golang channel 71
-啊哈哈哈 golang channel 72
-啊哈哈哈 golang channel 73
-啊哈哈哈 golang channel 74
-啊哈哈哈 golang channel 75
-啊哈哈哈 golang channel 76
-啊哈哈哈 golang channel 77
-啊哈哈哈 golang channel 78
-啊哈哈哈 golang channel 79
-啊哈哈哈 golang channel 80
-啊哈哈哈 golang channel 81
-啊哈哈哈 golang channel 82
-啊哈哈哈 golang channel 83
-啊哈哈哈 golang channel 84
-啊哈哈哈 golang channel 85
-啊哈哈哈 golang channel 86
-啊哈哈哈 golang channel 87
-啊哈哈哈 golang channel 88
-啊哈哈哈 golang channel 89
-啊哈哈哈 golang channel 90
-啊哈哈哈 golang channel 91
-啊哈哈哈 golang channel 92
-啊哈哈哈 golang channel 93
-啊哈哈哈 golang channel 94
-啊哈哈哈 golang channel 95
-啊哈哈哈 golang channel 96
-啊哈哈哈 golang channel 97
-啊哈哈哈 golang channel 98
-啊哈哈哈 golang channel 99
-啊哈哈哈 golang channel 100
-啊哈哈哈 golang channel 101
+<pre><code>订阅hello
+$ telnet 127.0.0.1 9898
+Trying 127.0.0.1...
+Connected to 127.0.0.1.
+Escape character is '^]'.
+subscribe hello
+hello topic: hello123
+hello topic: hello123
+hello topic: hello123
+
+订阅golang
+telnet 127.0.0.1 9898
+Trying 127.0.0.1...
+Connected to 127.0.0.1.
+Escape character is '^]'.
+subscribe golang
+golang topic: golang👍123
+golang topic: golang👍123
+golang topic: golang👍123
+
+向hello发送123
+telnet 127.0.0.1 9898
+Trying 127.0.0.1...
+Connected to 127.0.0.1.
+Escape character is '^]'.
+publish hello 123
+publish hello 123
+publish hello 123
+
+向golang发送👍123
+publish golang 👍123
+publish golang 👍123
+publish golang 👍123
 </code></pre><h1 id="核心原理">核心原理</h1>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// 订阅
 </span><span class="c1"></span><span class="kd">type</span> <span class="nx">subscriber</span> <span class="kd">chan</span> <span class="kd">interface</span><span class="p">{}</span>
-<span class="c1">// 主题方法
+<span class="c1">// 主题函数
 </span><span class="c1"></span><span class="kd">type</span> <span class="nx">topicFunc</span> <span class="kd">func</span><span class="p">(</span><span class="nx">v</span> <span class="kd">interface</span><span class="p">{})</span> <span class="kt">bool</span>
 
 <span class="kd">type</span> <span class="nx">Publisher</span> <span class="kd">struct</span> <span class="p">{</span>
