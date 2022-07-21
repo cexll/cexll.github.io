@@ -318,9 +318,9 @@ func handleRequest(conn net.Conn, p *Publisher) {
 		fmt.Println(fmt.Sprintf("request string: [%s]", string(bytes)))
 		content := strings.Split(string(bytes), " ")
 		if content[0] == "subscribe" {
-			Conns[conn.RemoteAddr().String()] = conn
 			topic := content[1]
-			Conns[topic] = conn
+			addr := conn.RemoteAddr().String()
+			Conns[addr+topic] = conn
 			go func() {
 				c := p.SubscribeTopic(func(v interface{}) bool {
 					if s, ok := v.(string); ok && strings.Contains(s, topic) {
@@ -330,8 +330,12 @@ func handleRequest(conn net.Conn, p *Publisher) {
 				})
 				for v := range c {
 					for k, conn2 := range Conns {
-						if k == topic {
-							conn2.Write([]byte(fmt.Sprintf("%s topic: %v", topic, v)))
+						if k == addr+topic {
+							cant, err := conn2.Write([]byte(fmt.Sprintf("%s topic: %v", topic, v)))
+							if err != nil {
+								return 
+							}
+							fmt.Println("write cant ", cant)
 						}
 					}
 				}
