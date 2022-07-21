@@ -232,147 +232,173 @@ func (s *Server) newPublisher(subName string) *Publisher {
 }
 ```
 
-`Main.go`
+测试代码
 
 ```go
-func main() {
-  // 获取订阅服务
-    s := NewServer()
+func TestRunPubSub(t *testing.T) {
+	s := NewPublisherServer()
 
 	fmt.Println("server running...")
-  // 订阅hello
+	// 多个订阅者
 	go s.Sub("hello")
-  // 等待订阅完成
+	go s.Sub("golang")
+	go s.Sub("php")
+
 	time.Sleep(time.Millisecond * 10)
 
-	i := 0
-	for {
-		i++
-    // 循环向hello发送
-		s.Pub("hello", fmt.Sprintf("啊哈哈哈 golang channel %d", i))
-		if i > 100 {
-			break
+	go func() {
+		i := 0
+		for {
+			i++
+			s.Pub("hello", fmt.Sprintf("hello channel %d", i))
+			if i > 10 {
+				break
+			}
 		}
-	}
-  // 等待订阅消费完
-  time.Sleep(time.Millisecond * 100)
-  // 关闭队列
+	}()
+
+	go s.Pub("golang", "golang 123")
+	go s.Pub("php", "php 123")
+	time.Sleep(time.Millisecond * 100)
 	s.Close("hello")
+	s.Close("golang")
+	s.Close("php")
 }
 ```
 
 测试结果
 ```
+=== RUN   TestRunPubSub
 server running...
-啊哈哈哈 golang channel 1
-啊哈哈哈 golang channel 2
-啊哈哈哈 golang channel 3
-啊哈哈哈 golang channel 4
-啊哈哈哈 golang channel 5
-啊哈哈哈 golang channel 6
-啊哈哈哈 golang channel 7
-啊哈哈哈 golang channel 8
-啊哈哈哈 golang channel 9
-啊哈哈哈 golang channel 10
-啊哈哈哈 golang channel 11
-啊哈哈哈 golang channel 12
-啊哈哈哈 golang channel 13
-啊哈哈哈 golang channel 14
-啊哈哈哈 golang channel 15
-啊哈哈哈 golang channel 16
-啊哈哈哈 golang channel 17
-啊哈哈哈 golang channel 18
-啊哈哈哈 golang channel 19
-啊哈哈哈 golang channel 20
-啊哈哈哈 golang channel 21
-啊哈哈哈 golang channel 22
-啊哈哈哈 golang channel 23
-啊哈哈哈 golang channel 24
-啊哈哈哈 golang channel 25
-啊哈哈哈 golang channel 26
-啊哈哈哈 golang channel 27
-啊哈哈哈 golang channel 28
-啊哈哈哈 golang channel 29
-啊哈哈哈 golang channel 30
-啊哈哈哈 golang channel 31
-啊哈哈哈 golang channel 32
-啊哈哈哈 golang channel 33
-啊哈哈哈 golang channel 34
-啊哈哈哈 golang channel 35
-啊哈哈哈 golang channel 36
-啊哈哈哈 golang channel 37
-啊哈哈哈 golang channel 38
-啊哈哈哈 golang channel 39
-啊哈哈哈 golang channel 40
-啊哈哈哈 golang channel 41
-啊哈哈哈 golang channel 42
-啊哈哈哈 golang channel 43
-啊哈哈哈 golang channel 44
-啊哈哈哈 golang channel 45
-啊哈哈哈 golang channel 46
-啊哈哈哈 golang channel 47
-啊哈哈哈 golang channel 48
-啊哈哈哈 golang channel 49
-啊哈哈哈 golang channel 50
-啊哈哈哈 golang channel 51
-啊哈哈哈 golang channel 52
-啊哈哈哈 golang channel 53
-啊哈哈哈 golang channel 54
-啊哈哈哈 golang channel 55
-啊哈哈哈 golang channel 56
-啊哈哈哈 golang channel 57
-啊哈哈哈 golang channel 58
-啊哈哈哈 golang channel 59
-啊哈哈哈 golang channel 60
-啊哈哈哈 golang channel 61
-啊哈哈哈 golang channel 62
-啊哈哈哈 golang channel 63
-啊哈哈哈 golang channel 64
-啊哈哈哈 golang channel 65
-啊哈哈哈 golang channel 66
-啊哈哈哈 golang channel 67
-啊哈哈哈 golang channel 68
-啊哈哈哈 golang channel 69
-啊哈哈哈 golang channel 70
-啊哈哈哈 golang channel 71
-啊哈哈哈 golang channel 72
-啊哈哈哈 golang channel 73
-啊哈哈哈 golang channel 74
-啊哈哈哈 golang channel 75
-啊哈哈哈 golang channel 76
-啊哈哈哈 golang channel 77
-啊哈哈哈 golang channel 78
-啊哈哈哈 golang channel 79
-啊哈哈哈 golang channel 80
-啊哈哈哈 golang channel 81
-啊哈哈哈 golang channel 82
-啊哈哈哈 golang channel 83
-啊哈哈哈 golang channel 84
-啊哈哈哈 golang channel 85
-啊哈哈哈 golang channel 86
-啊哈哈哈 golang channel 87
-啊哈哈哈 golang channel 88
-啊哈哈哈 golang channel 89
-啊哈哈哈 golang channel 90
-啊哈哈哈 golang channel 91
-啊哈哈哈 golang channel 92
-啊哈哈哈 golang channel 93
-啊哈哈哈 golang channel 94
-啊哈哈哈 golang channel 95
-啊哈哈哈 golang channel 96
-啊哈哈哈 golang channel 97
-啊哈哈哈 golang channel 98
-啊哈哈哈 golang channel 99
-啊哈哈哈 golang channel 100
-啊哈哈哈 golang channel 101
+golang 123
+hello channel 1
+hello channel 2
+hello channel 3
+hello channel 4
+hello channel 5
+hello channel 6
+hello channel 7
+hello channel 8
+hello channel 9
+hello channel 10
+hello channel 11
+php 123
+--- PASS: TestRunPubSub (0.13s)
+PASS
+
+
+进程 已完成，退出代码为 0
+
 ```
 
+测试代码2 启动一个TCP监听9898端口 使用终端命令telnet链接测试
+
+```go
+func TestTCPPubSub(t *testing.T) {
+	listen, err := net.Listen("tcp", "0.0.0.0:9898")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("server running...")
+	p := GetPublisherInstance()
+	for {
+		conn, err := listen.Accept()
+		if err != nil {
+			continue
+		}
+		go handleRequest(conn, p)
+	}
+}
+
+var Conns = make(map[string]net.Conn)
+
+func handleRequest(conn net.Conn, p *Publisher) {
+	for {
+		bytes, _, _ := bufio.NewReader(conn).ReadLine()
+		fmt.Println(fmt.Sprintf("request string: [%s]", string(bytes)))
+		content := strings.Split(string(bytes), " ")
+		if content[0] == "subscribe" {
+			Conns[conn.RemoteAddr().String()] = conn
+			topic := content[1]
+			Conns[topic] = conn
+			go func() {
+				c := p.SubscribeTopic(func(v interface{}) bool {
+					if s, ok := v.(string); ok && strings.Contains(s, topic) {
+						return true
+					}
+					return false
+				})
+				for v := range c {
+					for k, conn2 := range Conns {
+						if k == topic {
+							conn2.Write([]byte(fmt.Sprintf("%s topic: %v", topic, v)))
+						}
+					}
+				}
+			}()
+		} else if content[0] == "publish" {
+			topic := content[1]
+			go p.Publish(topic + content[2] + "\n")
+		} else if content[1] == "quit" {
+			topic := content[1]
+			c := p.SubscribeTopic(func(v interface{}) bool {
+				if s, ok := v.(string); ok && strings.Contains(s, topic) {
+					return true
+				}
+				return false
+			})
+			p.Evict(c)
+			break
+		} else {
+			fmt.Println("common chat " + string(bytes))
+			break
+		}
+	}
+}
+```
+
+测试结果
+```
+订阅hello
+$ telnet 127.0.0.1 9898
+Trying 127.0.0.1...
+Connected to 127.0.0.1.
+Escape character is '^]'.
+subscribe hello
+hello topic: hello123
+hello topic: hello123
+hello topic: hello123
+
+订阅golang
+telnet 127.0.0.1 9898
+Trying 127.0.0.1...
+Connected to 127.0.0.1.
+Escape character is '^]'.
+subscribe golang
+golang topic: golang👍123
+golang topic: golang👍123
+golang topic: golang👍123
+
+向hello发送123
+telnet 127.0.0.1 9898
+Trying 127.0.0.1...
+Connected to 127.0.0.1.
+Escape character is '^]'.
+publish hello 123
+publish hello 123
+publish hello 123
+
+向golang发送👍123
+publish golang 👍123
+publish golang 👍123
+publish golang 👍123
+```
 # 核心原理
 
 ```go
 // 订阅
 type subscriber chan interface{}
-// 主题方法
+// 主题函数
 type topicFunc func(v interface{}) bool
 
 type Publisher struct {
