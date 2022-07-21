@@ -2,18 +2,22 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
+            <loc>https://cexll.cn/tags/channel/</loc><lastmod>2022-07-21T11:15:53&#43;08:00</lastmod></url><url>
+            <loc>https://cexll.cn/tags/golang/</loc><lastmod>2022-07-21T11:15:53&#43;08:00</lastmod></url><url>
+            <loc>https://cexll.cn/posts/</loc><lastmod>2022-07-21T11:15:53&#43;08:00</lastmod></url><url>
+            <loc>https://cexll.cn/tags/pubsub/</loc><lastmod>2022-07-21T11:15:53&#43;08:00</lastmod></url><url>
+            <loc>https://cexll.cn/tags/</loc><lastmod>2022-07-21T11:15:53&#43;08:00</lastmod></url><url>
+            <loc>https://cexll.cn/posts/go-pubsub/</loc><lastmod>2022-07-21T11:15:53&#43;08:00</lastmod></url><url>
+            <loc>https://cexll.cn/</loc><lastmod>2022-07-21T11:15:53&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/categories/</loc><lastmod>2022-03-17T13:53:28&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/categories/php/</loc><lastmod>2022-03-17T13:53:28&#43;08:00</lastmod></url><url>
-            <loc>https://cexll.cn/posts/</loc><lastmod>2022-03-17T13:53:28&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/tags/pub/</loc><lastmod>2022-03-17T13:53:28&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/tags/redis/</loc><lastmod>2022-03-17T13:53:28&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/categories/redis/</loc><lastmod>2022-03-17T13:53:28&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/tags/sub/</loc><lastmod>2022-03-17T13:53:28&#43;08:00</lastmod></url><url>
-            <loc>https://cexll.cn/tags/</loc><lastmod>2022-03-17T13:53:28&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/tags/%E5%88%86%E5%B8%83%E5%BC%8F/</loc><lastmod>2022-03-17T13:53:28&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/categories/%E5%88%86%E5%B8%83%E5%BC%8F/</loc><lastmod>2022-03-17T13:53:28&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/posts/%E5%88%A9%E7%94%A8redis%E7%9A%84sub%E5%92%8Cpub%E5%AE%9E%E7%8E%B0im%E9%80%9A%E8%AE%AF/</loc><lastmod>2022-03-17T13:53:28&#43;08:00</lastmod></url><url>
-            <loc>https://cexll.cn/</loc><lastmod>2022-03-17T13:53:28&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/tags/binlog/</loc><lastmod>2022-01-26T11:02:55&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/tags/mysql/</loc><lastmod>2022-01-26T11:02:55&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/categories/mysql/</loc><lastmod>2022-01-26T11:02:55&#43;08:00</lastmod></url><url>
