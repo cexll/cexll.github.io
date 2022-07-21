@@ -27,7 +27,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/cexll.cn\/posts\/go-pubsub\/"
-        },"genre": "posts","keywords": "golang, channel, pubsub","wordcount":  1282 ,
+        },"genre": "posts","keywords": "golang, channel, pubsub","wordcount":  1296 ,
         "url": "https:\/\/cexll.cn\/posts\/go-pubsub\/","datePublished": "2022-07-21T11:15:53+08:00","dateModified": "2022-07-21T11:15:53+08:00","publisher": {
             "@type": "Organization",
             "name": "cexll"},"author": {
@@ -77,7 +77,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">使用Golang的Channel实现PubSub</h1><h2 class="single-subtitle">利用Go管道实现订阅</h2><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="github.com/cexll" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-07-21">2022-07-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1282 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-07-21">2022-07-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1296 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -360,9 +360,9 @@ PASS
 		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;request string: [%s]&#34;</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">bytes</span><span class="p">)))</span>
 		<span class="nx">content</span> <span class="o">:=</span> <span class="nx">strings</span><span class="p">.</span><span class="nf">Split</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">bytes</span><span class="p">),</span> <span class="s">&#34; &#34;</span><span class="p">)</span>
 		<span class="k">if</span> <span class="nx">content</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#34;subscribe&#34;</span> <span class="p">{</span>
-			<span class="nx">Conns</span><span class="p">[</span><span class="nx">conn</span><span class="p">.</span><span class="nf">RemoteAddr</span><span class="p">().</span><span class="nf">String</span><span class="p">()]</span> <span class="p">=</span> <span class="nx">conn</span>
 			<span class="nx">topic</span> <span class="o">:=</span> <span class="nx">content</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-			<span class="nx">Conns</span><span class="p">[</span><span class="nx">topic</span><span class="p">]</span> <span class="p">=</span> <span class="nx">conn</span>
+			<span class="nx">addr</span> <span class="o">:=</span> <span class="nx">conn</span><span class="p">.</span><span class="nf">RemoteAddr</span><span class="p">().</span><span class="nf">String</span><span class="p">()</span>
+			<span class="nx">Conns</span><span class="p">[</span><span class="nx">addr</span><span class="o">+</span><span class="nx">topic</span><span class="p">]</span> <span class="p">=</span> <span class="nx">conn</span>
 			<span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
 				<span class="nx">c</span> <span class="o">:=</span> <span class="nx">p</span><span class="p">.</span><span class="nf">SubscribeTopic</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">v</span> <span class="kd">interface</span><span class="p">{})</span> <span class="kt">bool</span> <span class="p">{</span>
 					<span class="k">if</span> <span class="nx">s</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">v</span><span class="p">.(</span><span class="kt">string</span><span class="p">);</span> <span class="nx">ok</span> <span class="o">&amp;&amp;</span> <span class="nx">strings</span><span class="p">.</span><span class="nf">Contains</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="nx">topic</span><span class="p">)</span> <span class="p">{</span>
@@ -372,8 +372,12 @@ PASS
 				<span class="p">})</span>
 				<span class="k">for</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">c</span> <span class="p">{</span>
 					<span class="k">for</span> <span class="nx">k</span><span class="p">,</span> <span class="nx">conn2</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">Conns</span> <span class="p">{</span>
-						<span class="k">if</span> <span class="nx">k</span> <span class="o">==</span> <span class="nx">topic</span> <span class="p">{</span>
-							<span class="nx">conn2</span><span class="p">.</span><span class="nf">Write</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;%s topic: %v&#34;</span><span class="p">,</span> <span class="nx">topic</span><span class="p">,</span> <span class="nx">v</span><span class="p">)))</span>
+						<span class="k">if</span> <span class="nx">k</span> <span class="o">==</span> <span class="nx">addr</span><span class="o">+</span><span class="nx">topic</span> <span class="p">{</span>
+							<span class="nx">cant</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">conn2</span><span class="p">.</span><span class="nf">Write</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;%s topic: %v&#34;</span><span class="p">,</span> <span class="nx">topic</span><span class="p">,</span> <span class="nx">v</span><span class="p">)))</span>
+							<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+								<span class="k">return</span> 
+							<span class="p">}</span>
+							<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;write cant &#34;</span><span class="p">,</span> <span class="nx">cant</span><span class="p">)</span>
 						<span class="p">}</span>
 					<span class="p">}</span>
 				<span class="p">}</span>
