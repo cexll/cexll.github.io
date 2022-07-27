@@ -1,5 +1,5 @@
 ---
-title: "Golang高性能编程"
+title: "[转发] Golang高性能编程"
 subtitle: "Golang高性能编程"
 date: 2022-07-27T13:15:53+08:00
 lastmod: 2022-07-27T13:15:53+08:00
@@ -742,7 +742,7 @@ CPU 访问内存时，并不是逐个字节访问，而是以字长（word size�
 
 CPU 始终以字长访问内存，如果不进行内存对齐，很可能增加 CPU 访问内存的次数，例如：
 
-![](640.jpg)
+![](https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/640.jpg)
 
 变量 a、b 各占据 3 字节的空间，内存对齐后，a、b 占据 4 字节空间，CPU 读取 b 变量的值只需要进行一次内存访问。如果不进行内存对齐，CPU 读取 b 变量的值需要进行 2 次内存访问。第一次访问得到 b 变量的第 1 个字节，第二次访问得到 b 变量的后两个字节。
 
@@ -799,7 +799,7 @@ func main() {
 
 demo2 的对齐系数由 c 的对齐系数决定，也是 4，因此，demo2 的内存占用为 12 字节。
 
-![](641.jpg)
+![](https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/641.jpg)
 
 因此，在对内存特别敏感的结构体的设计上，我们可以通过调整字段的顺序，将字段宽度从小到大由上到下排列，来减少内存的占用。
 
@@ -1365,7 +1365,7 @@ BenchmarkWriteLockFreeList-8    15219405                73.15 ns/op
 
 这里我介绍的是后台微服务开发经常遇到的一种情况。我们经常需要并发拉取多方面的信息，汇聚到一个变量上。那么此时就存在对同一个变量互斥写入的情况。比如批量并发拉取用户信息写入到一个 map。此时我们可以将每个协程拉取的结果写入到一个临时对象，这样便将并发地协程与同一个变量解绑，然后再将其汇聚到一起，这样便可以不用使用锁。即独立处理，然后合并。
 
-![](642.jpg)
+![](https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/642.jpg)
 
 为了模拟上面的情况，简单地写个示例程序，对比下性能。
 
@@ -1520,7 +1520,7 @@ sync.Mutex：
 
 互斥锁的作用是保证共享资源同一时刻只能被一个 Goroutine 占用，一个 Goroutine 占用了，其他的 Goroutine 则阻塞等待。
 
-![](643.jpg)
+![](https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/643.jpg)
 
 sync.Mutex 提供了两个导出方法用来使用锁。
 
@@ -1543,7 +1543,7 @@ Unlock()   // 释放锁
 
 - 写锁与读锁是互斥的，如果存在读锁，写锁阻塞，如果存在写锁，读锁阻塞。
 
-![](644.jpg)
+![](https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/644.jpg)
 
 sync.RWMutex 提供了五个导出方法用来使用锁。
 
