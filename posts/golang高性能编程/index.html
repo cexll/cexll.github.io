@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>Golang高性能编程 - 小仙的博客</title><meta name="Description" content=""><meta property="og:title" content="Golang高性能编程" />
+        <title>[转发] Golang高性能编程 - 小仙的博客</title><meta name="Description" content=""><meta property="og:title" content="[转发] Golang高性能编程" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://cexll.cn/posts/golang%E9%AB%98%E6%80%A7%E8%83%BD%E7%BC%96%E7%A8%8B/" /><meta property="article:section" content="posts" />
@@ -13,7 +13,7 @@
 <meta property="article:modified_time" content="2022-07-27T13:15:53+08:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Golang高性能编程"/>
+<meta name="twitter:title" content="[转发] Golang高性能编程"/>
 <meta name="twitter:description" content=""/>
 <meta name="application-name" content="小仙的博客">
 <meta name="apple-mobile-web-app-title" content="小仙的博客"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -22,7 +22,7 @@
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "Golang高性能编程",
+        "headline": "[转发] Golang高性能编程",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
@@ -75,7 +75,7 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">Golang高性能编程</h1><h2 class="single-subtitle">Golang高性能编程</h2><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animated flipInX">[转发] Golang高性能编程</h1><h2 class="single-subtitle">Golang高性能编程</h2><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/golang/"><i class="far fa-folder fa-fw"></i>golang</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-07-27">2022-07-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 18539 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 38 分钟&nbsp;</div>
@@ -638,11 +638,11 @@
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="640.jpg"
-        data-srcset="640.jpg, 640.jpg 1.5x, 640.jpg 2x"
+        data-src="https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/640.jpg"
+        data-srcset="https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/640.jpg, https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/640.jpg 1.5x, https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/640.jpg 2x"
         data-sizes="auto"
-        alt="640.jpg"
-        title="640.jpg" /></p>
+        alt="https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/640.jpg"
+        title="https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/640.jpg" /></p>
 <p>变量 a、b 各占据 3 字节的空间，内存对齐后，a、b 占据 4 字节空间，CPU 读取 b 变量的值只需要进行一次内存访问。如果不进行内存对齐，CPU 读取 b 变量的值需要进行 2 次内存访问。第一次访问得到 b 变量的第 1 个字节，第二次访问得到 b 变量的后两个字节。</p>
 <p>从这个例子中也可以看到，内存对齐对实现变量的原子性操作也是有好处的，每次内存访问是原子的，如果变量的大小不超过字长，那么内存对齐后，对该变量的访问就是原子的，这个特性在并发场景下至关重要。</p>
 <p>简言之：合理的内存对齐可以提高内存读写的性能，并且便于实现变量操作的原子性。</p>
@@ -685,11 +685,11 @@
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="641.jpg"
-        data-srcset="641.jpg, 641.jpg 1.5x, 641.jpg 2x"
+        data-src="https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/641.jpg"
+        data-srcset="https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/641.jpg, https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/641.jpg 1.5x, https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/641.jpg 2x"
         data-sizes="auto"
-        alt="641.jpg"
-        title="641.jpg" /></p>
+        alt="https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/641.jpg"
+        title="https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/641.jpg" /></p>
 <p>因此，在对内存特别敏感的结构体的设计上，我们可以通过调整字段的顺序，将字段宽度从小到大由上到下排列，来减少内存的占用。</p>
 <p>12.4 空结构与空数组对内存对齐的影响</p>
 <p>空结构与空数组在 Go 中比较特殊。没有任何字段的空 struct{} 和没有任何元素的 array 占据的内存空间大小为 0。</p>
@@ -1145,11 +1145,11 @@
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="642.jpg"
-        data-srcset="642.jpg, 642.jpg 1.5x, 642.jpg 2x"
+        data-src="https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/642.jpg"
+        data-srcset="https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/642.jpg, https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/642.jpg 1.5x, https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/642.jpg 2x"
         data-sizes="auto"
-        alt="642.jpg"
-        title="642.jpg" /></p>
+        alt="https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/642.jpg"
+        title="https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/642.jpg" /></p>
 <p>为了模拟上面的情况，简单地写个示例程序，对比下性能。</p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
  <span class="s">&#34;sync&#34;</span>
@@ -1280,11 +1280,11 @@
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="643.jpg"
-        data-srcset="643.jpg, 643.jpg 1.5x, 643.jpg 2x"
+        data-src="https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/643.jpg"
+        data-srcset="https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/643.jpg, https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/643.jpg 1.5x, https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/643.jpg 2x"
         data-sizes="auto"
-        alt="643.jpg"
-        title="643.jpg" /></p>
+        alt="https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/643.jpg"
+        title="https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/643.jpg" /></p>
 <p>sync.Mutex 提供了两个导出方法用来使用锁。</p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nf">Lock</span><span class="p">()</span>   <span class="c1">// 加锁
 </span><span class="c1"></span><span class="nf">Unlock</span><span class="p">()</span>   <span class="c1">// 释放锁
@@ -1306,11 +1306,11 @@
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="644.jpg"
-        data-srcset="644.jpg, 644.jpg 1.5x, 644.jpg 2x"
+        data-src="https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/644.jpg"
+        data-srcset="https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/644.jpg, https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/644.jpg 1.5x, https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/644.jpg 2x"
         data-sizes="auto"
-        alt="644.jpg"
-        title="644.jpg" /></p>
+        alt="https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/644.jpg"
+        title="https://cdn.jsdelivr.net/gh/cexll/staticfile@main/images/golang/644.jpg" /></p>
 <p>sync.RWMutex 提供了五个导出方法用来使用锁。</p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nf">Lock</span><span class="p">()</span>    <span class="c1">// 加写锁
 </span><span class="c1"></span><span class="nf">Unlock</span><span class="p">()</span>   <span class="c1">// 释放写锁
