@@ -1,19 +1,15 @@
 ---
-title: Golang高性能编程
-subtitle: ""
-date: 2022-07-27 15:20:30.92
-lastmod: 2022-07-27 15:20:30.92
+title: "Golang高性能编程"
+subtitle: "Golang高性能编程"
+date: 2022-07-27T13:15:53+08:00
+lastmod: 2022-07-27T13:15:53+08:00
 draft: true
 author: "cexll"
 authorLink: ""
 description: ""
 
-tags: [
-    golang
-]
-categories: [
-    golang
-]
+tags: [golang]
+categories: [golang]
 
 hiddenFromHomePage: false
 hiddenFromSearch: false
@@ -26,7 +22,7 @@ toc:
 math:
   enable: false
 lightgallery: false
-license: ""
+license: "MIT"
 ---
 
 <!--more-->
