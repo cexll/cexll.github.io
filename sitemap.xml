@@ -2,14 +2,16 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
+            <loc>https://cexll.cn/categories/</loc><lastmod>2022-07-27T12:15:53&#43;08:00</lastmod></url><url>
+            <loc>https://cexll.cn/tags/golang/</loc><lastmod>2022-07-27T12:15:53&#43;08:00</lastmod></url><url>
+            <loc>https://cexll.cn/categories/golang/</loc><lastmod>2022-07-27T12:15:53&#43;08:00</lastmod></url><url>
+            <loc>https://cexll.cn/posts/go%E9%9D%A2%E7%BB%8F1/</loc><lastmod>2022-07-27T12:15:53&#43;08:00</lastmod></url><url>
+            <loc>https://cexll.cn/posts/</loc><lastmod>2022-07-27T12:15:53&#43;08:00</lastmod></url><url>
+            <loc>https://cexll.cn/tags/</loc><lastmod>2022-07-27T12:15:53&#43;08:00</lastmod></url><url>
+            <loc>https://cexll.cn/</loc><lastmod>2022-07-27T12:15:53&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/tags/channel/</loc><lastmod>2022-07-21T11:15:53&#43;08:00</lastmod></url><url>
-            <loc>https://cexll.cn/tags/golang/</loc><lastmod>2022-07-21T11:15:53&#43;08:00</lastmod></url><url>
-            <loc>https://cexll.cn/posts/</loc><lastmod>2022-07-21T11:15:53&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/tags/pubsub/</loc><lastmod>2022-07-21T11:15:53&#43;08:00</lastmod></url><url>
-            <loc>https://cexll.cn/tags/</loc><lastmod>2022-07-21T11:15:53&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/posts/go-pubsub/</loc><lastmod>2022-07-21T11:15:53&#43;08:00</lastmod></url><url>
-            <loc>https://cexll.cn/</loc><lastmod>2022-07-21T11:15:53&#43;08:00</lastmod></url><url>
-            <loc>https://cexll.cn/categories/</loc><lastmod>2022-03-17T13:53:28&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/categories/php/</loc><lastmod>2022-03-17T13:53:28&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/tags/pub/</loc><lastmod>2022-03-17T13:53:28&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/tags/redis/</loc><lastmod>2022-03-17T13:53:28&#43;08:00</lastmod></url><url>

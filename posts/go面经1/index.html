@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Go面经 - 小仙的博客</title><meta name="Description" content=""><meta property="og:title" content="Go面经" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://cexll.cn/posts/go%E9%9D%A2%E7%BB%8F1/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-27T12:15:53+08:00" />
+<meta property="article:modified_time" content="2022-07-27T12:15:53+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Go面经"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="小仙的博客">
+<meta name="apple-mobile-web-app-title" content="小仙的博客"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://cexll.cn/posts/go%E9%9D%A2%E7%BB%8F1/" /><link rel="prev" href="https://cexll.cn/posts/go-pubsub/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Go面经",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/cexll.cn\/posts\/go%E9%9D%A2%E7%BB%8F1\/"
+        },"genre": "posts","keywords": "golang","wordcount":  1079 ,
+        "url": "https:\/\/cexll.cn\/posts\/go%E9%9D%A2%E7%BB%8F1\/","datePublished": "2022-07-27T12:15:53+08:00","dateModified": "2022-07-27T12:15:53+08:00","publisher": {
+            "@type": "Organization",
+            "name": "cexll"},"author": {
+                "@type": "Person",
+                "name": "cexll"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="小仙的博客">小仙的博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/about/index.html"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="小仙的博客">小仙的博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/about/index.html" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Go面经</h1><h2 class="single-subtitle">Go面经</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/golang/"><i class="far fa-folder fa-fw"></i>golang</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-07-27">2022-07-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1079 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><h1 id="语言基础">语言基础</h1>
+<ul>
+<li>make和new的差别, 引用类型的意义</li>
+<li>map不初始化使用会怎么样</li>
+<li>map不初始化长度和初始化长度的区别</li>
+<li>map承载多大，大了怎么办</li>
+<li>map的iterator是否安全？能不能一边delete一边遍历？</li>
+<li>字符串不能改，那转成数组能改吗，怎么改</li>
+<li>怎么判断一个数组是否已经排序</li>
+<li>普通map如何不用锁解决协程安全问题</li>
+<li>array和slice的区别</li>
+<li>零切片、空切片、nil切片是什么</li>
+<li>slice深拷贝和浅拷贝</li>
+<li>map触发扩容的时机，满足什么条件时扩容？</li>
+<li>map扩容策略是什么</li>
+<li>go struct能不能比较？</li>
+<li>map如何顺序读取？</li>
+<li>go中怎么实现set</li>
+<li>Golang 有没有 this 指针？</li>
+<li>Golang 中的引用类型包含哪些?</li>
+<li>使用range 迭代 map 是有序的吗?</li>
+<li>解析 JSON 数据时，默认将数值当做哪种类型</li>
+<li>array 类型的值作为函数参数是引用传递还是值传递？</li>
+<li>在循杯内执行 defer 语句会发生什么?</li>
+<li>switch 中如何强制执行下一个 case 代码块?</li>
+<li>逃逸分析</li>
+<li>channel的实现</li>
+<li>Goroutine调度策略</li>
+<li>GMP与GC(重点问题: 网络IO等待队列,读写屏障)</li>
+<li>map的实现 (重点问题: sync.map的实现, map实现随机的方法)</li>
+<li>高并发下的锁与map读写问题</li>
+<li>多协程查询切片问题</li>
+<li>对已经关闭的chan进行读写会怎么样? 为什么?</li>
+<li>字符串转成byte数组, 会发生内存拷贝吗?</li>
+<li>http包的内存泄露</li>
+<li>channel 是怎么保证线程安全？</li>
+<li>垃圾回收的过程是怎么样的？</li>
+<li>什么是写屏障、混合写屏障，如何实现？</li>
+<li>为什么gc会让程序变慢</li>
+<li>开多个线程和开多个协程会有什么区别</li>
+<li>两个interface{} 能不能比较</li>
+<li>接口是怎么实现的？</li>
+<li>为什么小对象多了会造成 gc 压力?</li>
+</ul>
+<h1 id="mysql">MySQL</h1>
+<ul>
+<li>为什么用b+树不用b树</li>
+<li>对MVCC的理解</li>
+<li>幻读是怎么解决的</li>
+<li>redo undo 的作用和实现</li>
+<li>事务的实现</li>
+<li>索引怎么建</li>
+<li>联合索引最左前缀</li>
+<li>聚簇索引与回表</li>
+</ul>
+<h1 id="redis">Redis</h1>
+<ul>
+<li>基础数据结构</li>
+<li>底层数据结构实现 (重点问题: 压缩列表)</li>
+<li>持久化的原理及优化</li>
+<li>内存淘汰算法实现</li>
+<li>主从复制原理</li>
+<li>aof与rdb (重点问题: aof重写机制)</li>
+<li>为什么用跳表</li>
+<li>分布式锁与RedLock</li>
+<li>三种分布式的结构</li>
+<li>大Key</li>
+</ul>
+<h1 id="mqes分布式">Mq+ES+分布式</h1>
+<ul>
+<li>kafka的零拷贝和顺序IO零拷贝[零拷贝最好说说细节, 用户空间和内核空间mmap]</li>
+<li>kafka的分片, 分片的读一致性和写一致性怎么保证</li>
+<li>ES的倒排索引, 分片的查询召回</li>
+<li>分布式锁 redis redlock etcd</li>
+<li>分布式事务 2pc 3pc tcc</li>
+<li>分布式共识协议 raft和paxos</li>
+<li>分布式数据库CAP BASE的概念 etcd tidb的了解</li>
+</ul>
+<h1 id="k8s">K8s</h1>
+<ul>
+<li>k8s的应用和架构</li>
+<li>监控prometheus</li>
+<li>微服务架构的内容 (例如服务发现, 链路追踪的工具)</li>
+</ul>
+<h1 id="算法">算法</h1>
+<ul>
+<li>字符串之实现 Sunday 匹配</li>
+<li>字符串泄漏之反转字符串(301)</li>
+<li>字符串中的第一个唯一字符</li>
+<li>字符串之验证回文串</li>
+<li>滑动窗口最大值</li>
+<li>最长公共前缀</li>
+<li>两个数组的交集</li>
+<li>最接近的三数之和</li>
+</ul>
+<h1 id="排序算法">排序算法</h1>
+<ul>
+<li>冒泡</li>
+<li>选择</li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2022-07-27</span>
+            </div>
+            <div class="post-info-license"><span>MIT</span></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/golang/">golang</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/go-pubsub/" class="prev" rel="prev" title="使用Golang的Channel实现PubSub"><i class="fas fa-angle-left fa-fw"></i>使用Golang的Channel实现PubSub</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.85.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
