@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>GRPC笔记 - 小仙的博客</title><meta name="Description" content="grpc一些开发中可能会用到的技巧"><meta property="og:title" content="GRPC笔记" />
+<meta property="og:description" content="grpc一些开发中可能会用到的技巧" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://cexll.cn/posts/grpc%E7%AC%94%E8%AE%B0/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-08-02T11:15:53+08:00" />
+<meta property="article:modified_time" content="2022-08-02T11:15:53+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="GRPC笔记"/>
+<meta name="twitter:description" content="grpc一些开发中可能会用到的技巧"/>
+<meta name="application-name" content="小仙的博客">
+<meta name="apple-mobile-web-app-title" content="小仙的博客"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://cexll.cn/posts/grpc%E7%AC%94%E8%AE%B0/" /><link rel="prev" href="https://cexll.cn/posts/golang%E9%AB%98%E6%80%A7%E8%83%BD%E7%BC%96%E7%A8%8B/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "GRPC笔记",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/cexll.cn\/posts\/grpc%E7%AC%94%E8%AE%B0\/"
+        },"genre": "posts","keywords": "grpc, protobuf","wordcount":  2709 ,
+        "url": "https:\/\/cexll.cn\/posts\/grpc%E7%AC%94%E8%AE%B0\/","datePublished": "2022-08-02T11:15:53+08:00","dateModified": "2022-08-02T11:15:53+08:00","publisher": {
+            "@type": "Organization",
+            "name": "cexll"},"author": {
+                "@type": "Person",
+                "name": "cexll"
+            },"description": "grpc一些开发中可能会用到的技巧"
+    }
+    </script></head>
+    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="小仙的博客">小仙的博客</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/about/index.html"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="小仙的博客">小仙的博客</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/about/index.html" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">GRPC笔记</h1><h2 class="single-subtitle">GRPC笔记</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="github.com/cexll" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-08-02">2022-08-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2709 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#1-grpc验证">1. grpc验证</a></li>
+        <li><a href="#2-拦截器interceptor">2. 拦截器Interceptor</a></li>
+        <li><a href="#3-利用gateway同时提供http和rpc">3. 利用gateway同时提供HTTP和RPC</a></li>
+        <li><a href="#4-使用context进行超时控制">4. 使用context进行超时控制</a></li>
+        <li><a href="#5-配置retry自动重试">5. 配置retry自动重试</a></li>
+        <li><a href="#6-客户端负载均衡">6. 客户端负载均衡</a></li>
+        <li><a href="#7-k8s-grpc负载均衡">7. k8s grpc负载均衡</a></li>
+        <li><a href="#8grpc压测工具ghz">8.gRPC压测工具ghz</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="grpc笔记">GRPC笔记</h1>
+<h3 id="1-grpc验证">1. grpc验证</h3>
+<ul>
+<li>实现credentials.PerRPCCredentials接口就可以把数据当做 gRPC 中的 Credential 在添加到 metadata</li>
+<li>服务端从 ctx 中解析 metadata，然后从 metadata 中获取 授权信息并进行验证</li>
+<li>可以借助 Interceptor 实现全局身份验证</li>
+<li>客户端可以通过 DialOption 为所有请求统一指定授权信息，或者通过 CallOption 为每一个请求分别指定授权信息</li>
+</ul>
+<h3 id="2-拦截器interceptor">2. 拦截器Interceptor</h3>
+<ul>
+<li>拦截器分类与定义</li>
+<li>一元拦截器
+<ul>
+<li>预处理</li>
+<li>调用RPC方法</li>
+<li>后处理</li>
+</ul>
+</li>
+<li>流拦截器
+<ul>
+<li>预处理</li>
+<li>调用RPC方法 获取 Streamer</li>
+<li>后处理
+<ul>
+<li>调用 SendMsg 、RecvMsg 之前</li>
+<li>调用 SendMsg 、RecvMsg</li>
+<li>调用 SendMsg 、RecvMsg 之后</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>服务端拦截器和客户端拦截器</li>
+<li>拦截器使用及执行顺序
+<ul>
+<li>配置多个拦截器时，会按照参数传入顺序依次执行</li>
+</ul>
+</li>
+</ul>
+<pre><code>grpc.UnaryServerInterceptor
+grpc.StreamServerInterceptor
+grpc.UnaryClientInterceptor
+grpc.StreamClientInterceptor
+</code></pre><h3 id="3-利用gateway同时提供http和rpc">3. 利用gateway同时提供HTTP和RPC</h3>
+<ol>
+<li>安装protoc-gen-grpc-gateway插件</li>
+<li>.proto文件添加注解</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-proto" data-lang="proto"><span class="n">syntax</span> <span class="o">=</span> <span class="s">&#34;proto3&#34;</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="k">option</span> <span class="n">go_package</span> <span class="o">=</span> <span class="s">&#34;github.com/lixd/grpc-go-example/features/proto/echo&#34;</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="kn">package</span> <span class="nn">helloworld</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="c1">// 引入 annotations https://github.com/grpc-ecosystem/grpc-gateway/tree/master/third_party/googleapis/google/api
+</span><span class="c1"></span><span class="k">import</span> <span class="s">&#34;google/api/annotations.proto&#34;</span><span class="p">;</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="kd">service</span> <span class="n">Greeter</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="k">rpc</span> <span class="n">SayHello</span> <span class="p">(</span><span class="n">HelloRequest</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">HelloReply</span><span class="p">)</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>    <span class="c1">// 添加注解
+</span><span class="c1"></span>    <span class="k">option</span> <span class="p">(</span><span class="n">google.api.http</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>      <span class="c1">// method: route 
+</span><span class="c1"></span>      <span class="n">get</span><span class="o">:</span> <span class="s">&#34;/v1/greeter/sayhello&#34;</span><span class="err">
+</span><span class="err"></span>      <span class="n">body</span><span class="o">:</span> <span class="s">&#34;*&#34;</span><span class="err">
+</span><span class="err"></span>    <span class="p">};</span><span class="err">
+</span><span class="err"></span>  <span class="p">}</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="kd">message</span> <span class="nc">HelloRequest</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="kt">string</span> <span class="n">name</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="kd">message</span> <span class="nc">HelloReply</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="kt">string</span> <span class="kd">message</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></div><ol start="3">
+<li>启动grpc同时启动http</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// 启动 HTTP 服务
+</span><span class="c1"></span><span class="nx">conn</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">grpc</span><span class="p">.</span><span class="nf">Dial</span><span class="p">(</span>
+    <span class="s">&#34;localhost:50051&#34;</span><span class="p">,</span>
+    <span class="nx">grpc</span><span class="p">.</span><span class="nf">WithInsecure</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+    <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalln</span><span class="p">(</span><span class="s">&#34;Failed to dial server:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nx">gwmux</span> <span class="o">:=</span> <span class="nx">runtime</span><span class="p">.</span><span class="nf">NewServeMux</span><span class="p">()</span>
+<span class="c1">// Register Greeter
+</span><span class="c1"></span><span class="nx">err</span> <span class="p">=</span> <span class="nx">pb</span><span class="p">.</span><span class="nf">RegisterGreeterHandler</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nf">Background</span><span class="p">(),</span> <span class="nx">gwmux</span><span class="p">,</span> <span class="nx">conn</span><span class="p">)</span>
+<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+    <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalln</span><span class="p">(</span><span class="s">&#34;Failed to register gateway:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nx">gwServer</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">http</span><span class="p">.</span><span class="nx">Server</span><span class="p">{</span>
+    <span class="nx">Addr</span><span class="p">:</span>    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;:%d&#34;</span><span class="p">,</span> <span class="o">*</span><span class="nx">restful</span><span class="p">),</span>
+    <span class="nx">Handler</span><span class="p">:</span> <span class="nx">gwmux</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Serving gRPC-Gateway on http://0.0.0.0&#34;</span><span class="o">+</span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;:%d&#34;</span><span class="p">,</span> <span class="o">*</span><span class="nx">restful</span><span class="p">))</span>
+<span class="nx">log</span><span class="p">.</span><span class="nf">Fatalln</span><span class="p">(</span><span class="nx">gwServer</span><span class="p">.</span><span class="nf">ListenAndServe</span><span class="p">())</span>
+</code></pre></div><h3 id="4-使用context进行超时控制">4. 使用context进行超时控制</h3>
+<p>控制超时时间在高并发下尽可能的控制资源</p>
+<ul>
+<li>context.WithDeadline()</li>
+<li>context.WithTimeout()</li>
+</ul>
+<h3 id="5-配置retry自动重试">5. 配置retry自动重试</h3>
+<ul>
+<li>客户端建立连接时通过grpc.WithDefaultServiceConfig(retryPolicy)指定重试策略</li>
+<li>环境变量中开启重试:export GRPC_GO_RETRY=on</li>
+</ul>
+<h3 id="6-客户端负载均衡">6. 客户端负载均衡</h3>
+<ul>
+<li>Name Resolver(默认)</li>
+<li>Load Balancing Policy
+<ul>
+<li>pick_first：尝试连接到第一个地址，如果连接成功，则将其用于所有RPC，如果连接失败，则尝试下一个地址（并继续这样做，直到一个连接成功）</li>
+<li>round_robin：连接到它看到的所有地址，并依次向每个后端发送一个RPC。例如，第一个RPC将发送到backend-1，第二个RPC将发送到backend-2，第三个RPC将再次发送到backend-1</li>
+</ul>
+</li>
+</ul>
+<h3 id="7-k8s-grpc负载均衡">7. k8s grpc负载均衡</h3>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Import the module
+</span><span class="c1"></span><span class="kn">import</span> <span class="s">&#34;github.com/sercand/kuberesolver/v3&#34;</span>
+	
+<span class="c1">// Register kuberesolver to grpc before calling grpc.Dial
+</span><span class="c1"></span><span class="nx">kuberesolver</span><span class="p">.</span><span class="nf">RegisterInCluster</span><span class="p">()</span>
+<span class="c1">// if schema is &#39;kubernetes&#39; then grpc will use kuberesolver to resolve addresses
+</span><span class="c1"></span><span class="nx">cc</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">grpc</span><span class="p">.</span><span class="nf">Dial</span><span class="p">(</span><span class="s">&#34;kubernetes:///service.namespace:portname&#34;</span><span class="p">,</span> <span class="nx">opts</span><span class="o">...</span><span class="p">)</span>
+</code></pre></div><ul>
+<li>kubernetes:///service.namespace:portname</li>
+</ul>
+<h4 id="71-服务端负载均衡">7.1 服务端负载均衡</h4>
+<p>服务端负载均衡主要是在 Pod 之前增加一个 中间组件，一般为 7 层负载均衡。</p>
+<p>client 请求中间组件，由中间组件再去请求后端的 Pod。</p>
+<p>常见的组件比如 Linkerd，或者 ServiceMesh 如 istio 中的 envoy 也能实现同样的效果。</p>
+<h3 id="8grpc压测工具ghz">8.gRPC压测工具ghz</h3>
+<p><a href="https://github.com/bojand/ghz/releases">https://github.com/bojand/ghz/releases</a></p>
+<h4 id="基本参数">基本参数</h4>
+<pre><code>--config：指定配置文件位置
+--proto：指定 proto 文件位置
+        会从 proto 文件中获取相关信息
+--call：指定调用的方法。
+        具体格式为包名.服务名.方法名
+        如：--call helloworld.Greeter.SayHello
+-c：并发请求数
+-n：最大请求数，达到后则结束测试
+-d：请求参数
+        JSON格式，如-d '{&quot;name&quot;:&quot;Bob&quot;}'
+-D：以文件方式指定请求参数，JSON文件位置
+        如-D ./file.json
+-o：输出路径
+        默认输出到 stdout
+-O/--format：输出格式，有多种格式可选
+        便于查看的：csv、json、pretty、html：
+        便于入库的：influx-summary、influx-details：满足InfluxDB line-protocol 格式的输出
+</code></pre><h4 id="负载参数">负载参数</h4>
+<p>负载参数主要控制ghz每秒发起的请求数（RPS）。</p>
+<pre><code>-r/--rps：指定RPS
+        ghz以恒定的RPS进行测试
+--load-schedule：负载调度算法，取值如下：
+        const：恒定RPS，也是默认调用算法
+        step：步进增长RPS，需要配合load-start，load-step，load-end，load-step-duration，和load-max-duration等参数
+        line：线性增长RPS，需要配合load-start，load-step，load-end，和load-max-duration等参数，其实line就是 step 算法将load-step-duration时间固定为一秒了。
+--load-start：step、line 的起始RPS
+--load-step：step、line 的步进值或斜率值
+--load-end：step、line 的负载结束值
+--load-max-duration：最大持续时间，到达则结束
+
+
+
+示例:
+从50RPS开始，每5秒钟增加10RPS，一直到完成10000请求为止。
+-n 10000 -c 10 --load-schedule=step --load-start=50 --load-step=10 --load-step-duration=5s
+
+从50RPS开始，每5秒钟增加10RPS，最多增加到150RPS，一直到完成10000请求为止。
+-n 10000 -c 10 --load-schedule=step --load-start=50 --load-end=150 --load-step=10 --load-step-duration=5s
+
+从200RPS开始，每1秒钟降低2RPS，一直降低到50RPS，一直到完成10000请求为止。
+-n 10000 -c 10 --load-schedule=line --load-start=200 --load-step=-2 --load-end=50
+</code></pre><h4 id="并发参数">并发参数</h4>
+<pre><code>-c：并发woker数，
+
+        注意：不是并发请求数
+--concurrency-schedule：并发调度算法，和--load-schedule类似
+
+        const：恒定并发数，默认值
+        step：步进增加并发数
+        line：线性增加并发数
+--concurrency-start：起始并发数
+
+--concurrency-end：结束并发数
+
+--concurrency-step：并发数步进值
+
+--concurrency-step-duration：在每个梯段需要持续的时间
+
+--concurrency-max-duration：最大持续时间
+
+示例:
+
+固定RPS200，worker数从5开始，每5秒增加5，最大增加到50。
+
+-n 100000 --rps 200 --concurrency-schedule=step --concurrency-start=5 --concurrency-step=5 --concurrency-end=50 --concurrency-step-duration=5s
+</code></pre><h4 id="配置文件">配置文件</h4>
+<p>所有参数都可以通过配置文件来指定，这也是比较推荐的用法。</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&#34;proto&#34;</span><span class="p">:</span> <span class="s2">&#34;/path/to/greeter.proto&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;call&#34;</span><span class="p">:</span> <span class="s2">&#34;helloworld.Greeter.SayHello&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;total&#34;</span><span class="p">:</span> <span class="mi">2000</span><span class="p">,</span>
+    <span class="nt">&#34;concurrency&#34;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="nt">&#34;data&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Joe&#34;</span>
+    <span class="p">},</span>
+    <span class="nt">&#34;metadata&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;foo&#34;</span><span class="p">:</span> <span class="s2">&#34;bar&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;trace_id&#34;</span><span class="p">:</span> <span class="s2">&#34;{{.RequestNumber}}&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;timestamp&#34;</span><span class="p">:</span> <span class="s2">&#34;{{.TimestampUnix}}&#34;</span>
+    <span class="p">},</span>
+    <span class="nt">&#34;import-paths&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&#34;/path/to/protos&#34;</span>
+    <span class="p">],</span>
+    <span class="nt">&#34;max-duration&#34;</span><span class="p">:</span> <span class="s2">&#34;10s&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;host&#34;</span><span class="p">:</span> <span class="s2">&#34;0.0.0.0:50051&#34;</span>
+<span class="p">}</span>
+</code></pre></div><h4 id="使用方法">使用方法</h4>
+<pre><code>ghz -c 10 -n 1000 \
+   --insecure \
+   --proto ./hello_world.proto \
+   --call helloworld.Greeter.SayHello \
+   -d '{&quot;name&quot;:&quot;Joe&quot;}' \
+   0.0.0.0:50051
+</code></pre><p><code>--call helloworld.Greeter.SayHello</code>: 说明，具体 proto 文件如下</p>
+<div class="highlight"><pre class="chroma"><code class="language-proto" data-lang="proto"><span class="c1">// 省略其他代码...
+</span><span class="c1"></span><span class="kn">package</span> <span class="nn">helloworld</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="kd">service</span> <span class="n">Greeter</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="k">rpc</span> <span class="n">SayHello</span> <span class="p">(</span><span class="n">HelloRequest</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">HelloReply</span><span class="p">)</span> <span class="p">{}</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></div><p>结果</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">Summary:
+  Count:        <span class="m">1000</span>
+  Total:        87.65 ms
+  Slowest:      6.97 ms
+  Fastest:      0.12 ms
+  Average:      0.75 ms
+  Requests/sec: 11409.21
+
+Response <span class="nb">time</span> histogram:
+  0.118 <span class="o">[</span>1<span class="o">]</span>     <span class="p">|</span>
+  0.803 <span class="o">[</span>801<span class="o">]</span>   <span class="p">|</span>∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎
+  1.487 <span class="o">[</span>131<span class="o">]</span>   <span class="p">|</span>∎∎∎∎∎∎∎
+  2.172 <span class="o">[</span>27<span class="o">]</span>    <span class="p">|</span>∎
+  2.857 <span class="o">[</span>18<span class="o">]</span>    <span class="p">|</span>∎
+  3.542 <span class="o">[</span>12<span class="o">]</span>    <span class="p">|</span>∎
+  4.226 <span class="o">[</span>0<span class="o">]</span>     <span class="p">|</span>
+  4.911 <span class="o">[</span>0<span class="o">]</span>     <span class="p">|</span>
+  5.596 <span class="o">[</span>0<span class="o">]</span>     <span class="p">|</span>
+  6.281 <span class="o">[</span>0<span class="o">]</span>     <span class="p">|</span>
+  6.966 <span class="o">[</span>10<span class="o">]</span>    <span class="p">|</span>
+
+Latency distribution:
+  <span class="m">10</span> % in 0.35 ms 
+  <span class="m">25</span> % in 0.43 ms 
+  <span class="m">50</span> % in 0.57 ms 
+  <span class="m">75</span> % in 0.75 ms 
+  <span class="m">90</span> % in 1.23 ms 
+  <span class="m">95</span> % in 1.62 ms 
+  <span class="m">99</span> % in 3.31 ms 
+
+Status code distribution:
+  <span class="o">[</span>OK<span class="o">]</span>   <span class="m">1000</span> responses  
+</code></pre></div><h4 id="负载参数使用方法">负载参数)使用方法</h4>
+<pre><code>ghz -c 10 -n 1000 \
+   --insecure \
+   --proto ./hello_world.proto \
+   --call helloworld.Greeter.SayHello \
+   -d '{&quot;name&quot;:&quot;Joe&quot;}' \
+   --load-schedule=step --load-start=50 --load-step=10 --load-step-duration=5s \
+   -o report.html -O html \
+   0.0.0.0:50051
+</code></pre><p>这次指定使用HTML方式输出结果，执行完成后可以在当前目录看到输出的HTML文件</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ ls
+report.html
+</code></pre></div><h4 id="并发参数使用方法">并发参数)使用方法</h4>
+<pre><code>ghz -c 10 -n 10000 \
+   --insecure \
+   --proto ./hello_world.proto \
+   --call helloworld.Greeter.SayHello \
+   -d '{&quot;name&quot;:&quot;Joe&quot;}' \
+   --rps 200 --concurrency-schedule=step --concurrency-start=5 --concurrency-step=5 --concurrency-end=50 --concurrency-step-duration=5s \
+   -o report.json -O pretty \
+   0.0.0.0:50051
+</code></pre><p>本次以CSV格式打印输出</p>
+<pre><code>duration (ms),status,error
+1.05,OK,
+0.32,OK,
+0.30,OK,
+0.36,OK,
+0.34,OK,
+0.29,OK,
+0.40,OK,
+0.40,OK,
+0.62,OK,
+0.31,OK,
+0.30,OK,
+0.48,OK,
+</code></pre><h4 id="编程方式">编程方式</h4>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;log&#34;</span>
+	<span class="s">&#34;os&#34;</span>
+
+	<span class="s">&#34;github.com/bojand/ghz/printer&#34;</span>
+	<span class="s">&#34;github.com/bojand/ghz/runner&#34;</span>
+	<span class="s">&#34;github.com/golang/protobuf/proto&#34;</span>
+	<span class="nx">pb</span> <span class="s">&#34;github.com/lixd/grpc-go-example/helloworld/helloworld&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// 官方文档 https://ghz.sh/docs/intro.html
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">// 组装BinaryData
+</span><span class="c1"></span>	<span class="nx">item</span> <span class="o">:=</span> <span class="nx">pb</span><span class="p">.</span><span class="nx">HelloRequest</span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span> <span class="s">&#34;lixd&#34;</span><span class="p">}</span>
+	<span class="nx">buf</span> <span class="o">:=</span> <span class="nx">proto</span><span class="p">.</span><span class="nx">Buffer</span><span class="p">{}</span>
+	<span class="nx">err</span> <span class="o">:=</span> <span class="nx">buf</span><span class="p">.</span><span class="nf">EncodeMessage</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">item</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+	<span class="nx">report</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">runner</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span>
+		<span class="c1">// 基本配置 call host proto文件 data
+</span><span class="c1"></span>		<span class="s">&#34;helloworld.Greeter.SayHello&#34;</span><span class="p">,</span> <span class="c1">//  &#39;package.Service/method&#39; or &#39;package.Service.Method&#39;
+</span><span class="c1"></span>		<span class="s">&#34;localhost:50051&#34;</span><span class="p">,</span>
+		<span class="nx">runner</span><span class="p">.</span><span class="nf">WithProtoFile</span><span class="p">(</span><span class="s">&#34;../helloworld/helloworld/hello_world.proto&#34;</span><span class="p">,</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{}),</span>
+		<span class="nx">runner</span><span class="p">.</span><span class="nf">WithBinaryData</span><span class="p">(</span><span class="nx">buf</span><span class="p">.</span><span class="nf">Bytes</span><span class="p">()),</span>
+		<span class="nx">runner</span><span class="p">.</span><span class="nf">WithInsecure</span><span class="p">(</span><span class="kc">true</span><span class="p">),</span>
+		<span class="nx">runner</span><span class="p">.</span><span class="nf">WithTotalRequests</span><span class="p">(</span><span class="mi">10000</span><span class="p">),</span>
+		<span class="c1">// 并发参数
+</span><span class="c1"></span>		<span class="nx">runner</span><span class="p">.</span><span class="nf">WithConcurrencySchedule</span><span class="p">(</span><span class="nx">runner</span><span class="p">.</span><span class="nx">ScheduleLine</span><span class="p">),</span>
+		<span class="nx">runner</span><span class="p">.</span><span class="nf">WithConcurrencyStep</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+		<span class="nx">runner</span><span class="p">.</span><span class="nf">WithConcurrencyStart</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>
+		<span class="nx">runner</span><span class="p">.</span><span class="nf">WithConcurrencyEnd</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span>
+	<span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+	<span class="c1">// 指定输出路径
+</span><span class="c1"></span>	<span class="nx">file</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Create</span><span class="p">(</span><span class="s">&#34;report.html&#34;</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+	<span class="nx">rp</span> <span class="o">:=</span> <span class="nx">printer</span><span class="p">.</span><span class="nx">ReportPrinter</span><span class="p">{</span>
+		<span class="nx">Out</span><span class="p">:</span>    <span class="nx">file</span><span class="p">,</span>
+		<span class="nx">Report</span><span class="p">:</span> <span class="nx">report</span><span class="p">,</span>
+	<span class="p">}</span>
+	<span class="c1">// 指定输出格式
+</span><span class="c1"></span>	<span class="nx">_</span> <span class="p">=</span> <span class="nx">rp</span><span class="p">.</span><span class="nf">Print</span><span class="p">(</span><span class="s">&#34;html&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><p>运行测试会在当前目录输出report.html文件</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ go run ghz.go
+$ ls
+ghz.go  report.html
+</code></pre></div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2022-08-02</span>
+            </div>
+            <div class="post-info-license"><span>MIT</span></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/grpc/">grpc</a>,&nbsp;<a href="/tags/protobuf/">protobuf</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/golang%E9%AB%98%E6%80%A7%E8%83%BD%E7%BC%96%E7%A8%8B/" class="prev" rel="prev" title="[转发] Golang高性能编程"><i class="fas fa-angle-left fa-fw"></i>[转发] Golang高性能编程</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.85.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
