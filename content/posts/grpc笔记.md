@@ -19,10 +19,18 @@ featuredImagePreview: ""
 
 toc:
   enable: true
+  auto: true
+code:
+  copy: true
+  maxShownLines: 50
 math:
   enable: false
+share:
+  enable: true
 lightgallery: false
 license: "MIT"
+seo: 
+  images: []
 ---
 
 <!--more-->
