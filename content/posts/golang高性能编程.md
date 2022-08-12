@@ -1,5 +1,5 @@
 ---
-title: "[转发] Golang高性能编程"
+title: "[转] Golang高性能编程"
 subtitle: "Golang高性能编程"
 date: 2022-07-27T13:15:53+08:00
 lastmod: 2022-07-27T13:15:53+08:00
