@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>GO面试笔记宝典 - 小仙的博客</title><meta name="Description" content="热爱开源的开发者"><meta property="og:title" content="GO面试笔记宝典" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://cexll.cn/posts/go%E9%9D%A2%E8%AF%95%E5%AE%9D%E5%85%B8/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-08-14T12:15:53+08:00" />
+<meta property="article:modified_time" content="2022-08-14T12:15:53+08:00" /><meta property="og:site_name" content="小仙的博客" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="GO面试笔记宝典"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="小仙的博客">
+<meta name="apple-mobile-web-app-title" content="小仙的博客"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://cexll.cn/posts/go%E9%9D%A2%E8%AF%95%E5%AE%9D%E5%85%B8/" /><link rel="prev" href="https://cexll.cn/posts/grpc%E7%AC%94%E8%AE%B0/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "GO面试笔记宝典",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/cexll.cn\/posts\/go%E9%9D%A2%E8%AF%95%E5%AE%9D%E5%85%B8\/"
+        },"image": ["https:\/\/camo.githubusercontent.com\/307b01963bad9d7d6cf9a7128d56f6567d3b278493ca5e9305ad38229ce48948\/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f6365786c6c2f73746174696366696c652f696d616765732f6865616465722e706e67"],"genre": "posts","keywords": "golang","wordcount":  1799 ,
+        "url": "https:\/\/cexll.cn\/posts\/go%E9%9D%A2%E8%AF%95%E5%AE%9D%E5%85%B8\/","datePublished": "2022-08-14T12:15:53+08:00","dateModified": "2022-08-14T12:15:53+08:00","publisher": {
+            "@type": "Organization",
+            "name": "小仙的博客","logo": "https:\/\/camo.githubusercontent.com\/307b01963bad9d7d6cf9a7128d56f6567d3b278493ca5e9305ad38229ce48948\/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f6365786c6c2f73746174696366696c652f696d616765732f6865616465722e706e67"},"author": {
+                "@type": "Person",
+                "name": "cexll"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="auto" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="小仙的博客"><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/about/index.html"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="小仙的博客"><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/about/index.html" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">GO面试笔记宝典</h1><h2 class="single-subtitle">GO面试笔记宝典</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/golang/"><i class="far fa-folder fa-fw"></i>golang</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-08-14">2022-08-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1799 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#逃逸分析">逃逸分析</a></li>
+    <li><a href="#数据和切片有何异同">数据和切片有何异同</a></li>
+    <li><a href="#切片的容量是怎样增长的">切片的容量是怎样增长的</a></li>
+    <li><a href="#make和new的区别">make和new的区别</a></li>
+    <li><a href="#map是什么">map是什么</a></li>
+    <li><a href="#map中的key为什么是无序的">map中的key为什么是无序的</a></li>
+    <li><a href="#map是线程安全的吗">map是线程安全的吗</a></li>
+    <li><a href="#float类型可以作为map的key吗">float类型可以作为map的key吗</a></li>
+    <li><a href="#如何比较两个map是否相等">如何比较两个map是否相等</a></li>
+    <li><a href="#可以对map的元素取地址吗">可以对map的元素取地址吗</a></li>
+    <li><a href="#可以边遍历边删除吗">可以边遍历边删除吗</a></li>
+    <li><a href="#从一个关闭的通道里仍然能读出数据吗">从一个关闭的通道里仍然能读出数据吗</a></li>
+    <li><a href="#如何优雅的关闭通道">如何优雅的关闭通道</a></li>
+    <li><a href="#通道在什么情况下会引起资源泄露">通道在什么情况下会引起资源泄露</a></li>
+    <li><a href="#操作channel结构汇总">操作channel结构汇总</a></li>
+    <li><a href="#gmp">GMP</a></li>
+    <li><a href="#三色标记法">三色标记法</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="逃逸分析">逃逸分析</h2>
+<ul>
+<li>当一个对象的指针被多个方法或者线程引用时,则称这个指针发发生了逃逸. 逃逸分析决定一个变量是分配在堆上还是分配栈上.</li>
+<li>逃逸分析是怎么完成的, 如果一个函数返回对一个变量的引用, 那么这个变量就会发生逃逸.</li>
+</ul>
+<h2 id="数据和切片有何异同">数据和切片有何异同</h2>
+<ul>
+<li>go中切片结构的本质是对数组的封装, 它描述一个数组的片段.</li>
+</ul>
+<h2 id="切片的容量是怎样增长的">切片的容量是怎样增长的</h2>
+<ul>
+<li>当原slice容量小于1024时, 新slice容量为原来的2倍</li>
+<li>当原slice容量超过1024时, 新slice容量为原来的1.25倍</li>
+<li>go中函数参数传递, 只有值传递, 没有引用传递</li>
+</ul>
+<h2 id="make和new的区别">make和new的区别</h2>
+<ul>
+<li>make和new都是go语言内置的用来分配内存的函数, 但适用类型不同: 前者适用于slice map channel 等引用类型, 后者使用于 int 数组 结构体等值类型</li>
+</ul>
+<h2 id="map是什么">map是什么</h2>
+<ul>
+<li>它是由一组&lt;key, value&gt; 对组成的抽象数据结构,并且同一个key只会出现一次.</li>
+</ul>
+<h2 id="map中的key为什么是无序的">map中的key为什么是无序的</h2>
+<ul>
+<li>在map中数量增多 在原有的空间无法保证高效地进行增删改查操作时就会发生扩容, 而map在扩容时会发生key搬移,原来落在同一个bucket中key搬迁后bucket序号加上了2^B, 而遍历的过程在go中并不是固定从0开始, 而是每次都从一个随机序号的bucket开始, 并且从这个bucket的一个随机序号的cell开始遍历</li>
+</ul>
+<h2 id="map是线程安全的吗">map是线程安全的吗</h2>
+<ul>
+<li>不是, 在查找 赋值 遍历 删除的过程中都会检测写标致, 一旦发现写标志位(等于1), 则会直接panic.</li>
+</ul>
+<h2 id="float类型可以作为map的key吗">float类型可以作为map的key吗</h2>
+<ul>
+<li>可以, go中只要是可以比较类型都可以作为key. 除了slice map function</li>
+</ul>
+<h2 id="如何比较两个map是否相等">如何比较两个map是否相等</h2>
+<ul>
+<li>都为nil</li>
+<li>非空 长度相等, 指向同一个map实体对象</li>
+<li>相应的key 指向 value &ldquo;深度&quot;相等</li>
+</ul>
+<h2 id="可以对map的元素取地址吗">可以对map的元素取地址吗</h2>
+<ul>
+<li>不行 (编译报错)</li>
+</ul>
+<h2 id="可以边遍历边删除吗">可以边遍历边删除吗</h2>
+<ul>
+<li>多线程读写同一个map会panic</li>
+<li>在同一个协程遍历删除并不会检测同时读写, 理论上是可以的(推荐使用 sync.Map)</li>
+</ul>
+<h2 id="从一个关闭的通道里仍然能读出数据吗">从一个关闭的通道里仍然能读出数据吗</h2>
+<ul>
+<li>从一个有缓存的channel里依然能读取出有效值, 只有当返回的ok为false时, 读取的数据才无效</li>
+</ul>
+<h2 id="如何优雅的关闭通道">如何优雅的关闭通道</h2>
+<ul>
+<li>不关闭 等待gc</li>
+<li>通过中间人来关闭一个额外的信号channel,从而关闭channel</li>
+</ul>
+<h2 id="通道在什么情况下会引起资源泄露">通道在什么情况下会引起资源泄露</h2>
+<ul>
+<li>channel可能会引发goroutine泄露
+<ul>
+<li>goroutine操作channel后, 处于发送或接收阻塞状态, 而channel处于满或空的状态, 一直得不到改变. 同时, 垃圾回收器也不会回收此类资源, 进而导致goroutine会一直处于等待队列中</li>
+</ul>
+</li>
+</ul>
+<h2 id="操作channel结构汇总">操作channel结构汇总</h2>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>nil channel</th>
+<th>closed channel</th>
+<th>not nil, not closed channel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>close</td>
+<td>panic</td>
+<td>panic</td>
+<td>正常关闭</td>
+</tr>
+<tr>
+<td>读 &lt;- ch</td>
+<td>阻塞</td>
+<td>读取到对应类型的零值</td>
+<td>阻塞或正常读取数据. 缓冲型channel为空或非缓冲型channel没有等待的发送者时会阻塞</td>
+</tr>
+<tr>
+<td>写 ch &lt;-</td>
+<td>阻塞</td>
+<td>panic</td>
+<td>阻塞或正常写入数据. 非缓冲型channel没有等待的接受者或缓冲型channel buf 满时会被阻塞</td>
+</tr>
+</tbody>
+</table>
+<h2 id="gmp">GMP</h2>
+<ul>
+<li>G 代表一个goroutine 它包含: 表示goroutine栈的一些字段, 指示当前goroutine的状态, 指示当前运行到的指令地址, 也就是PC值</li>
+<li>M 表示内核线程, 包含正在运行的goroutine等字段</li>
+<li>P 表示一个虚拟的Processor, 它维护一个处理 Runnable 状态的goroutine队列,M需要获取P才能运行G</li>
+<li>当M没有工作可做的时候, 在它休眠前, 会自旋地来找工作: 检查全局队列, 查看network poller, 试图执行GC任务, 或者去其他P偷G</li>
+</ul>
+<h2 id="三色标记法">三色标记法</h2>
+<ul>
+<li>白色对象(可能死亡): 未被回收器访问到的对象. 在回收开始阶段, 所有对象均为白色, 当回收结束后, 白色对象均不可达.</li>
+<li>灰色对象(波面): 已被回收器访问到的对象, 但回收器需要对其中的一个或者多个指针进行扫描, 因为它们可能还指向白色对象.</li>
+<li>黑色对象(确认存活): 已被回收器访问到的对象, 其中所有字段都已被扫描, 黑色对象中任何一个指针都不可能直接指向白色对象.</li>
+</ul>
+<blockquote>
+<p>当垃圾回收开始时, 只有白色对象. 随着标记过程的进行, 灰色对象开始出现(着色), 这时候波面便开始扩大. 当一个对象的所有子节点均完成扫描时, 会被着色为黑色. 当整个堆遍历完成时, 只剩下黑色和白色对象, 这时的黑色对象均为可达对象, 即存活: 而白色对象为不可达对象, 即死亡. 这个过程可以视为以灰色对象为波面, 将黑色对象和白色对象分离, 使波面不断向前推进, 直到所有可达的灰色对象都变为黑色对象为止的过程.</p>
+</blockquote>
+<h1 id="引用">引用</h1>
+<p>本文内容来至Go程序员面试笔记宝典 推荐大家去阅读</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2022-08-14</span>
+            </div>
+            <div class="post-info-license"><span>MIT</span></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://cexll.cn/posts/go%E9%9D%A2%E8%AF%95%E5%AE%9D%E5%85%B8/" data-title="GO面试笔记宝典" data-hashtags="golang"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://cexll.cn/posts/go%E9%9D%A2%E8%AF%95%E5%AE%9D%E5%85%B8/" data-hashtag="golang"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://cexll.cn/posts/go%E9%9D%A2%E8%AF%95%E5%AE%9D%E5%85%B8/" data-title="GO面试笔记宝典"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://cexll.cn/posts/go%E9%9D%A2%E8%AF%95%E5%AE%9D%E5%85%B8/" data-title="GO面试笔记宝典"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://cexll.cn/posts/go%E9%9D%A2%E8%AF%95%E5%AE%9D%E5%85%B8/" data-title="GO面试笔记宝典"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/golang/">golang</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/grpc%E7%AC%94%E8%AE%B0/" class="prev" rel="prev" title="GRPC笔记"><i class="fas fa-angle-left fa-fw"></i>GRPC笔记</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.85.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/typeit@7.0.4/dist/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{},"data":{"id-1":"小仙的博客","id-2":"小仙的博客"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
