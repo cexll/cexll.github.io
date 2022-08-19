@@ -338,6 +338,10 @@ local logger = require "resty.logger.socket"
 
 更多了解 https://github.com/cloudflare/lua-resty-logger-socket
 
+
+应用场景还有很多 可以 操作MongoDB 操作ETCD HTTP请求 链接kafka投递消息 链接RabbitMQ  直播流rtmp grpc网关 
+
+可以用lua来做很多事 , 但是也不能很多事都用它来做 毕竟它是动态语言 bilibili 2021-07-13 就是lua脚本死循环导致nginx百分百占用导致崩溃
 ## Lua
 介绍强大的 Lua 语言, 在各个领域能发挥的强度
 
