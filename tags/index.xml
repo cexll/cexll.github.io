@@ -3,7 +3,35 @@
         <title>Tags - 标签 - 小仙的博客</title>
         <link>https://cexll.cn/tags/</link>
         <description>Tags - 标签 - 小仙的博客</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 14 Aug 2022 12:15:53 &#43;0800</lastBuildDate><atom:link href="https://cexll.cn/tags/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 19 Aug 2022 09:40:09 &#43;0800</lastBuildDate><atom:link href="https://cexll.cn/tags/" rel="self" type="application/rss+xml" /><item>
+    <title>gateway</title>
+    <link>https://cexll.cn/tags/gateway/</link>
+    <pubDate>Fri, 19 Aug 2022 09:40:09 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://cexll.cn/tags/gateway/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>lua</title>
+    <link>https://cexll.cn/tags/lua/</link>
+    <pubDate>Fri, 19 Aug 2022 09:40:09 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://cexll.cn/tags/lua/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>nginx</title>
+    <link>https://cexll.cn/tags/nginx/</link>
+    <pubDate>Fri, 19 Aug 2022 09:40:09 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://cexll.cn/tags/nginx/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>openresty</title>
+    <link>https://cexll.cn/tags/openresty/</link>
+    <pubDate>Fri, 19 Aug 2022 09:40:09 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://cexll.cn/tags/openresty/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
     <title>golang</title>
     <link>https://cexll.cn/tags/golang/</link>
     <pubDate>Sun, 14 Aug 2022 12:15:53 &#43;0800</pubDate>
@@ -44,34 +72,6 @@
     <pubDate>Thu, 17 Mar 2022 13:53:28 &#43;0800</pubDate>
     <author>作者</author>
     <guid>https://cexll.cn/tags/pub/</guid>
-    <description><![CDATA[]]></description>
-</item><item>
-    <title>redis</title>
-    <link>https://cexll.cn/tags/redis/</link>
-    <pubDate>Thu, 17 Mar 2022 13:53:28 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://cexll.cn/tags/redis/</guid>
-    <description><![CDATA[]]></description>
-</item><item>
-    <title>sub</title>
-    <link>https://cexll.cn/tags/sub/</link>
-    <pubDate>Thu, 17 Mar 2022 13:53:28 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://cexll.cn/tags/sub/</guid>
-    <description><![CDATA[]]></description>
-</item><item>
-    <title>分布式</title>
-    <link>https://cexll.cn/tags/%E5%88%86%E5%B8%83%E5%BC%8F/</link>
-    <pubDate>Thu, 17 Mar 2022 13:53:28 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://cexll.cn/tags/%E5%88%86%E5%B8%83%E5%BC%8F/</guid>
-    <description><![CDATA[]]></description>
-</item><item>
-    <title>binlog</title>
-    <link>https://cexll.cn/tags/binlog/</link>
-    <pubDate>Wed, 26 Jan 2022 11:02:55 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://cexll.cn/tags/binlog/</guid>
     <description><![CDATA[]]></description>
 </item></channel>
 </rss>

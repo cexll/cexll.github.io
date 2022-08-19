@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>OpenResty 应用场景 - 小仙的博客</title><meta name="Description" content="热爱开源的开发者"><meta property="og:title" content="OpenResty 应用场景" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://cexll.cn/posts/openresty-application-scenarios/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-08-19T09:40:09+08:00" />
+<meta property="article:modified_time" content="2022-08-19T09:40:09+08:00" /><meta property="og:site_name" content="小仙的博客" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="OpenResty 应用场景"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="小仙的博客">
+<meta name="apple-mobile-web-app-title" content="小仙的博客"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://cexll.cn/posts/openresty-application-scenarios/" /><link rel="prev" href="https://cexll.cn/posts/go%E9%9D%A2%E8%AF%95%E5%AE%9D%E5%85%B8/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "OpenResty 应用场景",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/cexll.cn\/posts\/openresty-application-scenarios\/"
+        },"image": ["https:\/\/camo.githubusercontent.com\/307b01963bad9d7d6cf9a7128d56f6567d3b278493ca5e9305ad38229ce48948\/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f6365786c6c2f73746174696366696c652f696d616765732f6865616465722e706e67"],"genre": "posts","keywords": "openresty, nginx, lua, gateway","wordcount":  1342 ,
+        "url": "https:\/\/cexll.cn\/posts\/openresty-application-scenarios\/","datePublished": "2022-08-19T09:40:09+08:00","dateModified": "2022-08-19T09:40:09+08:00","publisher": {
+            "@type": "Organization",
+            "name": "小仙的博客","logo": "https:\/\/camo.githubusercontent.com\/307b01963bad9d7d6cf9a7128d56f6567d3b278493ca5e9305ad38229ce48948\/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f6365786c6c2f73746174696366696c652f696d616765732f6865616465722e706e67"},"author": {
+                "@type": "Person",
+                "name": "cexll"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="auto" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="小仙的博客"><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/about/index.html"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="小仙的博客"><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/about/index.html" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">OpenResty 应用场景</h1><h2 class="single-subtitle">介绍OpenResty的相关应用场景 例 限流 限速 缓存 IP访问限制 鉴权 网关 灰度 WAF</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>cexll</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-08-19">2022-08-19</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1342 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#功能介绍">功能介绍</a></li>
+    <li><a href="#lua">Lua</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="openresty-应用场景">OpenResty 应用场景</h1>
+<p>OpenResty 是什么 , 基于 Nginx + Lua 实现的一个全新产品 , 或者叫生态</p>
+<h2 id="功能介绍">功能介绍</h2>
+<ul>
+<li>lua-resty-core</li>
+</ul>
+<p>利用 core 我们可以实现很多操作 在 Nginx 就将一些业务等等操作提前初始化或者完成了也可以配合其他组件实现更复杂的功能</p>
+<div class="highlight"><pre class="chroma"><code class="language-lua" data-lang="lua"><span class="o">//</span> <span class="err">哈希</span>
+<span class="n">ngx.md5</span> 
+<span class="n">ngx.md5_bin</span>
+<span class="n">ngx.sha1_bin</span>
+<span class="o">//</span> <span class="n">base64</span>
+<span class="n">ngx.encode_base64</span>
+<span class="n">ngx.decode_base64</span>
+<span class="o">//</span> <span class="n">request</span>
+<span class="n">ngx.req</span><span class="p">.</span><span class="n">get_headers</span>
+<span class="n">ngx.req</span><span class="p">.</span><span class="n">get_uri_args</span>
+<span class="n">ngx.req</span><span class="p">.</span><span class="n">get_method</span>
+</code></pre></div><p>更多了解 <a href="https://github.com/openresty/lua-resty-core">https://github.com/openresty/lua-resty-core</a></p>
+<ul>
+<li>lua-resty-redis</li>
+</ul>
+<p>利用 redis 我们可以实现鉴权 缓存 分布式锁等等操作 我们可以在 Nginx 链接 Redis 提前做到读取库存 订单之类的高并发操作然后提前做处理</p>
+<div class="highlight"><pre class="chroma"><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">redis</span> <span class="o">=</span> <span class="n">require</span> <span class="s2">&#34;resty.redis&#34;</span>
+                <span class="kd">local</span> <span class="n">red</span> <span class="o">=</span> <span class="n">redis</span><span class="p">:</span><span class="n">new</span><span class="p">()</span>
+
+                <span class="n">red</span><span class="p">:</span><span class="n">set_timeouts</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span> <span class="c1">-- 1 sec</span>
+
+                <span class="c1">-- or connect to a unix domain socket file listened</span>
+                <span class="c1">-- by a redis server:</span>
+                <span class="c1">--     local ok, err = red:connect(&#34;unix:/path/to/redis.sock&#34;)</span>
+
+                <span class="c1">-- connect via ip address directly</span>
+                <span class="kd">local</span> <span class="n">ok</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">red</span><span class="p">:</span><span class="n">connect</span><span class="p">(</span><span class="s2">&#34;127.0.0.1&#34;</span><span class="p">,</span> <span class="mi">6379</span><span class="p">)</span>
+
+                <span class="c1">-- or connect via hostname, need to specify resolver just like above</span>
+                <span class="kd">local</span> <span class="n">ok</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">red</span><span class="p">:</span><span class="n">connect</span><span class="p">(</span><span class="s2">&#34;redis.openresty.com&#34;</span><span class="p">,</span> <span class="mi">6379</span><span class="p">)</span>
+
+                <span class="kr">if</span> <span class="ow">not</span> <span class="n">ok</span> <span class="kr">then</span>
+                    <span class="n">ngx.say</span><span class="p">(</span><span class="s2">&#34;failed to connect: &#34;</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+                    <span class="kr">return</span>
+                <span class="kr">end</span>
+
+                <span class="n">ok</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">red</span><span class="p">:</span><span class="n">set</span><span class="p">(</span><span class="s2">&#34;dog&#34;</span><span class="p">,</span> <span class="s2">&#34;an animal&#34;</span><span class="p">)</span>
+                <span class="kr">if</span> <span class="ow">not</span> <span class="n">ok</span> <span class="kr">then</span>
+                    <span class="n">ngx.say</span><span class="p">(</span><span class="s2">&#34;failed to set dog: &#34;</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+                    <span class="kr">return</span>
+                <span class="kr">end</span>
+
+                <span class="n">ngx.say</span><span class="p">(</span><span class="s2">&#34;set result: &#34;</span><span class="p">,</span> <span class="n">ok</span><span class="p">)</span>
+
+                <span class="kd">local</span> <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">red</span><span class="p">:</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;dog&#34;</span><span class="p">)</span>
+                <span class="kr">if</span> <span class="ow">not</span> <span class="n">res</span> <span class="kr">then</span>
+                    <span class="n">ngx.say</span><span class="p">(</span><span class="s2">&#34;failed to get dog: &#34;</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+                    <span class="kr">return</span>
+                <span class="kr">end</span>
+
+                <span class="kr">if</span> <span class="n">res</span> <span class="o">==</span> <span class="n">ngx.null</span> <span class="kr">then</span>
+                    <span class="n">ngx.say</span><span class="p">(</span><span class="s2">&#34;dog not found.&#34;</span><span class="p">)</span>
+                    <span class="kr">return</span>
+                <span class="kr">end</span>
+
+                <span class="n">ngx.say</span><span class="p">(</span><span class="s2">&#34;dog: &#34;</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+
+                <span class="n">red</span><span class="p">:</span><span class="n">init_pipeline</span><span class="p">()</span>
+                <span class="n">red</span><span class="p">:</span><span class="n">set</span><span class="p">(</span><span class="s2">&#34;cat&#34;</span><span class="p">,</span> <span class="s2">&#34;Marry&#34;</span><span class="p">)</span>
+                <span class="n">red</span><span class="p">:</span><span class="n">set</span><span class="p">(</span><span class="s2">&#34;horse&#34;</span><span class="p">,</span> <span class="s2">&#34;Bob&#34;</span><span class="p">)</span>
+                <span class="n">red</span><span class="p">:</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;cat&#34;</span><span class="p">)</span>
+                <span class="n">red</span><span class="p">:</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;horse&#34;</span><span class="p">)</span>
+                <span class="kd">local</span> <span class="n">results</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">red</span><span class="p">:</span><span class="n">commit_pipeline</span><span class="p">()</span>
+                <span class="kr">if</span> <span class="ow">not</span> <span class="n">results</span> <span class="kr">then</span>
+                    <span class="n">ngx.say</span><span class="p">(</span><span class="s2">&#34;failed to commit the pipelined requests: &#34;</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+                    <span class="kr">return</span>
+                <span class="kr">end</span>
+
+                <span class="kr">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">res</span> <span class="kr">in</span> <span class="n">ipairs</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="kr">do</span>
+                    <span class="kr">if</span> <span class="n">type</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&#34;table&#34;</span> <span class="kr">then</span>
+                        <span class="kr">if</span> <span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="kc">false</span> <span class="kr">then</span>
+                            <span class="n">ngx.say</span><span class="p">(</span><span class="s2">&#34;failed to run command &#34;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&#34;: &#34;</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                        <span class="kr">else</span>
+                            <span class="c1">-- process the table value</span>
+                        <span class="kr">end</span>
+                    <span class="kr">else</span>
+                        <span class="c1">-- process the scalar value</span>
+                    <span class="kr">end</span>
+                <span class="kr">end</span>
+
+                <span class="c1">-- put it into the connection pool of size 100,</span>
+                <span class="c1">-- with 10 seconds max idle time</span>
+                <span class="kd">local</span> <span class="n">ok</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">red</span><span class="p">:</span><span class="n">set_keepalive</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+                <span class="kr">if</span> <span class="ow">not</span> <span class="n">ok</span> <span class="kr">then</span>
+                    <span class="n">ngx.say</span><span class="p">(</span><span class="s2">&#34;failed to set keepalive: &#34;</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+                    <span class="kr">return</span>
+                <span class="kr">end</span>
+</code></pre></div><p>更多了解 <a href="https://github.com/openresty/lua-resty-redis">https://github.com/openresty/lua-resty-redis</a></p>
+<ul>
+<li>lua-resty-websocket</li>
+</ul>
+<p>利用 websocket 我们可以提前处理相关信息进行违规判断或者压力分担</p>
+<div class="highlight"><pre class="chroma"><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">server</span> <span class="o">=</span> <span class="n">require</span> <span class="s2">&#34;resty.websocket.server&#34;</span>
+
+    <span class="kd">local</span> <span class="n">wb</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">server</span><span class="p">:</span><span class="n">new</span><span class="p">{</span>
+        <span class="n">timeout</span> <span class="o">=</span> <span class="mi">5000</span><span class="p">,</span>  <span class="c1">-- in milliseconds</span>
+        <span class="n">max_payload_len</span> <span class="o">=</span> <span class="mi">65535</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="kr">if</span> <span class="ow">not</span> <span class="n">wb</span> <span class="kr">then</span>
+        <span class="n">ngx.log</span><span class="p">(</span><span class="n">ngx.ERR</span><span class="p">,</span> <span class="s2">&#34;failed to new websocket: &#34;</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+        <span class="kr">return</span> <span class="n">ngx.exit</span><span class="p">(</span><span class="mi">444</span><span class="p">)</span>
+    <span class="kr">end</span>
+
+    <span class="kd">local</span> <span class="n">data</span><span class="p">,</span> <span class="n">typ</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">wb</span><span class="p">:</span><span class="n">recv_frame</span><span class="p">()</span>
+
+    <span class="kr">if</span> <span class="ow">not</span> <span class="n">data</span> <span class="kr">then</span>
+        <span class="kr">if</span> <span class="ow">not</span> <span class="n">string.find</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="s2">&#34;timeout&#34;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span> <span class="kr">then</span>
+            <span class="n">ngx.log</span><span class="p">(</span><span class="n">ngx.ERR</span><span class="p">,</span> <span class="s2">&#34;failed to receive a frame: &#34;</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+            <span class="kr">return</span> <span class="n">ngx.exit</span><span class="p">(</span><span class="mi">444</span><span class="p">)</span>
+        <span class="kr">end</span>
+    <span class="kr">end</span>
+
+    <span class="kr">if</span> <span class="n">typ</span> <span class="o">==</span> <span class="s2">&#34;close&#34;</span> <span class="kr">then</span>
+        <span class="c1">-- for typ &#34;close&#34;, err contains the status code</span>
+        <span class="kd">local</span> <span class="n">code</span> <span class="o">=</span> <span class="n">err</span>
+
+        <span class="c1">-- send a close frame back:</span>
+
+        <span class="kd">local</span> <span class="n">bytes</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">wb</span><span class="p">:</span><span class="n">send_close</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">&#34;enough, enough!&#34;</span><span class="p">)</span>
+        <span class="kr">if</span> <span class="ow">not</span> <span class="n">bytes</span> <span class="kr">then</span>
+            <span class="n">ngx.log</span><span class="p">(</span><span class="n">ngx.ERR</span><span class="p">,</span> <span class="s2">&#34;failed to send the close frame: &#34;</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+            <span class="kr">return</span>
+        <span class="kr">end</span>
+        <span class="n">ngx.log</span><span class="p">(</span><span class="n">ngx.INFO</span><span class="p">,</span> <span class="s2">&#34;closing with status code &#34;</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="s2">&#34; and message &#34;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="kr">return</span>
+    <span class="kr">end</span>
+
+    <span class="kr">if</span> <span class="n">typ</span> <span class="o">==</span> <span class="s2">&#34;ping&#34;</span> <span class="kr">then</span>
+        <span class="c1">-- send a pong frame back:</span>
+
+        <span class="kd">local</span> <span class="n">bytes</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">wb</span><span class="p">:</span><span class="n">send_pong</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="kr">if</span> <span class="ow">not</span> <span class="n">bytes</span> <span class="kr">then</span>
+            <span class="n">ngx.log</span><span class="p">(</span><span class="n">ngx.ERR</span><span class="p">,</span> <span class="s2">&#34;failed to send frame: &#34;</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+            <span class="kr">return</span>
+        <span class="kr">end</span>
+    <span class="kr">elseif</span> <span class="n">typ</span> <span class="o">==</span> <span class="s2">&#34;pong&#34;</span> <span class="kr">then</span>
+        <span class="c1">-- just discard the incoming pong frame</span>
+
+    <span class="kr">else</span>
+        <span class="n">ngx.log</span><span class="p">(</span><span class="n">ngx.INFO</span><span class="p">,</span> <span class="s2">&#34;received a frame of type &#34;</span><span class="p">,</span> <span class="n">typ</span><span class="p">,</span> <span class="s2">&#34; and payload &#34;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+    <span class="kr">end</span>
+
+    <span class="n">wb</span><span class="p">:</span><span class="n">set_timeout</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>  <span class="c1">-- change the network timeout to 1 second</span>
+
+    <span class="n">bytes</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">wb</span><span class="p">:</span><span class="n">send_text</span><span class="p">(</span><span class="s2">&#34;Hello world&#34;</span><span class="p">)</span>
+    <span class="kr">if</span> <span class="ow">not</span> <span class="n">bytes</span> <span class="kr">then</span>
+        <span class="n">ngx.log</span><span class="p">(</span><span class="n">ngx.ERR</span><span class="p">,</span> <span class="s2">&#34;failed to send a text frame: &#34;</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+        <span class="kr">return</span> <span class="n">ngx.exit</span><span class="p">(</span><span class="mi">444</span><span class="p">)</span>
+    <span class="kr">end</span>
+
+    <span class="n">bytes</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">wb</span><span class="p">:</span><span class="n">send_binary</span><span class="p">(</span><span class="s2">&#34;blah blah blah...&#34;</span><span class="p">)</span>
+    <span class="kr">if</span> <span class="ow">not</span> <span class="n">bytes</span> <span class="kr">then</span>
+        <span class="n">ngx.log</span><span class="p">(</span><span class="n">ngx.ERR</span><span class="p">,</span> <span class="s2">&#34;failed to send a binary frame: &#34;</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+        <span class="kr">return</span> <span class="n">ngx.exit</span><span class="p">(</span><span class="mi">444</span><span class="p">)</span>
+    <span class="kr">end</span>
+
+    <span class="kd">local</span> <span class="n">bytes</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">wb</span><span class="p">:</span><span class="n">send_close</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">&#34;enough, enough!&#34;</span><span class="p">)</span>
+    <span class="kr">if</span> <span class="ow">not</span> <span class="n">bytes</span> <span class="kr">then</span>
+        <span class="n">ngx.log</span><span class="p">(</span><span class="n">ngx.ERR</span><span class="p">,</span> <span class="s2">&#34;failed to send the close frame: &#34;</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+        <span class="kr">return</span>
+    <span class="kr">end</span>
+</code></pre></div><p>更多了解 <a href="https://github.com/openresty/lua-resty-websocket">https://github.com/openresty/lua-resty-websocket</a></p>
+<ul>
+<li>lua-resty-limit-traffic</li>
+</ul>
+<p>利用 limit 可以实现限速 限流 控流 可以说是比较常用的功能了</p>
+<div class="highlight"><pre class="chroma"><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">limit_req</span> <span class="o">=</span> <span class="n">require</span> <span class="s2">&#34;resty.limit.req&#34;</span>
+
+                <span class="c1">-- limit the requests under 200 req/sec with a burst of 100 req/sec,</span>
+                <span class="c1">-- that is, we delay requests under 300 req/sec and above 200</span>
+                <span class="c1">-- req/sec, and reject any requests exceeding 300 req/sec.</span>
+                <span class="kd">local</span> <span class="n">lim</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">limit_req.new</span><span class="p">(</span><span class="s2">&#34;my_limit_req_store&#34;</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+                <span class="kr">if</span> <span class="ow">not</span> <span class="n">lim</span> <span class="kr">then</span>
+                    <span class="n">ngx.log</span><span class="p">(</span><span class="n">ngx.ERR</span><span class="p">,</span>
+                            <span class="s2">&#34;failed to instantiate a resty.limit.req object: &#34;</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+                    <span class="kr">return</span> <span class="n">ngx.exit</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+                <span class="kr">end</span>
+
+                <span class="c1">-- the following call must be per-request.</span>
+                <span class="c1">-- here we use the remote (IP) address as the limiting key</span>
+                <span class="kd">local</span> <span class="n">key</span> <span class="o">=</span> <span class="n">ngx.var</span><span class="p">.</span><span class="n">binary_remote_addr</span>
+                <span class="kd">local</span> <span class="n">delay</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">lim</span><span class="p">:</span><span class="n">incoming</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+                <span class="kr">if</span> <span class="ow">not</span> <span class="n">delay</span> <span class="kr">then</span>
+                    <span class="kr">if</span> <span class="n">err</span> <span class="o">==</span> <span class="s2">&#34;rejected&#34;</span> <span class="kr">then</span>
+                        <span class="kr">return</span> <span class="n">ngx.exit</span><span class="p">(</span><span class="mi">503</span><span class="p">)</span>
+                    <span class="kr">end</span>
+                    <span class="n">ngx.log</span><span class="p">(</span><span class="n">ngx.ERR</span><span class="p">,</span> <span class="s2">&#34;failed to limit req: &#34;</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+                    <span class="kr">return</span> <span class="n">ngx.exit</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+                <span class="kr">end</span>
+
+                <span class="kr">if</span> <span class="n">delay</span> <span class="o">&gt;=</span> <span class="mf">0.001</span> <span class="kr">then</span>
+                    <span class="c1">-- the 2nd return value holds the number of excess requests</span>
+                    <span class="c1">-- per second for the specified key. for example, number 31</span>
+                    <span class="c1">-- means the current request rate is at 231 req/sec for the</span>
+                    <span class="c1">-- specified key.</span>
+                    <span class="kd">local</span> <span class="n">excess</span> <span class="o">=</span> <span class="n">err</span>
+
+                    <span class="c1">-- the request exceeding the 200 req/sec but below 300 req/sec,</span>
+                    <span class="c1">-- so we intentionally delay it here a bit to conform to the</span>
+                    <span class="c1">-- 200 req/sec rate.</span>
+                    <span class="n">ngx.sleep</span><span class="p">(</span><span class="n">delay</span><span class="p">)</span>
+                <span class="kr">end</span>
+</code></pre></div><p>更多了解 <a href="https://github.com/openresty/lua-resty-limit-traffic">https://github.com/openresty/lua-resty-limit-traffic</a></p>
+<ul>
+<li>lua-resty-mysql</li>
+</ul>
+<p>看名字就知道是用来操作 MySQL 的我们在 Nginx 提前链接MySQL 进行一些前置处理</p>
+<div class="highlight"><pre class="chroma"><code class="language-lua" data-lang="lua"> <span class="kd">local</span> <span class="n">cjson</span> <span class="o">=</span> <span class="n">require</span> <span class="s2">&#34;cjson&#34;</span>
+    <span class="kd">local</span> <span class="n">mysql</span> <span class="o">=</span> <span class="n">require</span> <span class="s2">&#34;resty.mysql&#34;</span>
+
+    <span class="kd">local</span> <span class="n">db</span> <span class="o">=</span> <span class="n">mysql</span><span class="p">:</span><span class="n">new</span><span class="p">()</span>
+    <span class="kd">local</span> <span class="n">ok</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">errcode</span><span class="p">,</span> <span class="n">sqlstate</span> <span class="o">=</span> <span class="n">db</span><span class="p">:</span><span class="n">connect</span><span class="p">({</span>
+        <span class="n">host</span> <span class="o">=</span> <span class="s2">&#34;127.0.0.1&#34;</span><span class="p">,</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="mi">3306</span><span class="p">,</span>
+        <span class="n">database</span> <span class="o">=</span> <span class="s2">&#34;world&#34;</span><span class="p">,</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="s2">&#34;monty&#34;</span><span class="p">,</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="s2">&#34;pass&#34;</span><span class="p">})</span>
+
+    <span class="kr">if</span> <span class="ow">not</span> <span class="n">ok</span> <span class="kr">then</span>
+        <span class="n">ngx.log</span><span class="p">(</span><span class="n">ngx.ERR</span><span class="p">,</span> <span class="s2">&#34;failed to connect: &#34;</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="s2">&#34;: &#34;</span><span class="p">,</span> <span class="n">errcode</span><span class="p">,</span> <span class="s2">&#34; &#34;</span><span class="p">,</span> <span class="n">sqlstate</span><span class="p">)</span>
+        <span class="kr">return</span> <span class="n">ngx.exit</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+    <span class="kr">end</span>
+
+    <span class="n">res</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">errcode</span><span class="p">,</span> <span class="n">sqlstate</span> <span class="o">=</span> <span class="n">db</span><span class="p">:</span><span class="n">query</span><span class="p">(</span><span class="s2">&#34;select 1; select 2; select 3;&#34;</span><span class="p">)</span>
+    <span class="kr">if</span> <span class="ow">not</span> <span class="n">res</span> <span class="kr">then</span>
+        <span class="n">ngx.log</span><span class="p">(</span><span class="n">ngx.ERR</span><span class="p">,</span> <span class="s2">&#34;bad result #1: &#34;</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="s2">&#34;: &#34;</span><span class="p">,</span> <span class="n">errcode</span><span class="p">,</span> <span class="s2">&#34;: &#34;</span><span class="p">,</span> <span class="n">sqlstate</span><span class="p">,</span> <span class="s2">&#34;.&#34;</span><span class="p">)</span>
+        <span class="kr">return</span> <span class="n">ngx.exit</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+    <span class="kr">end</span>
+
+    <span class="n">ngx.say</span><span class="p">(</span><span class="s2">&#34;result #1: &#34;</span><span class="p">,</span> <span class="n">cjson.encode</span><span class="p">(</span><span class="n">res</span><span class="p">))</span>
+
+    <span class="kd">local</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="kr">while</span> <span class="n">err</span> <span class="o">==</span> <span class="s2">&#34;again&#34;</span> <span class="kr">do</span>
+        <span class="n">res</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">errcode</span><span class="p">,</span> <span class="n">sqlstate</span> <span class="o">=</span> <span class="n">db</span><span class="p">:</span><span class="n">read_result</span><span class="p">()</span>
+        <span class="kr">if</span> <span class="ow">not</span> <span class="n">res</span> <span class="kr">then</span>
+            <span class="n">ngx.log</span><span class="p">(</span><span class="n">ngx.ERR</span><span class="p">,</span> <span class="s2">&#34;bad result #&#34;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&#34;: &#34;</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="s2">&#34;: &#34;</span><span class="p">,</span> <span class="n">errcode</span><span class="p">,</span> <span class="s2">&#34;: &#34;</span><span class="p">,</span> <span class="n">sqlstate</span><span class="p">,</span> <span class="s2">&#34;.&#34;</span><span class="p">)</span>
+            <span class="kr">return</span> <span class="n">ngx.exit</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+        <span class="kr">end</span>
+
+        <span class="n">ngx.say</span><span class="p">(</span><span class="s2">&#34;result #&#34;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&#34;: &#34;</span><span class="p">,</span> <span class="n">cjson.encode</span><span class="p">(</span><span class="n">res</span><span class="p">))</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="kr">end</span>
+
+    <span class="kd">local</span> <span class="n">ok</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">db</span><span class="p">:</span><span class="n">set_keepalive</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="kr">if</span> <span class="ow">not</span> <span class="n">ok</span> <span class="kr">then</span>
+        <span class="n">ngx.log</span><span class="p">(</span><span class="n">ngx.ERR</span><span class="p">,</span> <span class="s2">&#34;failed to set keepalive: &#34;</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+        <span class="n">ngx.exit</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+    <span class="kr">end</span>
+</code></pre></div><p>更多了解 <a href="https://github.com/openresty/lua-resty-mysql">https://github.com/openresty/lua-resty-mysql</a></p>
+<ul>
+<li>lua-resty-logger-socket</li>
+</ul>
+<p>cloudflare 实现的日志模块 可以在 Nginx 收集日志 适合 CDN 网关 相关的使用</p>
+<div class="highlight"><pre class="chroma"><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">logger</span> <span class="o">=</span> <span class="n">require</span> <span class="s2">&#34;resty.logger.socket&#34;</span>
+                <span class="kr">if</span> <span class="ow">not</span> <span class="n">logger.initted</span><span class="p">()</span> <span class="kr">then</span>
+                    <span class="kd">local</span> <span class="n">ok</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">logger.init</span><span class="p">{</span>
+                        <span class="n">host</span> <span class="o">=</span> <span class="s1">&#39;xxx&#39;</span><span class="p">,</span>
+                        <span class="n">port</span> <span class="o">=</span> <span class="mi">1234</span><span class="p">,</span>
+                        <span class="n">flush_limit</span> <span class="o">=</span> <span class="mi">1234</span><span class="p">,</span>
+                        <span class="n">drop_limit</span> <span class="o">=</span> <span class="mi">5678</span><span class="p">,</span>
+                    <span class="p">}</span>
+                    <span class="kr">if</span> <span class="ow">not</span> <span class="n">ok</span> <span class="kr">then</span>
+                        <span class="n">ngx.log</span><span class="p">(</span><span class="n">ngx.ERR</span><span class="p">,</span> <span class="s2">&#34;failed to initialize the logger: &#34;</span><span class="p">,</span>
+                                <span class="n">err</span><span class="p">)</span>
+                        <span class="kr">return</span>
+                    <span class="kr">end</span>
+                <span class="kr">end</span>
+
+                <span class="c1">-- construct the custom access log message in</span>
+                <span class="c1">-- the Lua variable &#34;msg&#34;</span>
+
+                <span class="kd">local</span> <span class="n">bytes</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">logger.log</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="kr">if</span> <span class="n">err</span> <span class="kr">then</span>
+                    <span class="n">ngx.log</span><span class="p">(</span><span class="n">ngx.ERR</span><span class="p">,</span> <span class="s2">&#34;failed to log message: &#34;</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+                    <span class="kr">return</span>
+                <span class="kr">end</span>
+</code></pre></div><p>更多了解 <a href="https://github.com/cloudflare/lua-resty-logger-socket">https://github.com/cloudflare/lua-resty-logger-socket</a></p>
+<h2 id="lua">Lua</h2>
+<p>介绍强大的 Lua 语言, 在各个领域能发挥的强度</p>
+<ol>
+<li>在游戏服务端混得不错</li>
+<li>在HTTP层混得不错</li>
+<li>嵌入脚本</li>
+</ol>
+<p>列举一些案例</p>
+<ul>
+<li>Connmix</li>
+</ul>
+<blockquote>
+<p>OpenMix 作者做的一个全新产品 ConnMix <code>面向消息编程的分布式长连接引擎</code> 运行在 Go 上, Lua 来处理 HTTP WebSocket TCP UDP 等, 这些协议支持多少在于你能利用 Lua 写出来多少</p>
+</blockquote>
+<p>APISIX 网关</p>
+<blockquote>
+<p>云原生生态内部含有非常多功能 性能强劲</p>
+</blockquote></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2022-08-19</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://cexll.cn/posts/openresty-application-scenarios/" data-title="OpenResty 应用场景" data-hashtags="openresty,nginx,lua,gateway"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://cexll.cn/posts/openresty-application-scenarios/" data-hashtag="openresty"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://cexll.cn/posts/openresty-application-scenarios/" data-title="OpenResty 应用场景"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://cexll.cn/posts/openresty-application-scenarios/" data-title="OpenResty 应用场景"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://cexll.cn/posts/openresty-application-scenarios/" data-title="OpenResty 应用场景"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/openresty/">openresty</a>,&nbsp;<a href="/tags/nginx/">nginx</a>,&nbsp;<a href="/tags/lua/">lua</a>,&nbsp;<a href="/tags/gateway/">gateway</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/go%E9%9D%A2%E8%AF%95%E5%AE%9D%E5%85%B8/" class="prev" rel="prev" title="GO面试笔记宝典"><i class="fas fa-angle-left fa-fw"></i>GO面试笔记宝典</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.85.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/typeit@7.0.4/dist/typeit.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{},"data":{"id-1":"小仙的博客","id-2":"小仙的博客"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
