@@ -201,7 +201,7 @@
   # Social config in home page
   # 主页的社交信息设置
   [params.social]
-    GitHub = "github.com/cexll"
+    GitHub = "cexll"
     Linkedin = ""
     Twitter = ""
     Instagram = ""
