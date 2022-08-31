@@ -2,14 +2,15 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
+            <loc>https://cexll.cn/posts/</loc><lastmod>2022-08-31T10:24:10&#43;08:00</lastmod></url><url>
+            <loc>https://cexll.cn/</loc><lastmod>2022-08-31T10:24:10&#43;08:00</lastmod></url><url>
+            <loc>https://cexll.cn/posts/35%E4%B8%AA%E4%BB%A3%E7%A0%81%E5%9D%8F%E4%B9%A0%E6%83%AF/</loc><lastmod>2022-08-31T10:24:10&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/tags/gateway/</loc><lastmod>2022-08-19T09:40:09&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/tags/lua/</loc><lastmod>2022-08-19T09:40:09&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/tags/nginx/</loc><lastmod>2022-08-19T09:40:09&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/tags/openresty/</loc><lastmod>2022-08-19T09:40:09&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/posts/openresty-application-scenarios/</loc><lastmod>2022-08-19T09:40:09&#43;08:00</lastmod></url><url>
-            <loc>https://cexll.cn/posts/</loc><lastmod>2022-08-19T09:40:09&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/tags/</loc><lastmod>2022-08-19T09:40:09&#43;08:00</lastmod></url><url>
-            <loc>https://cexll.cn/</loc><lastmod>2022-08-19T09:40:09&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/categories/</loc><lastmod>2022-08-14T12:15:53&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/tags/golang/</loc><lastmod>2022-08-14T12:15:53&#43;08:00</lastmod></url><url>
             <loc>https://cexll.cn/categories/golang/</loc><lastmod>2022-08-14T12:15:53&#43;08:00</lastmod></url><url>
